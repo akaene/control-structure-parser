@@ -64,4 +64,11 @@ public class Model {
     public Optional<Stereotype> getStereotype(String name) {
         return Optional.ofNullable(stereotypes.get(name));
     }
+
+    @Override
+    public String toString() {
+        return "Classes: " + classes.values() + "\n" +
+                "Associations: " + associations.values() + "\n" +
+                "Connectors:" + connectors;
+    }
 }

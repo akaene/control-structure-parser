@@ -9,7 +9,7 @@ public class ComponentType {
 
     private final List<Stereotype> stereotypes = new ArrayList<>();
 
-    private final List<ComponentType> parts = new ArrayList<>();
+    private final List<Component> parts = new ArrayList<>();
 
     public ComponentType(String name) {
         this.name = name;
@@ -19,11 +19,11 @@ public class ComponentType {
         return name;
     }
 
-    public List<ComponentType> getParts() {
+    public List<Component> getParts() {
         return parts;
     }
 
-    public void addPart(ComponentType part) {
+    public void addPart(Component part) {
         parts.add(part);
     }
 
@@ -37,6 +37,6 @@ public class ComponentType {
 
     @Override
     public String toString() {
-        return "ComponentType{" + name + '}';
+        return "ComponentType{" + name + " " + stereotypes + '}';
     }
 }

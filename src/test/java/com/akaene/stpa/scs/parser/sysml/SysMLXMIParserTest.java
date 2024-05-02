@@ -1,10 +1,12 @@
 package com.akaene.stpa.scs.parser.sysml;
 
+import com.akaene.stpa.scs.model.Model;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.uml2.uml.Model;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.util.zip.ZipFile;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,10 +16,29 @@ class SysMLXMIParserTest {
 
     @Test
     void parseAsResourceLoadsFileAsEmfResource() throws Exception {
-        final File simpleProject = new File(getClass().getClassLoader().getResource("simple_project.xmi").toURI());
-        final Resource res = sut.parseAsResource(simpleProject);
+        final File input = new File(getClass().getClassLoader().getResource("simple-model/model.xmi").toURI());
+        final Resource res = sut.parseAsResource(input);
         assertNotNull(res);
-        assertInstanceOf(Model.class, res.getContents().getFirst());
+        assertInstanceOf(org.eclipse.uml2.uml.Model.class, res.getContents().getFirst());
     }
 
+    @Test
+    void parseExtractsClassesFromInputModel() throws Exception {
+        final File input = new File(getClass().getClassLoader().getResource("simple-model/model.xmi").toURI());
+        final Model result = sut.parse(input);
+        assertNotNull(result);
+        assertTrue(result.getClass("System").isPresent());
+        assertTrue(result.getClass("Controlled Process").isPresent());
+        assertTrue(result.getClass("Controller").isPresent());
+    }
+
+    @Disabled
+    @Test
+    void parseZipArchiveExtractsArchiveIntoTemporaryFolderAndThenParsesModelFileInIt() throws Exception {
+        try (final ZipFile input = new ZipFile(new File(getClass().getClassLoader().getResource("simple-model.zip").toURI()))) {
+            final com.akaene.stpa.scs.model.Model result = sut.parse(input);
+            assertNotNull(result);
+            assertFalse(result.getClasses().isEmpty());
+        }
+    }
 }
