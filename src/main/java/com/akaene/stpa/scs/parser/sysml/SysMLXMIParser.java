@@ -86,17 +86,17 @@ public class SysMLXMIParser implements ControlStructureParser {
                     return ct;
                 })
                 .forEach(state.result::addClass);
+        resolveSupertypesAndParts(xmiModel, state);
+    }
+
+    private void resolveSupertypesAndParts(org.eclipse.uml2.uml.Model xmiModel, ParsingState state) {
         xmiModel.allOwnedElements().stream()
                 .filter(o -> o instanceof Class)
                 .map(Class.class::cast)
                 .forEach(cls -> {
                     final Optional<ComponentType> target = state.result.getClass(cls.getName());
                     assert target.isPresent();
-                    cls.getSuperClasses().forEach(supertype -> {
-                        final Optional<ComponentType> type = state.result.getClass(supertype.getName());
-                        assert type.isPresent();
-                        target.get().addSuperType(type.get());
-                    });
+                    getSuperTypes(cls, state).forEach(ct -> target.get().addSuperType(ct));
                     final Collection<Association> partOf = extractPartOfAssociations(cls, state);
                     partOf.forEach(association -> {
                         state.result.addAssociation(association);
@@ -115,6 +115,11 @@ public class SysMLXMIParser implements ControlStructureParser {
             }
         }
         return false;
+    }
+
+    private Collection<ComponentType> getSuperTypes(Class cls, ParsingState state) {
+        return cls.getSuperClasses().stream().map(supertype -> state.result.getClass(supertype.getName())).flatMap(
+                Optional::stream).toList();
     }
 
     private Collection<Association> extractPartOfAssociations(Class cls, ParsingState state) {
