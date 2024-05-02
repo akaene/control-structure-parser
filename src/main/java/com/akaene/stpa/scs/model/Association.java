@@ -2,12 +2,12 @@ package com.akaene.stpa.scs.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Association {
 
     private final String name;
 
-    private final AssociationType type;
 
     private final AssociationEnd source;
 
@@ -15,19 +15,16 @@ public class Association {
 
     private final List<Stereotype> stereotypes = new ArrayList<>();
 
-    public Association(String name, AssociationType type, AssociationEnd source, AssociationEnd target) {
-        this.name = name;
-        this.type = type;
+    public Association(String name, AssociationEnd source, AssociationEnd target) {
         this.source = source;
         this.target = target;
+        this.name = Objects.requireNonNullElseGet(name, () -> source.type()
+                                                                    .getName() + "." + source.role() + "-" + target.type()
+                                                                                                                   .getName() + "." + target.role());
     }
 
     public String getName() {
         return name;
-    }
-
-    public AssociationType getType() {
-        return type;
     }
 
     public AssociationEnd getSource() {

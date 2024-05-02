@@ -5,11 +5,15 @@ import java.util.List;
 
 public class ComponentType {
 
+    public static ComponentType UNSPECIFIED = new ComponentType("");
+
     private final String name;
+
+    private final List<ComponentType> superTypes = new ArrayList<>();
 
     private final List<Stereotype> stereotypes = new ArrayList<>();
 
-    private final List<Component> parts = new ArrayList<>();
+    private final List<Association> parts = new ArrayList<>();
 
     public ComponentType(String name) {
         this.name = name;
@@ -19,11 +23,19 @@ public class ComponentType {
         return name;
     }
 
-    public List<Component> getParts() {
+    public List<ComponentType> getSuperTypes() {
+        return superTypes;
+    }
+
+    public void addSuperType(ComponentType superType) {
+        superTypes.add(superType);
+    }
+
+    public List<Association> getParts() {
         return parts;
     }
 
-    public void addPart(Component part) {
+    public void addPart(Association part) {
         parts.add(part);
     }
 
@@ -37,6 +49,6 @@ public class ComponentType {
 
     @Override
     public String toString() {
-        return "ComponentType{" + name + " " + stereotypes + '}';
+        return name + (!stereotypes.isEmpty() ? " " + stereotypes : "");
     }
 }

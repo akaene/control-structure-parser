@@ -67,8 +67,8 @@ public class Model {
 
     @Override
     public String toString() {
-        return "Classes: " + classes.values() + "\n" +
-                "Associations: " + associations.values() + "\n" +
-                "Connectors:" + connectors;
+        return "Classes (" + classes.size() + "): " + classes.values() + "\n" +
+                "Associations (" + associations.size() + "): " + associations.values() + "\n" +
+                "Connectors (" + connectors.size() + "): " + connectors;
     }
 }

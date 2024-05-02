@@ -32,6 +32,14 @@ class SysMLXMIParserTest {
         assertTrue(result.getClass("Controller").isPresent());
     }
 
+    @Test
+    void parseExtractsPartOfCompositionAssociationsFromInputModel() throws Exception {
+        final File input = new File(getClass().getClassLoader().getResource("complex-model/model.xmi").toURI());
+        final Model result = sut.parse(input);
+        assertNotNull(result);
+        assertFalse(result.getAssociations().isEmpty());
+    }
+
     @Disabled
     @Test
     void parseZipArchiveExtractsArchiveIntoTemporaryFolderAndThenParsesModelFileInIt() throws Exception {

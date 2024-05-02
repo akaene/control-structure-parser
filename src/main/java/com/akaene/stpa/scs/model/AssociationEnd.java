@@ -1,9 +1,12 @@
 package com.akaene.stpa.scs.model;
 
-public record AssociationEnd(ComponentType type, String property, Cardinality min, Cardinality max, boolean navigable) {
+import com.akaene.stpa.scs.util.CardinalityUtils;
+
+public record AssociationEnd(ComponentType type, AggregationType aggregation, String role, Integer min, Integer max, boolean navigable) {
 
     @Override
     public String toString() {
-        return type.getName() + "." + property + (navigable ? "<" : "") + "[" + min + ".." + max + ']';
+        return type.getName() + "." + role + (navigable ? "<" : "") + "[" + CardinalityUtils.toString(
+                min) + ".." + CardinalityUtils.toString(max) + ']';
     }
 }

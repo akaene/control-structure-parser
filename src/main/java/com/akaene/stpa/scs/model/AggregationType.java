@@ -1,5 +1,5 @@
 package com.akaene.stpa.scs.model;
 
-public enum AssociationType {
+public enum AggregationType {
     ASSOCIATION, AGGREGATION, COMPOSITION
 }

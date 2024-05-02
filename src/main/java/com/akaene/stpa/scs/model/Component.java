@@ -39,6 +39,6 @@ public class Component implements Connectable {
 
     @Override
     public String toString() {
-        return "Component{" + name + " : " + type.getName() + '}';
+        return name + " : " + type.getName();
     }
 }
