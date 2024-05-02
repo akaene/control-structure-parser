@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:LocalProfile="http:///schemas/LocalProfile/_1K6ZcOH6Ee6AZ5eifWS-rw/0" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xsi:schemaLocation="http:///schemas/LocalProfile/_1K6ZcOH6Ee6AZ5eifWS-rw/0 LocalProfile.profile.xmi#_1MAlp-H6Ee6AZ5eifWS-rw">
+  <uml:Model xmi:id="_1KdGcOH6Ee6AZ5eifWS-rw" name="simple_project">
+    <eAnnotations xmi:id="_1KdGceH6Ee6AZ5eifWS-rw" source="Objing">
+      <contents xmi:type="uml:Property" xmi:id="_1KdGcuH6Ee6AZ5eifWS-rw" name="exporterVersion">
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_1KdGc-H6Ee6AZ5eifWS-rw" value="3.0.0"/>
+      </contents>
+    </eAnnotations>
+    <packagedElement xmi:type="uml:Class" xmi:id="_1KdGdOH6Ee6AZ5eifWS-rw" name="Controller"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_1KdGdeH6Ee6AZ5eifWS-rw" name="Controlled Process"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_1KdGduH6Ee6AZ5eifWS-rw" name="System">
+      <ownedAttribute xmi:id="_1KdGd-H6Ee6AZ5eifWS-rw" name="FlightCrew" visibility="public" type="_1KdGdOH6Ee6AZ5eifWS-rw" isUnique="false" aggregation="shared" association="_1KdGi-H6Ee6AZ5eifWS-rw">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1KdGeOH6Ee6AZ5eifWS-rw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_1KdGeeH6Ee6AZ5eifWS-rw" name="Flight" visibility="public" type="_1KdGdeH6Ee6AZ5eifWS-rw" isUnique="false" aggregation="shared" association="_1KdGjuH6Ee6AZ5eifWS-rw">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1KdGeuH6Ee6AZ5eifWS-rw"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_1KdGe-H6Ee6AZ5eifWS-rw" name="FlightCrew" type="_1KdGdOH6Ee6AZ5eifWS-rw" aggregation="composite"/>
+      <ownedAttribute xmi:id="_1KdGfOH6Ee6AZ5eifWS-rw" name="Flight" type="_1KdGdeH6Ee6AZ5eifWS-rw" aggregation="composite"/>
+      <ownedConnector xmi:id="_1KdGfeH6Ee6AZ5eifWS-rw" name="change altitude">
+        <end xmi:id="_1KdGfuH6Ee6AZ5eifWS-rw" isOrdered="true" isUnique="false" role="_1KdGe-H6Ee6AZ5eifWS-rw">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1KdGf-H6Ee6AZ5eifWS-rw" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1KdGgOH6Ee6AZ5eifWS-rw"/>
+        </end>
+        <end xmi:id="_1KdGgeH6Ee6AZ5eifWS-rw" isUnique="false" role="_1KdGfOH6Ee6AZ5eifWS-rw">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1KdGguH6Ee6AZ5eifWS-rw" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1KdGg-H6Ee6AZ5eifWS-rw"/>
+        </end>
+      </ownedConnector>
+      <ownedConnector xmi:id="_1KdGhOH6Ee6AZ5eifWS-rw" name="altitude">
+        <end xmi:id="_1KdGheH6Ee6AZ5eifWS-rw" isUnique="false" role="_1KdGfOH6Ee6AZ5eifWS-rw">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1KdGhuH6Ee6AZ5eifWS-rw" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1KdGh-H6Ee6AZ5eifWS-rw"/>
+        </end>
+        <end xmi:id="_1KdGiOH6Ee6AZ5eifWS-rw" isUnique="false" role="_1KdGe-H6Ee6AZ5eifWS-rw">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1KdGieH6Ee6AZ5eifWS-rw" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1KdGiuH6Ee6AZ5eifWS-rw"/>
+        </end>
+      </ownedConnector>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_1KdGi-H6Ee6AZ5eifWS-rw" memberEnd="_1KdGd-H6Ee6AZ5eifWS-rw _1KdGjOH6Ee6AZ5eifWS-rw">
+      <ownedEnd xmi:id="_1KdGjOH6Ee6AZ5eifWS-rw" visibility="public" type="_1KdGduH6Ee6AZ5eifWS-rw" isUnique="false" association="_1KdGi-H6Ee6AZ5eifWS-rw">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1KdGjeH6Ee6AZ5eifWS-rw"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_1KdGjuH6Ee6AZ5eifWS-rw" memberEnd="_1KdGeeH6Ee6AZ5eifWS-rw _1KdGj-H6Ee6AZ5eifWS-rw">
+      <ownedEnd xmi:id="_1KdGj-H6Ee6AZ5eifWS-rw" visibility="public" type="_1KdGduH6Ee6AZ5eifWS-rw" isUnique="false" association="_1KdGjuH6Ee6AZ5eifWS-rw">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_1KdGkOH6Ee6AZ5eifWS-rw"/>
+      </ownedEnd>
+    </packagedElement>
+    <profileApplication xmi:id="_1RPq8OH6Ee6AZ5eifWS-rw">
+      <eAnnotations xmi:id="_1RSHMOH6Ee6AZ5eifWS-rw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="sysml.profile.xmi#_1QuuLeH6Ee6AZ5eifWS-rw"/>
+      </eAnnotations>
+      <appliedProfile href="sysml.profile.xmi#_1QuuJuH6Ee6AZ5eifWS-rw"/>
+    </profileApplication>
+    <profileApplication xmi:id="_1RSuQOH6Ee6AZ5eifWS-rw">
+      <eAnnotations xmi:id="_1RSuQeH6Ee6AZ5eifWS-rw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="LocalProfile.profile.xmi#_1MAlp-H6Ee6AZ5eifWS-rw"/>
+      </eAnnotations>
+      <appliedProfile href="LocalProfile.profile.xmi#_1MAloOH6Ee6AZ5eifWS-rw"/>
+    </profileApplication>
+  </uml:Model>
+  <LocalProfile:ControlAction xmi:id="_1RUjcOH6Ee6AZ5eifWS-rw" base_ConnectorEnd="_1KdGfuH6Ee6AZ5eifWS-rw"/>
+  <LocalProfile:Feedback xmi:id="_1RVKgOH6Ee6AZ5eifWS-rw" base_ConnectorEnd="_1KdGheH6Ee6AZ5eifWS-rw"/>
+</xmi:XMI>

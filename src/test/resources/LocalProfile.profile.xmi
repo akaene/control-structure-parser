@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Profile xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_1MAloOH6Ee6AZ5eifWS-rw" name="LocalProfile" metaclassReference="_1MAltOH6Ee6AZ5eifWS-rw _1MAlteH6Ee6AZ5eifWS-rw">
+  <eAnnotations xmi:id="_1MAloeH6Ee6AZ5eifWS-rw" source="Objing">
+    <contents xmi:type="uml:Property" xmi:id="_1MAlouH6Ee6AZ5eifWS-rw" name="Module">
+      <defaultValue xmi:type="uml:LiteralString" xmi:id="_1MAlo-H6Ee6AZ5eifWS-rw" value="c40e8e0c-5493-4831-b7cc-1e386de671ef"/>
+    </contents>
+    <contents xmi:type="uml:Property" xmi:id="_1MAlpOH6Ee6AZ5eifWS-rw" name="ID">
+      <defaultValue xmi:type="uml:LiteralString" xmi:id="_1MAlpeH6Ee6AZ5eifWS-rw" value="a023265a-18e3-4f1b-8436-a7a090f818d6"/>
+    </contents>
+  </eAnnotations>
+  <eAnnotations xmi:id="_1MAlpuH6Ee6AZ5eifWS-rw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+    <contents xmi:type="ecore:EPackage" xmi:id="_1MAlp-H6Ee6AZ5eifWS-rw" name="LocalProfile" nsURI="http:///schemas/LocalProfile/_1K6ZcOH6Ee6AZ5eifWS-rw/0" nsPrefix="LocalProfile">
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_1MAlqOH6Ee6AZ5eifWS-rw" name="ControlAction">
+        <eAnnotations xmi:id="_1MAlqeH6Ee6AZ5eifWS-rw" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_1MAltuH6Ee6AZ5eifWS-rw"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1MAlquH6Ee6AZ5eifWS-rw" name="base_ConnectorEnd" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ConnectorEnd"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1MAlrOH6Ee6AZ5eifWS-rw" name="base_Slot" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Slot"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_1MAlruH6Ee6AZ5eifWS-rw" name="Feedback">
+        <eAnnotations xmi:id="_1MAlr-H6Ee6AZ5eifWS-rw" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_1MAlwOH6Ee6AZ5eifWS-rw"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1MAlsOH6Ee6AZ5eifWS-rw" name="base_ConnectorEnd" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//ConnectorEnd"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_1MAlsuH6Ee6AZ5eifWS-rw" name="base_Slot" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/3.0.0/UML#//Slot"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+    </contents>
+  </eAnnotations>
+  <elementImport xmi:id="_1MAltOH6Ee6AZ5eifWS-rw">
+    <importedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#ConnectorEnd"/>
+  </elementImport>
+  <elementImport xmi:id="_1MAlteH6Ee6AZ5eifWS-rw">
+    <importedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Slot"/>
+  </elementImport>
+  <packagedElement xmi:type="uml:Stereotype" xmi:id="_1MAltuH6Ee6AZ5eifWS-rw" name="ControlAction">
+    <eAnnotations xmi:id="_1MAlt-H6Ee6AZ5eifWS-rw" source="Objing">
+      <contents xmi:type="uml:Property" xmi:id="_1MAluOH6Ee6AZ5eifWS-rw" name="ID">
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_1MAlueH6Ee6AZ5eifWS-rw" value="617379b7-3166-410d-a3dc-cc062fb0ad05"/>
+      </contents>
+    </eAnnotations>
+    <ownedAttribute xmi:id="_1MAluuH6Ee6AZ5eifWS-rw" name="base_ConnectorEnd" association="_1MAlvOH6Ee6AZ5eifWS-rw">
+      <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#ConnectorEnd"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_1MAlu-H6Ee6AZ5eifWS-rw" name="base_Slot" association="_1MAlvuH6Ee6AZ5eifWS-rw">
+      <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Slot"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Extension" xmi:id="_1MAlvOH6Ee6AZ5eifWS-rw" name="ConnectorEnd_ControlAction" memberEnd="_1MAlveH6Ee6AZ5eifWS-rw _1MAluuH6Ee6AZ5eifWS-rw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_1MAlveH6Ee6AZ5eifWS-rw" name="extension_ControlAction" type="_1MAltuH6Ee6AZ5eifWS-rw" aggregation="composite" association="_1MAlvOH6Ee6AZ5eifWS-rw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Extension" xmi:id="_1MAlvuH6Ee6AZ5eifWS-rw" name="Slot_ControlAction" memberEnd="_1MAlv-H6Ee6AZ5eifWS-rw _1MAlu-H6Ee6AZ5eifWS-rw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_1MAlv-H6Ee6AZ5eifWS-rw" name="extension_ControlAction" type="_1MAltuH6Ee6AZ5eifWS-rw" aggregation="composite" association="_1MAlvuH6Ee6AZ5eifWS-rw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Stereotype" xmi:id="_1MAlwOH6Ee6AZ5eifWS-rw" name="Feedback">
+    <eAnnotations xmi:id="_1MAlweH6Ee6AZ5eifWS-rw" source="Objing">
+      <contents xmi:type="uml:Property" xmi:id="_1MAlwuH6Ee6AZ5eifWS-rw" name="ID">
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_1MAlw-H6Ee6AZ5eifWS-rw" value="ee28d3b5-4f46-4888-9599-0532430400bb"/>
+      </contents>
+    </eAnnotations>
+    <ownedAttribute xmi:id="_1MAlxOH6Ee6AZ5eifWS-rw" name="base_ConnectorEnd" association="_1MAlxuH6Ee6AZ5eifWS-rw">
+      <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#ConnectorEnd"/>
+    </ownedAttribute>
+    <ownedAttribute xmi:id="_1MAlxeH6Ee6AZ5eifWS-rw" name="base_Slot" association="_1MAlyOH6Ee6AZ5eifWS-rw">
+      <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Slot"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Extension" xmi:id="_1MAlxuH6Ee6AZ5eifWS-rw" name="ConnectorEnd_Feedback" memberEnd="_1MAlx-H6Ee6AZ5eifWS-rw _1MAlxOH6Ee6AZ5eifWS-rw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_1MAlx-H6Ee6AZ5eifWS-rw" name="extension_Feedback" type="_1MAlwOH6Ee6AZ5eifWS-rw" aggregation="composite" association="_1MAlxuH6Ee6AZ5eifWS-rw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Extension" xmi:id="_1MAlyOH6Ee6AZ5eifWS-rw" name="Slot_Feedback" memberEnd="_1MAlyeH6Ee6AZ5eifWS-rw _1MAlxeH6Ee6AZ5eifWS-rw">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_1MAlyeH6Ee6AZ5eifWS-rw" name="extension_Feedback" type="_1MAlwOH6Ee6AZ5eifWS-rw" aggregation="composite" association="_1MAlyOH6Ee6AZ5eifWS-rw"/>
+  </packagedElement>
+</uml:Profile>
