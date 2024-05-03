@@ -1,5 +1,6 @@
 package com.akaene.stpa.scs.parser.sysml;
 
+import com.akaene.stpa.scs.exception.ControlStructureParserException;
 import com.akaene.stpa.scs.model.AggregationType;
 import com.akaene.stpa.scs.model.Association;
 import com.akaene.stpa.scs.model.AssociationEnd;
@@ -10,6 +11,7 @@ import com.akaene.stpa.scs.model.ConnectorEnd;
 import com.akaene.stpa.scs.model.Model;
 import com.akaene.stpa.scs.model.Stereotype;
 import com.akaene.stpa.scs.parser.ControlStructureParser;
+import com.akaene.stpa.scs.util.UnzipFile;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -27,12 +29,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 import java.util.zip.ZipFile;
 
 /**
@@ -42,14 +49,38 @@ public class SysMLXMIParser implements ControlStructureParser {
 
     private static final Logger LOG = LoggerFactory.getLogger(SysMLXMIParser.class);
 
+    private static final String MODEL_FILE = "model.xmi";
+
     static {
         UMLResourcesUtil.initGlobalRegistries();
     }
 
     @Override
     public Model parse(ZipFile input) {
-        // TODO
-        return null;
+        try {
+            final Path tempDir = Files.createTempDirectory("sysml-xmi-parser");
+            UnzipFile.unzip(input, tempDir);
+            final File[] models = tempDir.toFile().listFiles((dir, name) -> name.equals(MODEL_FILE));
+            if (models.length != 1) {
+                deleteTempUnzipDirectory(tempDir);
+                throw new ControlStructureParserException(
+                        "Expected file " + MODEL_FILE + " in the archive, but did not find it.");
+            }
+            final Model result = parse(models[0]);
+            deleteTempUnzipDirectory(tempDir);
+            return result;
+        } catch (IOException e) {
+            throw new ControlStructureParserException(
+                    "Unable to create temp directory for extracting provided ZIP file.", e);
+        }
+    }
+
+    private static void deleteTempUnzipDirectory(Path tempDir) throws IOException {
+        try (final Stream<Path> toDelete = Files.walk(tempDir)) {
+            toDelete.sorted(Comparator.reverseOrder())
+                    .map(Path::toFile)
+                    .forEach(File::delete);
+        }
     }
 
     @Override
@@ -204,7 +235,8 @@ public class SysMLXMIParser implements ControlStructureParser {
         if (connected == null) {
             return Optional.empty();
         }
-        final Optional<ComponentType> type = connected.getType() != null ? state.result.getClass(connected.getType().getName()) : Optional.empty();
+        final Optional<ComponentType> type =
+                connected.getType() != null ? state.result.getClass(connected.getType().getName()) : Optional.empty();
         final Component comp = new Component(connected.getName(), type.orElse(ComponentType.UNSPECIFIED));
         return Optional.of(new ConnectorEnd(comp, null, umlConnectorEnd.getLower(), umlConnectorEnd.getUpper()));
     }
@@ -217,13 +249,13 @@ public class SysMLXMIParser implements ControlStructureParser {
                                                                             .map(org.eclipse.uml2.uml.Association.class::cast)
                                                                             .toList();
         final List<Association> result = associations.stream().map(a -> {
-                        assert a.getMemberEnds().size() == 2;
-                        final AssociationEnd source = propertyToAssociationEnd(a.getMemberEnds().getFirst(), state);
-                        final AssociationEnd target = propertyToAssociationEnd(a.getMemberEnds().get(1), state);
-                        final Association association = new Association(a.getName(), source, target);
-                        getElementStereotypes(a, state).forEach(association::addStereotype);
-                        return association;
-                    }).filter(association -> !state.result.getAssociations().contains(association)).toList();
+            assert a.getMemberEnds().size() == 2;
+            final AssociationEnd source = propertyToAssociationEnd(a.getMemberEnds().getFirst(), state);
+            final AssociationEnd target = propertyToAssociationEnd(a.getMemberEnds().get(1), state);
+            final Association association = new Association(a.getName(), source, target);
+            getElementStereotypes(a, state).forEach(association::addStereotype);
+            return association;
+        }).filter(association -> !state.result.getAssociations().contains(association)).toList();
         result.forEach(state.result::addAssociation);
     }
 

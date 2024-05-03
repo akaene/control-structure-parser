@@ -4,7 +4,6 @@ import com.akaene.stpa.scs.model.Connector;
 import com.akaene.stpa.scs.model.Model;
 import com.akaene.stpa.scs.model.Stereotype;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -13,7 +12,11 @@ import java.util.zip.ZipFile;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SysMLXMIParserTest {
 
@@ -42,6 +45,8 @@ class SysMLXMIParserTest {
         final File input = new File(getClass().getClassLoader().getResource("complex-model/model.xmi").toURI());
         final Model result = sut.parse(input);
         assertNotNull(result);
+        assertFalse(result.getClasses().isEmpty());
+        assertFalse(result.getConnectors().isEmpty());
         assertFalse(result.getAssociations().isEmpty());
     }
 
@@ -88,7 +93,6 @@ class SysMLXMIParserTest {
         assertThat(feedback.get().getStereotypes(), hasItem(feedbackStereotype.get()));
     }
 
-    @Disabled
     @Test
     void parseZipArchiveExtractsArchiveIntoTemporaryFolderAndThenParsesModelFileInIt() throws Exception {
         try (final ZipFile input = new ZipFile(
