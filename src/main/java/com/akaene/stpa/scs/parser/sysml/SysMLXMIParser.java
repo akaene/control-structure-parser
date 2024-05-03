@@ -19,6 +19,7 @@ import org.eclipse.uml2.uml.AggregationKind;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.ConnectableElement;
 import org.eclipse.uml2.uml.Port;
+import org.eclipse.uml2.uml.PrimitiveType;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.resource.XMI2UMLResource;
 import org.eclipse.uml2.uml.resources.util.UMLResourcesUtil;
@@ -153,7 +154,12 @@ public class SysMLXMIParser implements ControlStructureParser {
 
     private ComponentType propertyType(Property property, ParsingState state) {
         return Optional.ofNullable(property.getType()).flatMap(ct -> state.result.getClass(ct.getName()))
-                       .orElse(ComponentType.UNSPECIFIED);
+                       .orElseGet(() -> {
+                           if (property.getType() instanceof PrimitiveType) {
+                               return new ComponentType(property.getType().getName());
+                           }
+                           return ComponentType.UNSPECIFIED;
+                       });
     }
 
     private AssociationEnd propertyToAssociationEnd(Property property, ParsingState state) {
