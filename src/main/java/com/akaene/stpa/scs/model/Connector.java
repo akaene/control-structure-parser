@@ -2,6 +2,7 @@ package com.akaene.stpa.scs.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Connector {
 
@@ -41,6 +42,8 @@ public class Connector {
 
     @Override
     public String toString() {
-        return "Connector{" + source + " -> " + name + " " + stereotypes + " -> " + target + "}";
+        final String stereos = stereotypes.stream().map(Object::toString).collect(
+                Collectors.joining(","));
+        return "Connector{" + source + " - " + name + (!stereos.isBlank() ? " " + stereos : "") + " -> " + target + "}";
     }
 }

@@ -1,7 +1,11 @@
 package com.akaene.stpa.scs.model;
 
+import com.akaene.stpa.scs.util.CardinalityUtils;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class ComponentType {
 
@@ -13,7 +17,7 @@ public class ComponentType {
 
     private final List<Stereotype> stereotypes = new ArrayList<>();
 
-    private final List<Association> parts = new ArrayList<>();
+    private final List<Association> attributes = new ArrayList<>();
 
     public ComponentType(String name) {
         this.name = name;
@@ -31,12 +35,12 @@ public class ComponentType {
         superTypes.add(superType);
     }
 
-    public List<Association> getParts() {
-        return parts;
+    public List<Association> getAttributes() {
+        return attributes;
     }
 
-    public void addPart(Association part) {
-        parts.add(part);
+    public void addAttribute(Association att) {
+        attributes.add(att);
     }
 
     public List<Stereotype> getStereotypes() {
@@ -48,7 +52,25 @@ public class ComponentType {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ComponentType that)) return false;
+        return Objects.equals(getName(), that.getName()) && Objects.equals(getSuperTypes(),
+                                                                           that.getSuperTypes()) && Objects.equals(
+                getStereotypes(), that.getStereotypes());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getSuperTypes(), getStereotypes());
+    }
+
+    @Override
     public String toString() {
-        return name + (!stereotypes.isEmpty() ? " " + stereotypes : "");
+        final String atts = attributes.stream().map(a -> "\t" + a.getTarget().type().getName() + " " + a.getTarget()
+                                                                                                        .role() + " [" + CardinalityUtils.toString(
+                a.getTarget().min()) + ".." + CardinalityUtils.toString(a.getTarget().max()) + "];").collect(
+                Collectors.joining("\n"));
+        return name + (!stereotypes.isEmpty() ? " " + stereotypes : "") + (!atts.isBlank() ? " {\n" + atts +"\n}" : " { }");
     }
 }

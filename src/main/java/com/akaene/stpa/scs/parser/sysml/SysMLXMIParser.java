@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.uml2.uml.AggregationKind;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.ConnectableElement;
+import org.eclipse.uml2.uml.Port;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.resource.XMI2UMLResource;
 import org.eclipse.uml2.uml.resources.util.UMLResourcesUtil;
@@ -29,6 +30,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.zip.ZipFile;
 
@@ -56,6 +58,7 @@ public class SysMLXMIParser implements ControlStructureParser {
         extractStereotypes(xmi, state);
         extractClasses(xmi, state);
         extractConnectors(xmi, state);
+        extractAssociations(xmi, state);
         LOG.debug("Parsed model:\n{}", state.result);
         return state.result;
     }
@@ -102,11 +105,8 @@ public class SysMLXMIParser implements ControlStructureParser {
                     final Optional<ComponentType> target = state.result.getClass(cls.getName());
                     assert target.isPresent();
                     getSuperTypes(cls, state).forEach(ct -> target.get().addSuperType(ct));
-                    final Collection<Association> partOf = extractPartOfAssociations(cls, state);
-                    partOf.forEach(association -> {
-                        state.result.addAssociation(association);
-                        target.get().addPart(association);
-                    });
+                    final Collection<Association> partOf = extractAttributeAssociations(cls, state);
+                    partOf.forEach(association -> target.get().addAttribute(association));
                 });
     }
 
@@ -132,8 +132,8 @@ public class SysMLXMIParser implements ControlStructureParser {
                 Optional::stream).toList();
     }
 
-    private Collection<Association> extractPartOfAssociations(Class cls, ParsingState state) {
-        return cls.getParts().stream().map(part -> {
+    private Collection<Association> extractAttributeAssociations(Class cls, ParsingState state) {
+        return cls.getAllAttributes().stream().filter(p -> !(p instanceof Port)).map(part -> {
             final AssociationEnd target = propertyToAssociationEnd(part, state);
             final AssociationEnd source;
             if (part.getOtherEnd() != null) {
@@ -142,7 +142,7 @@ public class SysMLXMIParser implements ControlStructureParser {
                 final Optional<ComponentType> sourceType = state.result.getClass(cls.getName());
                 assert sourceType.isPresent();
                 source = new AssociationEnd(sourceType.get(), AggregationType.ASSOCIATION,
-                                            null, 0, null, false);
+                                            null, 0, null);
             }
             final Association association = new Association(
                     part.getAssociation() != null ? part.getAssociation().getName() : null, source, target);
@@ -159,8 +159,7 @@ public class SysMLXMIParser implements ControlStructureParser {
     private AssociationEnd propertyToAssociationEnd(Property property, ParsingState state) {
         final ComponentType targetType = propertyType(property, state);
         return new AssociationEnd(targetType, aggregationType(property.getAggregation()),
-                                  property.getName(), property.getLower(), property.getUpper(),
-                                  property.isNavigable());
+                                  property.getName(), property.getLower(), property.getUpper());
     }
 
     private static AggregationType aggregationType(AggregationKind emfAggregation) {
@@ -181,23 +180,45 @@ public class SysMLXMIParser implements ControlStructureParser {
         connectors.stream().map(c -> {
             assert c.getEnds().size() == 2;
 
-            final ConnectorEnd source = connectorEnd(c.getEnds().getFirst(), state);
-            final ConnectorEnd target = connectorEnd(c.getEnds().get(1), state);
-            final Connector connector = new Connector(c.getName(), source, target);
+            final Optional<ConnectorEnd> source = connectorEnd(c.getEnds().getFirst(), state);
+            final Optional<ConnectorEnd> target = connectorEnd(c.getEnds().get(1), state);
+            if (source.isEmpty() || target.isEmpty()) {
+                return null;
+            }
+            final Connector connector = new Connector(c.getName(), source.get(), target.get());
             getElementStereotypes(c.getEnds().getFirst(), state).forEach(connector::addStereotype);
             getElementStereotypes(c.getEnds().get(1), state).forEach(connector::addStereotype);
             return connector;
-        }).forEach(state.result::addConnector);
+        }).filter(Objects::nonNull).forEach(state.result::addConnector);
     }
 
-    private ConnectorEnd connectorEnd(org.eclipse.uml2.uml.ConnectorEnd umlConnectorEnd, ParsingState state) {
+    private Optional<ConnectorEnd> connectorEnd(org.eclipse.uml2.uml.ConnectorEnd umlConnectorEnd, ParsingState state) {
         final ConnectableElement connected = umlConnectorEnd.getRole() != null ? umlConnectorEnd.getRole() :
                                              umlConnectorEnd.getPartWithPort();
-        final Optional<ComponentType> type = state.result.getClass(connected.getType().getName());
+        if (connected == null) {
+            return Optional.empty();
+        }
+        final Optional<ComponentType> type = connected.getType() != null ? state.result.getClass(connected.getType().getName()) : Optional.empty();
         final Component comp = new Component(connected.getName(), type.orElse(ComponentType.UNSPECIFIED));
-        return new ConnectorEnd(comp, null, umlConnectorEnd.getLower(), umlConnectorEnd.getUpper(),
-                                umlConnectorEnd.getDefiningEnd() != null && umlConnectorEnd.getDefiningEnd()
-                                                                                           .isNavigable());
+        return Optional.of(new ConnectorEnd(comp, null, umlConnectorEnd.getLower(), umlConnectorEnd.getUpper()));
+    }
+
+    private void extractAssociations(Resource xmi, ParsingState state) {
+        assert xmi.getContents().getFirst() instanceof org.eclipse.uml2.uml.Model;
+        final org.eclipse.uml2.uml.Model xmiModel = (org.eclipse.uml2.uml.Model) xmi.getContents().getFirst();
+        final List<org.eclipse.uml2.uml.Association> associations = xmiModel.allOwnedElements().stream()
+                                                                            .filter(o -> o instanceof org.eclipse.uml2.uml.Association)
+                                                                            .map(org.eclipse.uml2.uml.Association.class::cast)
+                                                                            .toList();
+        final List<Association> result = associations.stream().map(a -> {
+                        assert a.getMemberEnds().size() == 2;
+                        final AssociationEnd source = propertyToAssociationEnd(a.getMemberEnds().getFirst(), state);
+                        final AssociationEnd target = propertyToAssociationEnd(a.getMemberEnds().get(1), state);
+                        final Association association = new Association(a.getName(), source, target);
+                        getElementStereotypes(a, state).forEach(association::addStereotype);
+                        return association;
+                    }).filter(association -> !state.result.getAssociations().contains(association)).toList();
+        result.forEach(state.result::addAssociation);
     }
 
     private static final class ParsingState {

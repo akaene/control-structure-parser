@@ -19,8 +19,8 @@ public class Association {
         this.source = source;
         this.target = target;
         this.name = Objects.requireNonNullElseGet(name, () -> source.type()
-                                                                    .getName() + "." + source.role() + "-" + target.type()
-                                                                                                                   .getName() + "." + target.role());
+                                                                    .getName() + "::" + source.role() + "-" + target.type()
+                                                                                                                   .getName() + "::" + target.role());
     }
 
     public String getName() {
@@ -41,6 +41,21 @@ public class Association {
 
     public void addStereotype(Stereotype stereotype) {
         stereotypes.add(stereotype);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Association that)) return false;
+        return Objects.equals(getName(), that.getName())
+                && (Objects.equals(getSource(), that.getSource()) && Objects.equals(getTarget(), that.getTarget()) ||
+                Objects.equals(getSource(), that.getTarget()) && Objects.equals(
+                        getTarget(), that.getSource())) && Objects.equals(getStereotypes(), that.getStereotypes());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getSource(), getTarget(), getStereotypes());
     }
 
     @Override

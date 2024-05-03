@@ -5,7 +5,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Model {
 
@@ -67,8 +69,12 @@ public class Model {
 
     @Override
     public String toString() {
-        return "Classes (" + classes.size() + "): " + classes.values() + "\n" +
-                "Associations (" + associations.size() + "): " + associations.values() + "\n" +
-                "Connectors (" + connectors.size() + "): " + connectors;
+        return "Classes (" + classes.size() + "):\n" + classes.values().stream().map(Objects::toString).collect(
+                Collectors.joining("\n")) + "\n\n" +
+                "Associations (" + associations.size() + "):\n" + associations.values().stream().map(Object::toString)
+                                                                              .collect(
+                                                                                      Collectors.joining("\n")) + "\n\n" +
+                "Connectors (" + connectors.size() + "):\n" + connectors.stream().map(Objects::toString).collect(
+                Collectors.joining("\n"));
     }
 }
