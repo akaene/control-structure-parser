@@ -3,7 +3,10 @@ package com.akaene.stpa.scs.parser.sysml;
 import com.akaene.stpa.scs.model.AggregationType;
 import com.akaene.stpa.scs.model.Association;
 import com.akaene.stpa.scs.model.AssociationEnd;
+import com.akaene.stpa.scs.model.Component;
 import com.akaene.stpa.scs.model.ComponentType;
+import com.akaene.stpa.scs.model.Connector;
+import com.akaene.stpa.scs.model.ConnectorEnd;
 import com.akaene.stpa.scs.model.Model;
 import com.akaene.stpa.scs.model.Stereotype;
 import com.akaene.stpa.scs.parser.ControlStructureParser;
@@ -14,6 +17,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.uml2.uml.AggregationKind;
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.ConnectableElement;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.resource.XMI2UMLResource;
 import org.eclipse.uml2.uml.resources.util.UMLResourcesUtil;
@@ -23,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.zip.ZipFile;
@@ -50,6 +55,7 @@ public class SysMLXMIParser implements ControlStructureParser {
         final ParsingState state = new ParsingState();
         extractStereotypes(xmi, state);
         extractClasses(xmi, state);
+        extractConnectors(xmi, state);
         LOG.debug("Parsed model:\n{}", state.result);
         return state.result;
     }
@@ -81,8 +87,7 @@ public class SysMLXMIParser implements ControlStructureParser {
                 .map(o -> (Class) o)
                 .map(cls -> {
                     final ComponentType ct = new ComponentType(cls.getName());
-                    state.stereotypes.entrySet().stream().filter(e -> hasStereotype(e.getKey(), cls))
-                                     .forEach(e -> ct.addStereotype(e.getValue()));
+                    getElementStereotypes(cls, state).forEach(ct::addStereotype);
                     return ct;
                 })
                 .forEach(state.result::addClass);
@@ -105,7 +110,12 @@ public class SysMLXMIParser implements ControlStructureParser {
                 });
     }
 
-    private boolean hasStereotype(DynamicEObjectImpl stereotypeElem, Object element) {
+    private Collection<Stereotype> getElementStereotypes(Object element, ParsingState state) {
+        return state.stereotypes.entrySet().stream().filter(e -> hasStereotype(e.getKey(), element))
+                                .map(Map.Entry::getValue).toList();
+    }
+
+    private static boolean hasStereotype(DynamicEObjectImpl stereotypeElem, Object element) {
         int max = stereotypeElem.eClass().getEAllStructuralFeatures().size();
 
         for (int i = 0; i < max; i++) {
@@ -136,8 +146,7 @@ public class SysMLXMIParser implements ControlStructureParser {
             }
             final Association association = new Association(
                     part.getAssociation() != null ? part.getAssociation().getName() : null, source, target);
-            state.stereotypes.entrySet().stream().filter(e -> hasStereotype(e.getKey(), part.getAssociation()))
-                             .forEach(e -> association.addStereotype(e.getValue()));
+            getElementStereotypes(part.getAssociation(), state).forEach(association::addStereotype);
             return association;
         }).toList();
     }
@@ -160,6 +169,35 @@ public class SysMLXMIParser implements ControlStructureParser {
             case SHARED_LITERAL -> AggregationType.AGGREGATION;
             case COMPOSITE_LITERAL -> AggregationType.COMPOSITION;
         };
+    }
+
+    private void extractConnectors(Resource xmi, ParsingState state) {
+        assert xmi.getContents().getFirst() instanceof org.eclipse.uml2.uml.Model;
+        final org.eclipse.uml2.uml.Model xmiModel = (org.eclipse.uml2.uml.Model) xmi.getContents().getFirst();
+        final List<org.eclipse.uml2.uml.Connector> connectors = xmiModel.allOwnedElements().stream()
+                                                                        .filter(o -> o instanceof org.eclipse.uml2.uml.Connector)
+                                                                        .map(org.eclipse.uml2.uml.Connector.class::cast)
+                                                                        .toList();
+        connectors.stream().map(c -> {
+            assert c.getEnds().size() == 2;
+
+            final ConnectorEnd source = connectorEnd(c.getEnds().getFirst(), state);
+            final ConnectorEnd target = connectorEnd(c.getEnds().get(1), state);
+            final Connector connector = new Connector(c.getName(), source, target);
+            getElementStereotypes(c.getEnds().getFirst(), state).forEach(connector::addStereotype);
+            getElementStereotypes(c.getEnds().get(1), state).forEach(connector::addStereotype);
+            return connector;
+        }).forEach(state.result::addConnector);
+    }
+
+    private ConnectorEnd connectorEnd(org.eclipse.uml2.uml.ConnectorEnd umlConnectorEnd, ParsingState state) {
+        final ConnectableElement connected = umlConnectorEnd.getRole() != null ? umlConnectorEnd.getRole() :
+                                             umlConnectorEnd.getPartWithPort();
+        final Optional<ComponentType> type = state.result.getClass(connected.getType().getName());
+        final Component comp = new Component(connected.getName(), type.orElse(ComponentType.UNSPECIFIED));
+        return new ConnectorEnd(comp, null, umlConnectorEnd.getLower(), umlConnectorEnd.getUpper(),
+                                umlConnectorEnd.getDefiningEnd() != null && umlConnectorEnd.getDefiningEnd()
+                                                                                           .isNavigable());
     }
 
     private static final class ParsingState {

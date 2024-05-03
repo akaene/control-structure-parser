@@ -41,6 +41,6 @@ public class Connector {
 
     @Override
     public String toString() {
-        return "Connector{" + source + " -> " + name + " -> " + target + "}";
+        return "Connector{" + source + " -> " + name + " " + stereotypes + " -> " + target + "}";
     }
 }

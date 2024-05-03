@@ -1,13 +1,18 @@
 package com.akaene.stpa.scs.parser.sysml;
 
+import com.akaene.stpa.scs.model.Connector;
 import com.akaene.stpa.scs.model.Model;
+import com.akaene.stpa.scs.model.Stereotype;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.util.Optional;
 import java.util.zip.ZipFile;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItem;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SysMLXMIParserTest {
@@ -40,10 +45,54 @@ class SysMLXMIParserTest {
         assertFalse(result.getAssociations().isEmpty());
     }
 
+    @Test
+    void parseExtractsConnectors() throws Exception {
+        final File input = new File(getClass().getClassLoader().getResource("simple-model/model.xmi").toURI());
+        final Model result = sut.parse(input);
+        assertNotNull(result);
+        assertEquals(2, result.getConnectors().size());
+        final Optional<Connector> controlAction = result.getConnectors().stream()
+                                                        .filter(c -> c.getName().equals("change altitude")).findAny();
+        assertTrue(controlAction.isPresent());
+        assertEquals("FlightCrew", controlAction.get().getSource().type().name());
+        assertEquals(result.getClass("Controller").get(), controlAction.get().getSource().type().getType());
+        assertEquals("Flight", controlAction.get().getTarget().type().name());
+        assertEquals(result.getClass("Controlled Process").get(), controlAction.get().getTarget().type().getType());
+        final Optional<Connector> feedback = result.getConnectors().stream().filter(c -> c.getName().equals("altitude"))
+                                                   .findAny();
+        assertTrue(feedback.isPresent());
+        assertEquals("Flight", feedback.get().getSource().type().name());
+        assertEquals(result.getClass("Controlled Process").get(), feedback.get().getSource().type().getType());
+        assertEquals("FlightCrew", feedback.get().getTarget().type().name());
+        assertEquals(result.getClass("Controller").get(), feedback.get().getTarget().type().getType());
+    }
+
+    @Test
+    void parseExtractsConnectorsWithStereotypes() throws Exception {
+        final File input = new File(getClass().getClassLoader().getResource("simple-model/model.xmi").toURI());
+
+        final Model result = sut.parse(input);
+        assertNotNull(result);
+        assertEquals(2, result.getConnectors().size());
+        final Optional<Connector> controlAction = result.getConnectors().stream()
+                                                        .filter(c -> c.getName().equals("change altitude")).findAny();
+        assertTrue(controlAction.isPresent());
+        final Optional<Stereotype> caStereotype = result.getStereotype("ControlAction");
+        assertTrue(caStereotype.isPresent());
+        assertThat(controlAction.get().getStereotypes(), hasItem(caStereotype.get()));
+        final Optional<Connector> feedback = result.getConnectors().stream().filter(c -> c.getName().equals("altitude"))
+                                                   .findAny();
+        assertTrue(feedback.isPresent());
+        final Optional<Stereotype> feedbackStereotype = result.getStereotype("Feedback");
+        assertTrue(feedbackStereotype.isPresent());
+        assertThat(feedback.get().getStereotypes(), hasItem(feedbackStereotype.get()));
+    }
+
     @Disabled
     @Test
     void parseZipArchiveExtractsArchiveIntoTemporaryFolderAndThenParsesModelFileInIt() throws Exception {
-        try (final ZipFile input = new ZipFile(new File(getClass().getClassLoader().getResource("simple-model.zip").toURI()))) {
+        try (final ZipFile input = new ZipFile(
+                new File(getClass().getClassLoader().getResource("simple-model.zip").toURI()))) {
             final com.akaene.stpa.scs.model.Model result = sut.parse(input);
             assertNotNull(result);
             assertFalse(result.getClasses().isEmpty());

@@ -3,7 +3,6 @@ package com.akaene.stpa.scs.parser;
 import com.akaene.stpa.scs.model.Model;
 
 import java.io.File;
-import java.io.InputStream;
 import java.util.zip.ZipFile;
 
 /**
