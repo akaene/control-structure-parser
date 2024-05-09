@@ -102,4 +102,14 @@ class SysMLXMIParserTest {
             assertFalse(result.getClasses().isEmpty());
         }
     }
+
+    @Test
+    void parseSupportsUmlExtension() throws Exception {
+        final File input = new File(getClass().getClassLoader().getResource("simple-model-uml/model.uml").toURI());
+        final Model result = sut.parse(input);
+        assertNotNull(result);
+        assertTrue(result.getClass("System").isPresent());
+        assertTrue(result.getClass("ControlledProcess").isPresent());
+        assertTrue(result.getClass("Controller").isPresent());
+    }
 }

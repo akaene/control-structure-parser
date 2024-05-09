@@ -99,6 +99,7 @@ public class SysMLXMIParser implements ControlStructureParser {
         LOG.debug("Parsing XMI file '{}'.", input);
         ResourceSet set = new ResourceSetImpl();
         set.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", XMI2UMLResource.Factory.INSTANCE);
+        set.getResourceFactoryRegistry().getExtensionToFactoryMap().put("uml", XMI2UMLResource.Factory.INSTANCE);
         final URI uri = URI.createFileURI(input.getAbsolutePath());
         return set.getResource(uri, true);
     }

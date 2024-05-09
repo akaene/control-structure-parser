@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?><xmi:XMI xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:LocalProfile="http:///schemas/LocalProfile/_i_sPcAloEe-L0bwjrqoDaA/0" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.omg.org/spec/UML/20110701" xmi:version="2.1" xsi:schemaLocation="http://www.eclipse.org/uml2/3.0.0/UML http://schema.omg.org/spec/UML/20110701 http:///schemas/LocalProfile/_i_sPcAloEe-L0bwjrqoDaA/0 LocalProfile.profile.uml#_i_xvBwloEe-L0bwjrqoDaA">
+      
+    <uml:Model xmi:id="_i_rBUAloEe-L0bwjrqoDaA" name="simple_project">
+            
+        <eAnnotations xmi:id="_i_rBUQloEe-L0bwjrqoDaA" source="Objing">
+                  
+            <contents xmi:type="uml:Property" xmi:id="_i_rBUgloEe-L0bwjrqoDaA" name="exporterVersion">
+                        
+                <defaultValue xmi:type="uml:LiteralString" xmi:id="_i_rBUwloEe-L0bwjrqoDaA" value="3.0.0"/>
+                      
+            </contents>
+                
+        </eAnnotations>
+            
+        <packagedElement xmi:type="uml:Class" xmi:id="_i_rBVAloEe-L0bwjrqoDaA" name="System">
+                  
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_i_rBVQloEe-L0bwjrqoDaA" name="controller" visibility="public" type="_i_rBbQloEe-L0bwjrqoDaA" isUnique="false" aggregation="composite" association="_i_rBaQloEe-L0bwjrqoDaA">
+                        
+                <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_i_rBVgloEe-L0bwjrqoDaA"/>
+                      
+            </ownedAttribute>
+                  
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_i_rBVwloEe-L0bwjrqoDaA" name="controlledProcess" visibility="public" type="_i_rBbgloEe-L0bwjrqoDaA" isUnique="false" aggregation="composite" association="_i_rBawloEe-L0bwjrqoDaA">
+                        
+                <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_i_rBWAloEe-L0bwjrqoDaA"/>
+                      
+            </ownedAttribute>
+                  
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_i_rBWQloEe-L0bwjrqoDaA" name="flightCrew" type="_i_rBbQloEe-L0bwjrqoDaA" aggregation="composite"/>
+                  
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_i_rBWgloEe-L0bwjrqoDaA" name="overheadSwitches" type="_i_rBbgloEe-L0bwjrqoDaA" aggregation="composite"/>
+                  
+            <ownedConnector xmi:id="_i_rBWwloEe-L0bwjrqoDaA" name="set battery to use">
+                        
+                <end xmi:id="_i_rBXAloEe-L0bwjrqoDaA" isUnique="false" role="_i_rBWQloEe-L0bwjrqoDaA">
+                              
+                    <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_i_rBXQloEe-L0bwjrqoDaA" value="1"/>
+                              
+                    <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_i_rBXgloEe-L0bwjrqoDaA"/>
+                            
+                </end>
+                        
+                <end xmi:id="_i_rBXwloEe-L0bwjrqoDaA" isUnique="false" role="_i_rBWgloEe-L0bwjrqoDaA">
+                              
+                    <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_i_rBYAloEe-L0bwjrqoDaA" value="1"/>
+                              
+                    <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_i_rBYQloEe-L0bwjrqoDaA"/>
+                            
+                </end>
+                      
+            </ownedConnector>
+                  
+            <ownedConnector xmi:id="_i_rBYgloEe-L0bwjrqoDaA" name="battery status">
+                        
+                <end xmi:id="_i_rBYwloEe-L0bwjrqoDaA" isUnique="false" role="_i_rBWgloEe-L0bwjrqoDaA">
+                              
+                    <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_i_rBZAloEe-L0bwjrqoDaA" value="1"/>
+                              
+                    <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_i_rBZQloEe-L0bwjrqoDaA"/>
+                            
+                </end>
+                        
+                <end xmi:id="_i_rBZgloEe-L0bwjrqoDaA" isUnique="false" role="_i_rBWQloEe-L0bwjrqoDaA">
+                              
+                    <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_i_rBZwloEe-L0bwjrqoDaA" value="1"/>
+                              
+                    <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_i_rBaAloEe-L0bwjrqoDaA"/>
+                            
+                </end>
+                      
+            </ownedConnector>
+                
+        </packagedElement>
+            
+        <packagedElement xmi:type="uml:Association" xmi:id="_i_rBaQloEe-L0bwjrqoDaA" memberEnd="_i_rBVQloEe-L0bwjrqoDaA _i_rBagloEe-L0bwjrqoDaA">
+                  
+            <ownedEnd xmi:type="uml:Property" xmi:id="_i_rBagloEe-L0bwjrqoDaA" visibility="public" type="_i_rBVAloEe-L0bwjrqoDaA" isUnique="false" association="_i_rBaQloEe-L0bwjrqoDaA"/>
+                
+        </packagedElement>
+            
+        <packagedElement xmi:type="uml:Association" xmi:id="_i_rBawloEe-L0bwjrqoDaA" memberEnd="_i_rBVwloEe-L0bwjrqoDaA _i_rBbAloEe-L0bwjrqoDaA">
+                  
+            <ownedEnd xmi:type="uml:Property" xmi:id="_i_rBbAloEe-L0bwjrqoDaA" visibility="public" type="_i_rBVAloEe-L0bwjrqoDaA" isUnique="false" association="_i_rBawloEe-L0bwjrqoDaA"/>
+                
+        </packagedElement>
+            
+        <packagedElement xmi:type="uml:Class" xmi:id="_i_rBbQloEe-L0bwjrqoDaA" name="Controller"/>
+            
+        <packagedElement xmi:type="uml:Class" xmi:id="_i_rBbgloEe-L0bwjrqoDaA" name="ControlledProcess"/>
+            
+        <profileApplication xmi:type="uml:ProfileApplication" xmi:applyingPackage="_i_rBUAloEe-L0bwjrqoDaA" xmi:id="_jAzCsAloEe-L0bwjrqoDaA">
+                  
+            <eAnnotations xmi:id="_jAzCsQloEe-L0bwjrqoDaA" source="http://www.eclipse.org/uml2/2.0.0/UML">
+                        
+                <references xmi:type="ecore:EPackage" href="sysml.profile.uml#_jAAZswloEe-L0bwjrqoDaA"/>
+                      
+            </eAnnotations>
+                  
+            <appliedProfile xmi:type="uml:Profile" xmi:applyingPackage="_jAzCsAloEe-L0bwjrqoDaA" href="sysml.profile.uml#_jAAZrAloEe-L0bwjrqoDaA"/>
+                
+        </profileApplication>
+            
+        <profileApplication xmi:type="uml:ProfileApplication" xmi:applyingPackage="_i_rBUAloEe-L0bwjrqoDaA" xmi:id="_jAzpwAloEe-L0bwjrqoDaA">
+                  
+            <eAnnotations xmi:id="_jAzpwQloEe-L0bwjrqoDaA" source="http://www.eclipse.org/uml2/2.0.0/UML">
+                        
+                <references xmi:type="ecore:EPackage" href="LocalProfile.profile.uml#_i_xvBwloEe-L0bwjrqoDaA"/>
+                      
+            </eAnnotations>
+                  
+            <appliedProfile xmi:type="uml:Profile" xmi:applyingPackage="_jAzpwAloEe-L0bwjrqoDaA" href="LocalProfile.profile.uml#_i_xvAAloEe-L0bwjrqoDaA"/>
+                
+        </profileApplication>
+          
+    </uml:Model>
+      
+    <LocalProfile:ControlAction xmi:id="_jA0Q0AloEe-L0bwjrqoDaA" base_ConnectorEnd="_i_rBXAloEe-L0bwjrqoDaA"/>
+      
+    <LocalProfile:Feedback xmi:id="_jA0Q0QloEe-L0bwjrqoDaA" base_ConnectorEnd="_i_rBYwloEe-L0bwjrqoDaA"/>
+    
+</xmi:XMI>
