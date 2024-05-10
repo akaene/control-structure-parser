@@ -5,6 +5,8 @@ Library for reading system control structure for system-theoretic process analys
 Currently supported artifacts:
 
 - SysML XMI/UML (based on prototype at https://github.com/kbss-cvut/xmi-parser-mwe)
+  - `.zip` archive containing a file called `model.(xmi|uml)` and relevant profile files
+  - `*.xmi`/`*.uml` file. The directory containing the file should also contain relevant profile files
 
 ## Requirements
 

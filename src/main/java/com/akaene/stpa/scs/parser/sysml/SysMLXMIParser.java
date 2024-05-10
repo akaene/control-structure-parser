@@ -45,6 +45,11 @@ import java.util.zip.ZipFile;
 
 /**
  * Parses control structure from a SysML XMI artifact.
+ * <p>
+ * The parser supports SysML XMI and UML files with {@literal .xmi} and {@literal .uml} extensions and ZIP files
+ * containing a file called {@literal model.(xmi|uml)}. Note that a profile file may also be associated with the model,
+ * in which case the profile file needs to be accessible from the provided file's directory or in the provided ZIP
+ * archive.
  */
 public class SysMLXMIParser implements ControlStructureParser {
 
