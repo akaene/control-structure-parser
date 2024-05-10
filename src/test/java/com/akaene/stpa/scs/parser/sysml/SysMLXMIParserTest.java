@@ -1,5 +1,6 @@
 package com.akaene.stpa.scs.parser.sysml;
 
+import com.akaene.stpa.scs.exception.ControlStructureParserException;
 import com.akaene.stpa.scs.model.Connector;
 import com.akaene.stpa.scs.model.Model;
 import com.akaene.stpa.scs.model.Stereotype;
@@ -18,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SysMLXMIParserTest {
@@ -132,5 +134,11 @@ class SysMLXMIParserTest {
             assertNotNull(result);
             assertFalse(result.getClasses().isEmpty());
         }
+    }
+
+    @Test
+    void parseThrowsControlStructureParserExceptionWhenEmfIsUnableToParseFile() throws Exception {
+        final File input = new File(getClass().getClassLoader().getResource("invalid-model.xml").toURI());
+        assertThrows(ControlStructureParserException.class, () -> sut.parse(input));
     }
 }

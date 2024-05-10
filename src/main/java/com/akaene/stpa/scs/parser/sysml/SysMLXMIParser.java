@@ -104,8 +104,12 @@ public class SysMLXMIParser implements ControlStructureParser {
         ResourceSet set = new ResourceSetImpl();
         Stream.of(SUPPORTED_EXTENSIONS).forEach(ext -> set.getResourceFactoryRegistry().getExtensionToFactoryMap()
                                                           .put(ext, XMI2UMLResource.Factory.INSTANCE));
-        final URI uri = URI.createFileURI(input.getAbsolutePath());
-        return set.getResource(uri, true);
+        try {
+            final URI uri = URI.createFileURI(input.getAbsolutePath());
+            return set.getResource(uri, true);
+        } catch (RuntimeException e) {
+            throw new ControlStructureParserException("Unable to parse file " + input, e);
+        }
     }
 
     private void extractStereotypes(Resource xmi, ParsingState state) {
