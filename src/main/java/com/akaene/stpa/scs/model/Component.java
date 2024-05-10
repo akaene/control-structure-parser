@@ -3,7 +3,7 @@ package com.akaene.stpa.scs.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Component implements Connectable {
+public class Component implements Connectable, Stereotyped {
 
     private final String name;
 
@@ -36,12 +36,9 @@ public class Component implements Connectable {
         return type;
     }
 
+    @Override
     public List<Stereotype> getStereotypes() {
         return stereotypes;
-    }
-
-    public void addStereotype(Stereotype stereotype) {
-        stereotypes.add(stereotype);
     }
 
     @Override

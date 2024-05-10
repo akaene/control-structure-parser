@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Association {
+public class Association implements Stereotyped {
 
     private final String name;
 
@@ -21,7 +21,7 @@ public class Association {
         this.target = target;
         this.name = Objects.requireNonNullElseGet(name, () -> source.type()
                                                                     .getName() + "::" + source.role() + "-" + target.type()
-                                                                                                                   .getName() + "::" + target.role());
+                                                                                                                    .getName() + "::" + target.role());
         this.qualifiedName = qualifiedName;
     }
 
@@ -41,12 +41,9 @@ public class Association {
         return target;
     }
 
+    @Override
     public List<Stereotype> getStereotypes() {
         return stereotypes;
-    }
-
-    public void addStereotype(Stereotype stereotype) {
-        stereotypes.add(stereotype);
     }
 
     @Override

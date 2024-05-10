@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class ComponentType {
+public class ComponentType implements Stereotyped {
 
     public static ComponentType UNSPECIFIED = new ComponentType("", "");
 
@@ -50,12 +50,9 @@ public class ComponentType {
         attributes.add(att);
     }
 
+    @Override
     public List<Stereotype> getStereotypes() {
         return stereotypes;
-    }
-
-    public void addStereotype(Stereotype stereotype) {
-        stereotypes.add(stereotype);
     }
 
     @Override

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Connector {
+public class Connector implements Stereotyped {
 
     private final String name;
 
@@ -39,12 +39,9 @@ public class Connector {
         return target;
     }
 
+    @Override
     public List<Stereotype> getStereotypes() {
         return stereotypes;
-    }
-
-    public void addStereotype(Stereotype stereotype) {
-        stereotypes.add(stereotype);
     }
 
     @Override
