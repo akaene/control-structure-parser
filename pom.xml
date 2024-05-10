@@ -6,7 +6,7 @@
 
     <groupId>com.akaene.stpa</groupId>
     <artifactId>control-structure-parser</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <name>Control Structure Parser</name>
     <description>Safety control structure parser for STPA</description>
 
@@ -123,7 +123,7 @@
         <extensions>
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-ssh</artifactId>
+                <artifactId>wagon-ssh-external</artifactId>
                 <version>3.0.0</version>
             </extension>
         </extensions>
@@ -141,7 +141,7 @@
         <repository>
             <id>akaene</id>
             <name>AKAENE Maven repository</name>
-            <url>scp://akaene.com/var/www/m2repo</url>
+            <url>scpexe://akaene.com/var/www/m2repo</url>
         </repository>
     </distributionManagement>
 </project>
