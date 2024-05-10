@@ -6,7 +6,7 @@
 
     <groupId>com.akaene.stpa</groupId>
     <artifactId>control-structure-parser</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
     <name>Control Structure Parser</name>
     <description>Safety control structure parser for STPA</description>
 

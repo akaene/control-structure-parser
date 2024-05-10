@@ -123,4 +123,14 @@ class SysMLXMIParserTest {
         result.getConnectors().forEach(c -> assertThat(c.getQualifiedName(), not(blankOrNullString())));
         result.getAssociations().stream().filter(a -> a.getName() != null).forEach(a -> assertThat(a.getQualifiedName(), not(blankOrNullString())));
     }
+
+    @Test
+    void parseZipSupportsModelWithUmlExtension() throws Exception {
+        try (final ZipFile input = new ZipFile(
+                new File(getClass().getClassLoader().getResource("simple-model-uml.zip").toURI()))) {
+            final com.akaene.stpa.scs.model.Model result = sut.parse(input);
+            assertNotNull(result);
+            assertFalse(result.getClasses().isEmpty());
+        }
+    }
 }

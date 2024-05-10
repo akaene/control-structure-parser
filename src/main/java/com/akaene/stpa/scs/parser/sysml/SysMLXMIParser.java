@@ -50,7 +50,9 @@ public class SysMLXMIParser implements ControlStructureParser {
 
     private static final Logger LOG = LoggerFactory.getLogger(SysMLXMIParser.class);
 
-    private static final String MODEL_FILE = "model.xmi";
+    public static String[] SUPPORTED_EXTENSIONS = {"xmi", "uml"};
+
+    private static final String MODEL_FILE = "model";
 
     static {
         UMLResourcesUtil.initGlobalRegistries();
@@ -61,7 +63,8 @@ public class SysMLXMIParser implements ControlStructureParser {
         try {
             final Path tempDir = Files.createTempDirectory("sysml-xmi-parser");
             UnzipFile.unzip(input, tempDir);
-            final File[] models = tempDir.toFile().listFiles((dir, name) -> name.equals(MODEL_FILE));
+            final File[] models = tempDir.toFile().listFiles((dir, name) -> Stream.of(SUPPORTED_EXTENSIONS).anyMatch(
+                    ext -> name.equals(MODEL_FILE + "." + ext)));
             if (models.length != 1) {
                 deleteTempUnzipDirectory(tempDir);
                 throw new ControlStructureParserException(
@@ -99,8 +102,8 @@ public class SysMLXMIParser implements ControlStructureParser {
     public Resource parseAsResource(File input) {
         LOG.debug("Parsing XMI file '{}'.", input);
         ResourceSet set = new ResourceSetImpl();
-        set.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xmi", XMI2UMLResource.Factory.INSTANCE);
-        set.getResourceFactoryRegistry().getExtensionToFactoryMap().put("uml", XMI2UMLResource.Factory.INSTANCE);
+        Stream.of(SUPPORTED_EXTENSIONS).forEach(ext -> set.getResourceFactoryRegistry().getExtensionToFactoryMap()
+                                                          .put(ext, XMI2UMLResource.Factory.INSTANCE));
         final URI uri = URI.createFileURI(input.getAbsolutePath());
         return set.getResource(uri, true);
     }
