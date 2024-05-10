@@ -9,9 +9,11 @@ import java.util.stream.Collectors;
 
 public class ComponentType {
 
-    public static ComponentType UNSPECIFIED = new ComponentType("");
+    public static ComponentType UNSPECIFIED = new ComponentType("", "");
 
     private final String name;
+
+    private final String qualifiedName;
 
     private final List<ComponentType> superTypes = new ArrayList<>();
 
@@ -19,12 +21,17 @@ public class ComponentType {
 
     private final List<Association> attributes = new ArrayList<>();
 
-    public ComponentType(String name) {
+    public ComponentType(String name, String qualifiedName) {
         this.name = name;
+        this.qualifiedName = qualifiedName;
     }
 
     public String getName() {
         return name;
+    }
+
+    public String getQualifiedName() {
+        return qualifiedName;
     }
 
     public List<ComponentType> getSuperTypes() {

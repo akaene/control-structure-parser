@@ -8,20 +8,27 @@ public class Connector {
 
     private final String name;
 
+    private final String qualifiedName;
+
     private final ConnectorEnd source;
 
     private final ConnectorEnd target;
 
     private final List<Stereotype> stereotypes = new ArrayList<>();
 
-    public Connector(String name, ConnectorEnd source, ConnectorEnd target) {
+    public Connector(String name, String qualifiedName, ConnectorEnd source, ConnectorEnd target) {
         this.name = name;
+        this.qualifiedName = qualifiedName;
         this.source = source;
         this.target = target;
     }
 
     public String getName() {
         return name;
+    }
+
+    public String getQualifiedName() {
+        return qualifiedName;
     }
 
     public ConnectorEnd getSource() {

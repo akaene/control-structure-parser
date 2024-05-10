@@ -11,7 +11,9 @@ import java.util.Optional;
 import java.util.zip.ZipFile;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.blankOrNullString;
 import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
@@ -111,5 +113,14 @@ class SysMLXMIParserTest {
         assertTrue(result.getClass("System").isPresent());
         assertTrue(result.getClass("ControlledProcess").isPresent());
         assertTrue(result.getClass("Controller").isPresent());
+    }
+
+    @Test
+    void parseExtractsQualifiedNamesOfElements() throws Exception {
+        final File input = new File(getClass().getClassLoader().getResource("simple-model/model.xmi").toURI());
+        final Model result = sut.parse(input);
+        result.getClasses().forEach(c -> assertThat(c.getQualifiedName(), not(blankOrNullString())));
+        result.getConnectors().forEach(c -> assertThat(c.getQualifiedName(), not(blankOrNullString())));
+        result.getAssociations().stream().filter(a -> a.getName() != null).forEach(a -> assertThat(a.getQualifiedName(), not(blankOrNullString())));
     }
 }

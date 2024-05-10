@@ -8,6 +8,7 @@ public class Association {
 
     private final String name;
 
+    private final String qualifiedName;
 
     private final AssociationEnd source;
 
@@ -15,16 +16,21 @@ public class Association {
 
     private final List<Stereotype> stereotypes = new ArrayList<>();
 
-    public Association(String name, AssociationEnd source, AssociationEnd target) {
+    public Association(String name, String qualifiedName, AssociationEnd source, AssociationEnd target) {
         this.source = source;
         this.target = target;
         this.name = Objects.requireNonNullElseGet(name, () -> source.type()
                                                                     .getName() + "::" + source.role() + "-" + target.type()
                                                                                                                    .getName() + "::" + target.role());
+        this.qualifiedName = qualifiedName;
     }
 
     public String getName() {
         return name;
+    }
+
+    public String getQualifiedName() {
+        return qualifiedName;
     }
 
     public AssociationEnd getSource() {

@@ -7,12 +7,15 @@ public class Component implements Connectable {
 
     private final String name;
 
+    private final String qualifiedName;
+
     private final ComponentType type;
 
     private final List<Stereotype> stereotypes = new ArrayList<>();
 
-    public Component(String name, ComponentType type) {
+    public Component(String name, String qualifiedName, ComponentType type) {
         this.name = name;
+        this.qualifiedName = qualifiedName;
         this.type = type;
     }
 
@@ -23,6 +26,10 @@ public class Component implements Connectable {
     @Override
     public String name() {
         return name;
+    }
+
+    public String getQualifiedName() {
+        return qualifiedName;
     }
 
     public ComponentType getType() {

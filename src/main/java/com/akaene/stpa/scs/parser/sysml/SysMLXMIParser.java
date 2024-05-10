@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.uml2.uml.AggregationKind;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.ConnectableElement;
+import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Port;
 import org.eclipse.uml2.uml.PrimitiveType;
 import org.eclipse.uml2.uml.Property;
@@ -122,7 +123,7 @@ public class SysMLXMIParser implements ControlStructureParser {
                 .filter(o -> o instanceof Class)
                 .map(o -> (Class) o)
                 .map(cls -> {
-                    final ComponentType ct = new ComponentType(cls.getName());
+                    final ComponentType ct = new ComponentType(cls.getName(), cls.getQualifiedName());
                     getElementStereotypes(cls, state).forEach(ct::addStereotype);
                     return ct;
                 })
@@ -177,8 +178,10 @@ public class SysMLXMIParser implements ControlStructureParser {
                 source = new AssociationEnd(sourceType.get(), AggregationType.ASSOCIATION,
                                             null, 0, null);
             }
+            final Optional<org.eclipse.uml2.uml.Association> assocElement = Optional.ofNullable(part.getAssociation());
             final Association association = new Association(
-                    part.getAssociation() != null ? part.getAssociation().getName() : null, source, target);
+                    assocElement.map(NamedElement::getName).orElse(null), assocElement.map(
+                    NamedElement::getQualifiedName).orElse(part.getQualifiedName()), source, target);
             getElementStereotypes(part.getAssociation(), state).forEach(association::addStereotype);
             return association;
         }).toList();
@@ -188,7 +191,8 @@ public class SysMLXMIParser implements ControlStructureParser {
         return Optional.ofNullable(property.getType()).flatMap(ct -> state.result.getClass(ct.getName()))
                        .orElseGet(() -> {
                            if (property.getType() instanceof PrimitiveType) {
-                               return new ComponentType(property.getType().getName());
+                               return new ComponentType(property.getType().getName(),
+                                                        property.getType().getQualifiedName());
                            }
                            return ComponentType.UNSPECIFIED;
                        });
@@ -223,7 +227,7 @@ public class SysMLXMIParser implements ControlStructureParser {
             if (source.isEmpty() || target.isEmpty()) {
                 return null;
             }
-            final Connector connector = new Connector(c.getName(), source.get(), target.get());
+            final Connector connector = new Connector(c.getName(), c.getQualifiedName(), source.get(), target.get());
             getElementStereotypes(c.getEnds().getFirst(), state).forEach(connector::addStereotype);
             getElementStereotypes(c.getEnds().get(1), state).forEach(connector::addStereotype);
             return connector;
@@ -238,7 +242,8 @@ public class SysMLXMIParser implements ControlStructureParser {
         }
         final Optional<ComponentType> type =
                 connected.getType() != null ? state.result.getClass(connected.getType().getName()) : Optional.empty();
-        final Component comp = new Component(connected.getName(), type.orElse(ComponentType.UNSPECIFIED));
+        final Component comp = new Component(connected.getName(), connected.getQualifiedName(),
+                                             type.orElse(ComponentType.UNSPECIFIED));
         return Optional.of(new ConnectorEnd(comp, null, umlConnectorEnd.getLower(), umlConnectorEnd.getUpper()));
     }
 
@@ -253,7 +258,10 @@ public class SysMLXMIParser implements ControlStructureParser {
             assert a.getMemberEnds().size() == 2;
             final AssociationEnd source = propertyToAssociationEnd(a.getMemberEnds().getFirst(), state);
             final AssociationEnd target = propertyToAssociationEnd(a.getMemberEnds().get(1), state);
-            final Association association = new Association(a.getName(), source, target);
+            final Association association = new Association(a.getName(),
+                                                            a.getQualifiedName() != null ? a.getQualifiedName() :
+                                                            a.getMemberEnds().getFirst().getQualifiedName(), source,
+                                                            target);
             getElementStereotypes(a, state).forEach(association::addStereotype);
             return association;
         }).filter(association -> !state.result.getAssociations().contains(association)).toList();
