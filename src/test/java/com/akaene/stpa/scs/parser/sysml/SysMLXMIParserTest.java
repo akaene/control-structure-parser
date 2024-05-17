@@ -141,4 +141,14 @@ class SysMLXMIParserTest {
         final File input = new File(getClass().getClassLoader().getResource("invalid-model.xml").toURI());
         assertThrows(ControlStructureParserException.class, () -> sut.parse(input));
     }
+
+    @Test
+    void parseRecognizesProfileAndModelFilesAndUsesOnlyAvailableModelFileForParsing() throws Exception {
+        try (final ZipFile input = new ZipFile(
+                new File(getClass().getClassLoader().getResource("simple_project_different_filename.zip").toURI()))) {
+            final com.akaene.stpa.scs.model.Model result = sut.parse(input);
+            assertNotNull(result);
+            assertFalse(result.getClasses().isEmpty());
+        }
+    }
 }

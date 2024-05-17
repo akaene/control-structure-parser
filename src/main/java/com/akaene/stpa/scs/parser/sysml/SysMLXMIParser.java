@@ -57,8 +57,6 @@ public class SysMLXMIParser implements ControlStructureParser {
 
     public static String[] SUPPORTED_EXTENSIONS = {"xmi", "uml"};
 
-    private static final String MODEL_FILE = "model";
-
     static {
         UMLResourcesUtil.initGlobalRegistries();
     }
@@ -68,12 +66,11 @@ public class SysMLXMIParser implements ControlStructureParser {
         try {
             final Path tempDir = Files.createTempDirectory("sysml-xmi-parser");
             UnzipFile.unzip(input, tempDir);
-            final File[] models = tempDir.toFile().listFiles((dir, name) -> Stream.of(SUPPORTED_EXTENSIONS).anyMatch(
-                    ext -> name.equals(MODEL_FILE + "." + ext)));
+            final File[] models = tempDir.toFile().listFiles(new ZipModelFileFilter());
             if (models.length != 1) {
                 deleteTempUnzipDirectory(tempDir);
                 throw new ControlStructureParserException(
-                        "Expected file " + MODEL_FILE + " in the archive, but did not find it.");
+                        "Expected a single model file in the archive, but found " + models.length);
             }
             final Model result = parse(models[0]);
             deleteTempUnzipDirectory(tempDir);
