@@ -55,7 +55,7 @@ public class SysMLXMIParser implements ControlStructureParser {
 
     private static final Logger LOG = LoggerFactory.getLogger(SysMLXMIParser.class);
 
-    public static String[] SUPPORTED_EXTENSIONS = {"xmi", "uml"};
+    public static String[] SUPPORTED_EXTENSIONS = {"xmi", "uml", "xml"};
 
     static {
         UMLResourcesUtil.initGlobalRegistries();
@@ -67,6 +67,9 @@ public class SysMLXMIParser implements ControlStructureParser {
             final Path tempDir = Files.createTempDirectory("sysml-xmi-parser");
             UnzipFile.unzip(input, tempDir);
             final File[] models = tempDir.toFile().listFiles(new ZipModelFileFilter());
+            if (models == null) {
+                throw new ControlStructureParserException("Unable to unzip file.");
+            }
             if (models.length != 1) {
                 deleteTempUnzipDirectory(tempDir);
                 throw new ControlStructureParserException(
