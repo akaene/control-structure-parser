@@ -95,6 +95,7 @@ public class SysMLXMIParser implements ControlStructureParser {
     @Override
     public Model parse(File input) {
         final Resource xmi = parseAsResource(input);
+        verifyReadable(xmi);
         final ParsingState state = new ParsingState();
         extractModelMetadata(xmi, state);
         extractStereotypes(xmi, state);
@@ -115,6 +116,12 @@ public class SysMLXMIParser implements ControlStructureParser {
             return set.getResource(uri, true);
         } catch (RuntimeException e) {
             throw new ControlStructureParserException("Unable to parse file " + input, e);
+        }
+    }
+
+    private void verifyReadable(Resource xmi) {
+        if (!(xmi.getContents().getFirst() instanceof org.eclipse.uml2.uml.Model)) {
+            throw new ControlStructureParserException("Input does not have the expected structure. Expected top level model element.");
         }
     }
 
