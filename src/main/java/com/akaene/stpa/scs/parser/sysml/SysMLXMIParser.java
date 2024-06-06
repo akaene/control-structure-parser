@@ -260,8 +260,11 @@ public class SysMLXMIParser implements ControlStructureParser {
         }
         final Optional<ComponentType> type =
                 connected.getType() != null ? state.result.getClass(connected.getType().getName()) : Optional.empty();
-        final Component comp = new Component(connected.getName(), connected.getQualifiedName(),
-                                             type.orElse(ComponentType.UNSPECIFIED));
+
+        final Component comp = state.components.computeIfAbsent(
+                connected,
+                k -> new Component(connected.getName(), connected.getQualifiedName(), type.orElse(ComponentType.UNSPECIFIED))
+        );
         return Optional.of(new ConnectorEnd(comp, null, umlConnectorEnd.getLower(), umlConnectorEnd.getUpper()));
     }
 
@@ -289,6 +292,8 @@ public class SysMLXMIParser implements ControlStructureParser {
     private static final class ParsingState {
 
         private final Model result = new Model();
+
+        private final Map<Object, Component> components = new HashMap<>();
 
         private final Map<DynamicEObjectImpl, Stereotype> stereotypes = new HashMap<>();
     }
