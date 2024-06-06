@@ -96,6 +96,7 @@ public class SysMLXMIParser implements ControlStructureParser {
     public Model parse(File input) {
         final Resource xmi = parseAsResource(input);
         final ParsingState state = new ParsingState();
+        extractModelMetadata(xmi, state);
         extractStereotypes(xmi, state);
         extractClasses(xmi, state);
         extractConnectors(xmi, state);
@@ -115,6 +116,11 @@ public class SysMLXMIParser implements ControlStructureParser {
         } catch (RuntimeException e) {
             throw new ControlStructureParserException("Unable to parse file " + input, e);
         }
+    }
+
+    private void extractModelMetadata(Resource xmi, ParsingState state) {
+        final org.eclipse.uml2.uml.Model xmiModel = (org.eclipse.uml2.uml.Model) xmi.getContents().getFirst();
+        state.result.setName(xmiModel.getName());
     }
 
     private void extractStereotypes(Resource xmi, ParsingState state) {
