@@ -19,6 +19,8 @@ public class Model {
 
     private final Collection<Connector> connectors = new HashSet<>();
 
+    private String name;
+
     public Collection<ComponentType> getClasses() {
         return classes.values();
     }
@@ -67,9 +69,17 @@ public class Model {
         return Optional.ofNullable(stereotypes.get(name));
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public String toString() {
-        return "Classes (" + classes.size() + "):\n" + classes.values().stream().map(Objects::toString).collect(
+        return name + "\nClasses (" + classes.size() + "):\n" + classes.values().stream().map(Objects::toString).collect(
                 Collectors.joining("\n")) + "\n\n" +
                 "Associations (" + associations.size() + "):\n" + associations.values().stream().map(Object::toString)
                                                                               .collect(
