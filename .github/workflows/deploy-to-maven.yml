@@ -28,6 +28,12 @@ jobs:
             -   name: Build
                 run: mvn -B package
 
+            # Adds target server fingerprint to known hosts to prevent SCP failure
+            -   name: Setup SCP
+                run: |
+                    mkdir -p ~/.ssh/ && touch ~/.ssh/known_hosts
+                    ${{ secrets.AKAENE_SERVER_FINGERPRINT }} >> ~/.ssh/known_hosts
+
             -   name: Set up Apache Maven Repository
                 uses: actions/setup-java@v4
                 with: # running setup-java again overwrites the settings.xml
