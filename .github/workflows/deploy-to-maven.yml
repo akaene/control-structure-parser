@@ -32,7 +32,7 @@ jobs:
             -   name: Setup SCP
                 run: |
                     mkdir -p ~/.ssh/ && touch ~/.ssh/known_hosts
-                    ${{ secrets.AKAENE_SERVER_FINGERPRINT }} >> ~/.ssh/known_hosts
+                    echo "${{ secrets.AKAENE_SERVER_FINGERPRINT }}" >> ~/.ssh/known_hosts
 
             -   name: Set up Apache Maven Repository
                 uses: actions/setup-java@v4
