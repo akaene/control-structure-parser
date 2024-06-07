@@ -95,13 +95,13 @@ public class SysMLXMIParser implements ControlStructureParser {
     @Override
     public Model parse(File input) {
         final Resource xmi = parseAsResource(input);
-        verifyReadable(xmi);
+        final org.eclipse.uml2.uml.Model emfModel = getModelElement(xmi);
         final ParsingState state = new ParsingState();
-        extractModelMetadata(xmi, state);
+        extractModelMetadata(emfModel, state);
         extractStereotypes(xmi, state);
-        extractClasses(xmi, state);
-        extractConnectors(xmi, state);
-        extractAssociations(xmi, state);
+        extractClasses(emfModel, state);
+        extractConnectors(emfModel, state);
+        extractAssociations(emfModel, state);
         LOG.debug("Parsed model:\n{}", state.result);
         return state.result;
     }
@@ -119,14 +119,14 @@ public class SysMLXMIParser implements ControlStructureParser {
         }
     }
 
-    private void verifyReadable(Resource xmi) {
-        if (!(xmi.getContents().getFirst() instanceof org.eclipse.uml2.uml.Model)) {
-            throw new ControlStructureParserException("Input does not have the expected structure. Expected top level model element.");
-        }
+    private org.eclipse.uml2.uml.Model getModelElement(Resource xmi) {
+        return xmi.getContents().stream().filter(org.eclipse.uml2.uml.Model.class::isInstance).map(
+                org.eclipse.uml2.uml.Model.class::cast).findFirst().orElseThrow(
+                () -> new ControlStructureParserException(
+                        "Input does not have the expected structure. Expected top level model element."));
     }
 
-    private void extractModelMetadata(Resource xmi, ParsingState state) {
-        final org.eclipse.uml2.uml.Model xmiModel = (org.eclipse.uml2.uml.Model) xmi.getContents().getFirst();
+    private void extractModelMetadata(org.eclipse.uml2.uml.Model xmiModel, ParsingState state) {
         state.result.setName(xmiModel.getName());
     }
 
@@ -141,9 +141,7 @@ public class SysMLXMIParser implements ControlStructureParser {
            });
     }
 
-    private void extractClasses(Resource xmi, ParsingState state) {
-        assert xmi.getContents().getFirst() instanceof org.eclipse.uml2.uml.Model;
-        final org.eclipse.uml2.uml.Model xmiModel = (org.eclipse.uml2.uml.Model) xmi.getContents().getFirst();
+    private void extractClasses(org.eclipse.uml2.uml.Model xmiModel, ParsingState state) {
         xmiModel.allOwnedElements().stream()
                 .filter(o -> o instanceof Class)
                 .map(o -> (Class) o)
@@ -237,9 +235,7 @@ public class SysMLXMIParser implements ControlStructureParser {
         };
     }
 
-    private void extractConnectors(Resource xmi, ParsingState state) {
-        assert xmi.getContents().getFirst() instanceof org.eclipse.uml2.uml.Model;
-        final org.eclipse.uml2.uml.Model xmiModel = (org.eclipse.uml2.uml.Model) xmi.getContents().getFirst();
+    private void extractConnectors(org.eclipse.uml2.uml.Model xmiModel, ParsingState state) {
         final List<org.eclipse.uml2.uml.Connector> connectors = xmiModel.allOwnedElements().stream()
                                                                         .filter(o -> o instanceof org.eclipse.uml2.uml.Connector)
                                                                         .map(org.eclipse.uml2.uml.Connector.class::cast)
@@ -270,14 +266,13 @@ public class SysMLXMIParser implements ControlStructureParser {
 
         final Component comp = state.components.computeIfAbsent(
                 connected,
-                k -> new Component(connected.getName(), connected.getQualifiedName(), type.orElse(ComponentType.UNSPECIFIED))
+                k -> new Component(connected.getName(), connected.getQualifiedName(),
+                                   type.orElse(ComponentType.UNSPECIFIED))
         );
         return Optional.of(new ConnectorEnd(comp, null, umlConnectorEnd.getLower(), umlConnectorEnd.getUpper()));
     }
 
-    private void extractAssociations(Resource xmi, ParsingState state) {
-        assert xmi.getContents().getFirst() instanceof org.eclipse.uml2.uml.Model;
-        final org.eclipse.uml2.uml.Model xmiModel = (org.eclipse.uml2.uml.Model) xmi.getContents().getFirst();
+    private void extractAssociations(org.eclipse.uml2.uml.Model xmiModel, ParsingState state) {
         final List<org.eclipse.uml2.uml.Association> associations = xmiModel.allOwnedElements().stream()
                                                                             .filter(o -> o instanceof org.eclipse.uml2.uml.Association)
                                                                             .map(org.eclipse.uml2.uml.Association.class::cast)
