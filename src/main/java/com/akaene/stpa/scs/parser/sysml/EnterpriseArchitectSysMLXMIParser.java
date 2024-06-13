@@ -1,6 +1,7 @@
 package com.akaene.stpa.scs.parser.sysml;
 
 import com.akaene.stpa.scs.exception.ControlStructureParserException;
+import com.akaene.stpa.scs.model.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,9 +24,24 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 
-public class EnterpriseArchitectTransformer {
+/**
+ * Control structure parser supporting SysML XMI artifacts produced by Enterprise Architect.
+ * <p>
+ * Such artifacts are by default not readable by Eclipse Modeling Framework (EMF).
+ */
+public class EnterpriseArchitectSysMLXMIParser extends EMFSysMLXMIParser {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EnterpriseArchitectTransformer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EnterpriseArchitectSysMLXMIParser.class);
+
+    @Override
+    public Model parse(File input) {
+        final File transformedInput = transformToEMFReadable(input);
+        try {
+            return super.parse(transformedInput);
+        } finally {
+            transformedInput.delete();
+        }
+    }
 
     public static boolean isEnterpriseArchitectFile(File input) {
         LOG.trace("Checking if input file '{}' was produced by Enterprise Architect.", input);
@@ -53,11 +69,11 @@ public class EnterpriseArchitectTransformer {
         }
     }
 
-    public static File transform(File input) {
+    private static File transformToEMFReadable(File input) {
         try {
             final TransformerFactory transformerFactory = TransformerFactory.newInstance();
             final Source transformerSource = new StreamSource(
-                    EnterpriseArchitectTransformer.class.getClassLoader().getResourceAsStream("ea-transform.xsl"));
+                    EnterpriseArchitectSysMLXMIParser.class.getClassLoader().getResourceAsStream("ea-transform.xsl"));
             final Transformer transformer = transformerFactory.newTransformer(transformerSource);
             final Source toTransform = new StreamSource(input);
             final File output = Files.createTempFile("scsparser-",
