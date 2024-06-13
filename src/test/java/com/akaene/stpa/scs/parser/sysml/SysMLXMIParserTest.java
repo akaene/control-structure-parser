@@ -4,12 +4,10 @@ import com.akaene.stpa.scs.exception.ControlStructureParserException;
 import com.akaene.stpa.scs.model.Connector;
 import com.akaene.stpa.scs.model.Model;
 import com.akaene.stpa.scs.model.Stereotype;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.util.Optional;
-import java.util.zip.ZipFile;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.blankOrNullString;
@@ -17,7 +15,6 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -25,14 +22,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class SysMLXMIParserTest {
 
     private final SysMLXMIParser sut = new SysMLXMIParser();
-
-    @Test
-    void parseAsResourceLoadsFileAsEmfResource() throws Exception {
-        final File input = new File(getClass().getClassLoader().getResource("simple-model/model.xmi").toURI());
-        final Resource res = sut.parseAsResource(input);
-        assertNotNull(res);
-        assertInstanceOf(org.eclipse.uml2.uml.Model.class, res.getContents().getFirst());
-    }
 
     @Test
     void parseExtractsClassesFromInputModel() throws Exception {
@@ -103,12 +92,10 @@ class SysMLXMIParserTest {
 
     @Test
     void parseZipArchiveExtractsArchiveIntoTemporaryFolderAndThenParsesModelFileInIt() throws Exception {
-        try (final ZipFile input = new ZipFile(
-                new File(getClass().getClassLoader().getResource("simple-model.zip").toURI()))) {
-            final com.akaene.stpa.scs.model.Model result = sut.parse(input);
-            assertNotNull(result);
-            assertFalse(result.getClasses().isEmpty());
-        }
+        final File input = new File(getClass().getClassLoader().getResource("simple-model.zip").toURI());
+        final com.akaene.stpa.scs.model.Model result = sut.parse(input);
+        assertNotNull(result);
+        assertFalse(result.getClasses().isEmpty());
     }
 
     @Test
@@ -127,17 +114,16 @@ class SysMLXMIParserTest {
         final Model result = sut.parse(input);
         result.getClasses().forEach(c -> assertThat(c.getQualifiedName(), not(blankOrNullString())));
         result.getConnectors().forEach(c -> assertThat(c.getQualifiedName(), not(blankOrNullString())));
-        result.getAssociations().stream().filter(a -> a.getName() != null).forEach(a -> assertThat(a.getQualifiedName(), not(blankOrNullString())));
+        result.getAssociations().stream().filter(a -> a.getName() != null)
+              .forEach(a -> assertThat(a.getQualifiedName(), not(blankOrNullString())));
     }
 
     @Test
     void parseZipSupportsModelWithUmlExtension() throws Exception {
-        try (final ZipFile input = new ZipFile(
-                new File(getClass().getClassLoader().getResource("simple-model-uml.zip").toURI()))) {
-            final com.akaene.stpa.scs.model.Model result = sut.parse(input);
-            assertNotNull(result);
-            assertFalse(result.getClasses().isEmpty());
-        }
+        final File input = new File(getClass().getClassLoader().getResource("simple-model-uml.zip").toURI());
+        final com.akaene.stpa.scs.model.Model result = sut.parse(input);
+        assertNotNull(result);
+        assertFalse(result.getClasses().isEmpty());
     }
 
     @Test
@@ -148,12 +134,11 @@ class SysMLXMIParserTest {
 
     @Test
     void parseRecognizesProfileAndModelFilesAndUsesOnlyAvailableModelFileForParsing() throws Exception {
-        try (final ZipFile input = new ZipFile(
-                new File(getClass().getClassLoader().getResource("simple_project_different_filename.zip").toURI()))) {
-            final com.akaene.stpa.scs.model.Model result = sut.parse(input);
-            assertNotNull(result);
-            assertFalse(result.getClasses().isEmpty());
-        }
+        final File input = new File(
+                getClass().getClassLoader().getResource("simple_project_different_filename.zip").toURI());
+        final com.akaene.stpa.scs.model.Model result = sut.parse(input);
+        assertNotNull(result);
+        assertFalse(result.getClasses().isEmpty());
     }
 
     @Test
