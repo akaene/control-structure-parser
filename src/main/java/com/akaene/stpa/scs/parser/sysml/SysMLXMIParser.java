@@ -29,7 +29,15 @@ import org.eclipse.uml2.uml.resources.util.UMLResourcesUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.xml.namespace.QName;
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.Attribute;
+import javax.xml.stream.events.StartElement;
+import javax.xml.stream.events.XMLEvent;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -108,15 +116,24 @@ public class SysMLXMIParser implements ControlStructureParser {
 
     public Resource parseAsResource(File input) {
         LOG.debug("Parsing XMI file '{}'.", input);
+        final File actualInput = transformEnterpriseArchitectFileIfNecessary(input);
         ResourceSet set = new ResourceSetImpl();
         Stream.of(SUPPORTED_EXTENSIONS).forEach(ext -> set.getResourceFactoryRegistry().getExtensionToFactoryMap()
                                                           .put(ext, XMI2UMLResource.Factory.INSTANCE));
         try {
-            final URI uri = URI.createFileURI(input.getAbsolutePath());
+            final URI uri = URI.createFileURI(actualInput.getAbsolutePath());
             return set.getResource(uri, true);
         } catch (RuntimeException e) {
             throw new ControlStructureParserException("Unable to parse file " + input, e);
         }
+    }
+
+    private File transformEnterpriseArchitectFileIfNecessary(File input) {
+        if (EnterpriseArchitectTransformer.isEnterpriseArchitectFile(input)) {
+            LOG.debug("Input file is an Enterprise Architect file, transforming it.");
+            return EnterpriseArchitectTransformer.transform(input);
+        }
+        return input;
     }
 
     private org.eclipse.uml2.uml.Model getModelElement(Resource xmi) {
