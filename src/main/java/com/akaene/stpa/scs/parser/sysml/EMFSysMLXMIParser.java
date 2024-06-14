@@ -51,6 +51,7 @@ public class EMFSysMLXMIParser implements ControlStructureParser {
 
     @Override
     public Model parse(File input) {
+        LOG.debug("Parsing input using {}.", getClass().getSimpleName());
         final XMI2UMLResource xmi = parseAsResource(input);
         final org.eclipse.uml2.uml.Model emfModel = getModelElement(xmi);
         final ParsingState state = initParsingState(xmi);
@@ -68,7 +69,7 @@ public class EMFSysMLXMIParser implements ControlStructureParser {
     }
 
     public XMI2UMLResource parseAsResource(File input) {
-        LOG.debug("Parsing XMI file '{}'.", input);
+        LOG.debug("Parsing XMI file '{}'.", input.getName());
         ResourceSet set = new ResourceSetImpl();
         Stream.of(SysMLXMIParser.SUPPORTED_FILE_EXTENSIONS)
               .forEach(ext -> set.getResourceFactoryRegistry().getExtensionToFactoryMap()
@@ -77,7 +78,7 @@ public class EMFSysMLXMIParser implements ControlStructureParser {
             final URI uri = URI.createFileURI(input.getAbsolutePath());
             return (XMI2UMLResource) set.getResource(uri, true);
         } catch (RuntimeException e) {
-            throw new ControlStructureParserException("Unable to parse file " + input, e);
+            throw new ControlStructureParserException("Unable to parse file " + input.getName(), e);
         }
     }
 

@@ -26,7 +26,7 @@ public class SysMLXMIParser implements ControlStructureParser {
     @Override
     public Model parse(File input) {
         return parsers.stream().filter(p -> p.supports(input)).findFirst().map(p -> p.parse(input))
-                      .orElseThrow(() -> new IllegalArgumentException("This parser does not support file " + input));
+                      .orElseThrow(() -> new IllegalArgumentException("This parser does not support file " + input.getName()));
     }
 
     @Override
