@@ -59,7 +59,7 @@ public class GraphMLParser implements ControlStructureParser {
     }
 
     private List<Node> readNodes(Document document) {
-        final Elements nodeElements = document.selectXpath("//node");
+        final Elements nodeElements = document.select("node");
         final List<Node> nodes = nodeElements.stream().filter(n -> !n.select("y|Shape[type=\"rectangle\"]").isEmpty())
                                              .map(n -> {
                                                  final String id = n.id();
@@ -74,21 +74,26 @@ public class GraphMLParser implements ControlStructureParser {
     }
 
     private void readConnectors(ParsingState state, Document document) {
-        final Elements edges = document.selectXpath("//edge");
+        final Elements edges = document.select("edge");
         edges.forEach(e -> {
             final String id = e.id();
             final Node source = state.nodes.get(e.attr("source"));
             final Node target = state.nodes.get(e.attr("target"));
             if (source == null || target == null) {
-                LOG.error("Edge {} is missing resolved source or target node.", e);
+                LOG.error("Edge {} is missing resolved source or target node.", id);
                 return;
             }
-            final String label = e.select("y|EdgeLabel").text().trim();
+            final Elements labels = e.select("y|EdgeLabel");
+            final String label = labels.stream().map(l -> l.wholeText().trim()).collect(Collectors.joining("\n"));
             final Optional<EdgeStereotype> stereotype = edgeToStereotype(e);
-            final Connector connector = new Connector(label, id, new ConnectorEnd(source.component(), null, null, null),
-                                                      new ConnectorEnd(target.component(), null, null, null));
-            stereotype.ifPresent(s -> connector.addStereotype(s.getStereotype()));
-            state.result.addConnector(connector);
+            final String[] items = label.split("\n");
+            for (String labelItem : items) {
+                final Connector connector = new Connector(labelItem, id,
+                                                          new ConnectorEnd(source.component(), null, null, null),
+                                                          new ConnectorEnd(target.component(), null, null, null));
+                stereotype.ifPresent(s -> connector.addStereotype(s.getStereotype()));
+                state.result.addConnector(connector);
+            }
         });
     }
 

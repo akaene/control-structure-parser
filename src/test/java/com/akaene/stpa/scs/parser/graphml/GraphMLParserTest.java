@@ -2,6 +2,7 @@ package com.akaene.stpa.scs.parser.graphml;
 
 import com.akaene.stpa.scs.model.Connector;
 import com.akaene.stpa.scs.model.Model;
+import com.akaene.stpa.scs.model.Stereotype;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -11,6 +12,8 @@ import java.io.File;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItem;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -39,17 +42,29 @@ class GraphMLParserTest {
         final File input = new File(getClass().getClassLoader().getResource("simple-model.graphml").toURI());
         final Model result = sut.parse(input);
         assertNotNull(result);
-        final Optional<Connector> controlAction = result.getConnectors().stream()
-                                                        .filter(c -> c.getName().equals("change altitude")).findAny();
-        assertTrue(controlAction.isPresent());
-        assertTrue(controlAction.get().getStereotypes().stream().anyMatch(s -> s.name().equals("ControlAction")));
-        assertEquals("FlightCrew", controlAction.get().getSource().type().name());
-        assertEquals("Flight", controlAction.get().getTarget().type().name());
-        final Optional<Connector> feedback = result.getConnectors().stream().filter(c -> c.getName().equals("altitude"))
-                                                   .findAny();
-        assertTrue(feedback.isPresent());
-        assertTrue(feedback.get().getStereotypes().stream().anyMatch(s -> s.name().equals("Feedback")));
-        assertEquals("Flight", feedback.get().getSource().type().name());
-        assertEquals("FlightCrew", feedback.get().getTarget().type().name());
+        verifyConnector(result, "change altitude", "FlightCrew", "Flight", new Stereotype("ControlAction"));
+        verifyConnector(result, "altitude", "Flight", "FlightCrew", new Stereotype("Feedback"));
+    }
+
+    private void verifyConnector(Model result, String label, String from, String to, Stereotype stereotype) {
+        final Optional<Connector> connector = result.getConnectors().stream()
+                                                    .filter(c -> c.getName().equals(label)).findAny();
+        assertTrue(connector.isPresent());
+        assertThat(connector.get().getStereotypes(), hasItem(stereotype));
+        assertEquals(from, connector.get().getSource().type().name());
+        assertEquals(to, connector.get().getTarget().type().name());
+    }
+
+    @Test
+    void parseHandlesGraphMLFileWithMultipleActionsAndFeedbacksOnOneEdge() throws Exception {
+        final File input = new File(
+                getClass().getClassLoader().getResource("model-compound-actions-feedback.graphml").toURI());
+        final Model result = sut.parse(input);
+        assertNotNull(result);
+        verifyConnector(result, "change altitude", "FlightCrew", "Flight", new Stereotype("ControlAction"));
+        verifyConnector(result, "accelerate", "FlightCrew", "Flight", new Stereotype("ControlAction"));
+        verifyConnector(result, "decelerate", "FlightCrew", "Flight", new Stereotype("ControlAction"));
+        verifyConnector(result, "altitude", "Flight", "FlightCrew", new Stereotype("Feedback"));
+        verifyConnector(result, "airspeed", "Flight", "FlightCrew", new Stereotype("Feedback"));
     }
 }
