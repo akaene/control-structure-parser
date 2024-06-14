@@ -46,7 +46,7 @@ class GraphMLParserTest {
         verifyConnector(result, "altitude", "Flight", "FlightCrew", new Stereotype("Feedback"));
     }
 
-    private void verifyConnector(Model result, String label, String from, String to, Stereotype stereotype) {
+    private static void verifyConnector(Model result, String label, String from, String to, Stereotype stereotype) {
         final Optional<Connector> connector = result.getConnectors().stream()
                                                     .filter(c -> c.getName().equals(label)).findAny();
         assertTrue(connector.isPresent());
@@ -66,5 +66,15 @@ class GraphMLParserTest {
         verifyConnector(result, "decelerate", "FlightCrew", "Flight", new Stereotype("ControlAction"));
         verifyConnector(result, "altitude", "Flight", "FlightCrew", new Stereotype("Feedback"));
         verifyConnector(result, "airspeed", "Flight", "FlightCrew", new Stereotype("Feedback"));
+    }
+
+    @Test
+    void parseHandlesAdditionalControlInfoConnectors() throws Exception {
+        final File input = new File(
+                getClass().getClassLoader().getResource("model-compound-actions-feedback.graphml").toURI());
+        final Model result = sut.parse(input);
+        assertNotNull(result);
+        verifyConnector(result, "weather and traffic info", "ANS", "FlightCrew",
+                        new Stereotype("AdditionalControlInformation"));
     }
 }
