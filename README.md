@@ -38,6 +38,15 @@ Do not forget to add the AKAENE Maven repository:
 </repositories>
 ```
 
+## How to Use
+
+```java
+import com.akaene.stpa.scs.parser.ControlStructureParsers;
+
+final File input = // get input file
+final Model model = ControlStructureParsers.parse(input);
+```
+
 ## License
 
 MIT
