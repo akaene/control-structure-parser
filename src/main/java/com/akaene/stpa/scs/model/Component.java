@@ -43,6 +43,6 @@ public class Component implements Connectable, Stereotyped {
 
     @Override
     public String toString() {
-        return name + " : " + type.getName();
+        return name + " : " + (type != null ? type.getName() : "");
     }
 }
