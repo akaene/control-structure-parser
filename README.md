@@ -7,6 +7,7 @@ Currently supported artifacts:
 - SysML XMI/UML (based on prototype at https://github.com/kbss-cvut/xmi-parser-mwe)
   - `.zip` archive containing a model file and relevant profile files
   - `*.xmi`/`*.uml`/`*.xml` file. The file or the directory containing the file should also contain relevant profile data
+  - `.graphml` files (produced by [yEd](https://www.yworks.com/products/yed) and [yEd Live](https://www.yworks.com/products/yed-live))
 
 Tested on XMI artifacts produced by [Modelio](https://www.modelio.org/index.htm) and [Enterprise Architect](https://sparxsystems.com/products/ea/).
 
@@ -40,12 +41,16 @@ Do not forget to add the AKAENE Maven repository:
 
 ## How to Use
 
+`ControlStructureParsers` is able to find the correct parser and use it to parse the specified model file.
+
 ```java
 import com.akaene.stpa.scs.parser.ControlStructureParsers;
 
 final File input = // get input file
 final Model model = ControlStructureParsers.parse(input);
 ```
+
+But it is also possible to use the parser implementations directly.
 
 ## License
 
