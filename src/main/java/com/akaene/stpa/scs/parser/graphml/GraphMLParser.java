@@ -43,6 +43,7 @@ public class GraphMLParser implements ControlStructureParser {
 
     @Override
     public Model parse(File input) {
+        LOG.debug("Parsing input using {}.", getClass().getSimpleName());
         final Document document = readDocument(input);
         final ParsingState state = new ParsingState();
         readNodes(document).forEach(n -> state.nodes.put(n.id(), n));
@@ -54,7 +55,7 @@ public class GraphMLParser implements ControlStructureParser {
         try {
             return Jsoup.parse(file, StandardCharsets.UTF_8.name(), "", Parser.xmlParser());
         } catch (IOException e) {
-            throw new ControlStructureParserException("Unable to parse file " + file, e);
+            throw new ControlStructureParserException("Unable to parse file " + file.getName(), e);
         }
     }
 

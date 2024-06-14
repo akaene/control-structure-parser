@@ -47,6 +47,7 @@ public class EnterpriseArchitectSysMLXMIParser extends EMFSysMLXMIParser {
 
     @Override
     public Model parse(File input) {
+        LOG.debug("Parsing input using {}.", getClass().getSimpleName());
         final File transformedInput = transformToEMFReadable(input);
         try {
             return super.parse(transformedInput);
@@ -100,7 +101,7 @@ public class EnterpriseArchitectSysMLXMIParser extends EMFSysMLXMIParser {
     }
 
     public static boolean isEnterpriseArchitectFile(File input) {
-        LOG.trace("Checking if input file '{}' was produced by Enterprise Architect.", input);
+        LOG.trace("Checking if input file '{}' was produced by Enterprise Architect.", input.getName());
         try {
             final XMLInputFactory inputFactory = XMLInputFactory.newInstance();
             final XMLEventReader eventReader = inputFactory.createXMLEventReader(new FileInputStream(input));
