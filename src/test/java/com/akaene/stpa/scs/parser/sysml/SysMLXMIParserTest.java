@@ -5,9 +5,13 @@ import com.akaene.stpa.scs.model.Connector;
 import com.akaene.stpa.scs.model.Model;
 import com.akaene.stpa.scs.model.Stereotype;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.File;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.blankOrNullString;
@@ -19,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class SysMLXMIParserTest {
+public class SysMLXMIParserTest {
 
     private final SysMLXMIParser sut = new SysMLXMIParser();
 
@@ -52,7 +56,7 @@ class SysMLXMIParserTest {
         verifyConnectorsInSimpleModel(result);
     }
 
-    private static void verifyConnectorsInSimpleModel(Model result) {
+    public static void verifyConnectorsInSimpleModel(Model result) {
         final Optional<Connector> controlAction = result.getConnectors().stream()
                                                         .filter(c -> c.getName().equals("change altitude")).findAny();
         assertTrue(controlAction.isPresent());
@@ -167,5 +171,22 @@ class SysMLXMIParserTest {
         assertFalse(result.getClasses().isEmpty());
         assertFalse(result.getConnectors().isEmpty());
         assertFalse(result.getAssociations().isEmpty());
+    }
+
+    @ParameterizedTest
+    @MethodSource("sampleFileTypes")
+    void supportsReturnsTrueForSupportedFiles(String file, boolean supports) throws Exception {
+        final File input = new File(getClass().getClassLoader().getResource(file).toURI());
+        assertEquals(supports, sut.supports(input));
+    }
+
+    static Stream<Arguments> sampleFileTypes() {
+        return Stream.of(
+                Arguments.of("simple-model/model.xmi", true),
+                Arguments.of("simple-model.zip", true),
+                Arguments.of("simple-model-uml/model.uml", true),
+                Arguments.of("complex-model_EA.xml", "true"),
+                Arguments.of("simple-model.graphml", false)
+        );
     }
 }

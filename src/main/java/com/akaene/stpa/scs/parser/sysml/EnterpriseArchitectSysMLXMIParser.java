@@ -56,6 +56,11 @@ public class EnterpriseArchitectSysMLXMIParser extends EMFSysMLXMIParser {
     }
 
     @Override
+    public boolean supports(File input) {
+        return isEnterpriseArchitectFile(input);
+    }
+
+    @Override
     protected EnterpriseArchitectParsingState initParsingState(XMI2UMLResource resource) {
         return new EnterpriseArchitectParsingState(resource);
     }

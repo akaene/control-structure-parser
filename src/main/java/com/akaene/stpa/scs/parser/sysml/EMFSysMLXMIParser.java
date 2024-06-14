@@ -70,7 +70,7 @@ public class EMFSysMLXMIParser implements ControlStructureParser {
     public XMI2UMLResource parseAsResource(File input) {
         LOG.debug("Parsing XMI file '{}'.", input);
         ResourceSet set = new ResourceSetImpl();
-        Stream.of(SysMLXMIParser.SUPPORTED_EXTENSIONS)
+        Stream.of(SysMLXMIParser.SUPPORTED_FILE_EXTENSIONS)
               .forEach(ext -> set.getResourceFactoryRegistry().getExtensionToFactoryMap()
                                  .put(ext, XMI2UMLResource.Factory.INSTANCE));
         try {
@@ -255,6 +255,11 @@ public class EMFSysMLXMIParser implements ControlStructureParser {
             return association;
         }).filter(association -> !state.result.getAssociations().contains(association)).toList();
         result.forEach(state.result::addAssociation);
+    }
+
+    @Override
+    public boolean supports(File input) {
+        return input.exists() && Stream.of(SysMLXMIParser.SUPPORTED_FILE_EXTENSIONS).anyMatch(ext -> input.getName().endsWith(ext));
     }
 
     protected static class ParsingState {

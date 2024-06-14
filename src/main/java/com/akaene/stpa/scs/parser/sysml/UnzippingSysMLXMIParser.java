@@ -69,6 +69,11 @@ public class UnzippingSysMLXMIParser implements ControlStructureParser {
         }
     }
 
+    @Override
+    public boolean supports(File input) {
+        return isZipFile(input);
+    }
+
     public static boolean isZipFile(File file) {
         try {
             return file != null && file.exists() && file.isFile() && ZIP_MIME_TYPE.equals(

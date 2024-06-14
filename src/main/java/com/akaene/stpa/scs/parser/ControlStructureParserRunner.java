@@ -1,7 +1,6 @@
 package com.akaene.stpa.scs.parser;
 
 import com.akaene.stpa.scs.model.Model;
-import com.akaene.stpa.scs.parser.sysml.SysMLXMIParser;
 
 import java.io.File;
 
@@ -9,8 +8,6 @@ import java.io.File;
  * Allows running control structure parsing as a standalone application.
  */
 public class ControlStructureParserRunner {
-
-    private final ControlStructureParser parser = new SysMLXMIParser();
 
     public static void main(String[] args) {
         if (args.length != 1) {
@@ -24,7 +21,7 @@ public class ControlStructureParserRunner {
         if (!file.exists()) {
             throw new IllegalArgumentException("Specified path does not exist.");
         }
-        final Model model = parser.parse(file);
+        final Model model = ControlStructureParsers.parse(file);
         System.out.println(model);
     }
 }

@@ -19,4 +19,12 @@ public interface ControlStructureParser {
      * @return Parsed model
      */
     Model parse(File input);
+
+    /**
+     * Checks whether this parser supports the specified input file.
+     *
+     * @param input Input file to potentially parse
+     * @return {@code true} if the file type is supported by this parser, {@code false} otherwise
+     */
+    boolean supports(File input);
 }

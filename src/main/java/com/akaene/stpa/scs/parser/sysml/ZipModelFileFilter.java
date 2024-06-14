@@ -11,7 +11,7 @@ class ZipModelFileFilter implements FilenameFilter {
 
     @Override
     public boolean accept(File dir, String name) {
-        final Optional<String> extension = Arrays.stream(SysMLXMIParser.SUPPORTED_EXTENSIONS).filter(name::endsWith)
+        final Optional<String> extension = Arrays.stream(SysMLXMIParser.SUPPORTED_FILE_EXTENSIONS).filter(name::endsWith)
                                                  .findAny();
         return extension.isPresent() && !name.endsWith(PROFILE_FILE_SUFFIX + "." + extension.get());
     }
