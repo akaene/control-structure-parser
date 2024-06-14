@@ -11,6 +11,7 @@ import com.akaene.stpa.scs.model.Model;
 import com.akaene.stpa.scs.model.Stereotype;
 import com.akaene.stpa.scs.parser.ControlStructureParser;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -50,9 +51,9 @@ public class EMFSysMLXMIParser implements ControlStructureParser {
 
     @Override
     public Model parse(File input) {
-        final Resource xmi = parseAsResource(input);
+        final XMI2UMLResource xmi = parseAsResource(input);
         final org.eclipse.uml2.uml.Model emfModel = getModelElement(xmi);
-        final ParsingState state = new ParsingState();
+        final ParsingState state = initParsingState(xmi);
         extractModelMetadata(emfModel, state);
         extractStereotypes(xmi, state);
         extractClasses(emfModel, state);
@@ -62,7 +63,11 @@ public class EMFSysMLXMIParser implements ControlStructureParser {
         return state.result;
     }
 
-    public Resource parseAsResource(File input) {
+    protected ParsingState initParsingState(XMI2UMLResource resource) {
+        return new ParsingState(resource);
+    }
+
+    public XMI2UMLResource parseAsResource(File input) {
         LOG.debug("Parsing XMI file '{}'.", input);
         ResourceSet set = new ResourceSetImpl();
         Stream.of(SysMLXMIParser.SUPPORTED_EXTENSIONS)
@@ -70,7 +75,7 @@ public class EMFSysMLXMIParser implements ControlStructureParser {
                                  .put(ext, XMI2UMLResource.Factory.INSTANCE));
         try {
             final URI uri = URI.createFileURI(input.getAbsolutePath());
-            return set.getResource(uri, true);
+            return (XMI2UMLResource) set.getResource(uri, true);
         } catch (RuntimeException e) {
             throw new ControlStructureParserException("Unable to parse file " + input, e);
         }
@@ -87,7 +92,7 @@ public class EMFSysMLXMIParser implements ControlStructureParser {
         state.result.setName(xmiModel.getName());
     }
 
-    private void extractStereotypes(Resource xmi, ParsingState state) {
+    protected void extractStereotypes(Resource xmi, ParsingState state) {
         xmi.getContents().stream()
            .filter(o -> o instanceof DynamicEObjectImpl)
            .map(DynamicEObjectImpl.class::cast)
@@ -98,7 +103,7 @@ public class EMFSysMLXMIParser implements ControlStructureParser {
            });
     }
 
-    private void extractClasses(org.eclipse.uml2.uml.Model xmiModel, ParsingState state) {
+    protected void extractClasses(org.eclipse.uml2.uml.Model xmiModel, ParsingState state) {
         xmiModel.allOwnedElements().stream()
                 .filter(o -> o instanceof Class)
                 .map(o -> (Class) o)
@@ -111,7 +116,7 @@ public class EMFSysMLXMIParser implements ControlStructureParser {
         resolveSupertypesAndParts(xmiModel, state);
     }
 
-    private void resolveSupertypesAndParts(org.eclipse.uml2.uml.Model xmiModel, ParsingState state) {
+    protected void resolveSupertypesAndParts(org.eclipse.uml2.uml.Model xmiModel, ParsingState state) {
         xmiModel.allOwnedElements().stream()
                 .filter(o -> o instanceof Class)
                 .map(Class.class::cast)
@@ -124,12 +129,12 @@ public class EMFSysMLXMIParser implements ControlStructureParser {
                 });
     }
 
-    private Collection<Stereotype> getElementStereotypes(Object element, ParsingState state) {
+    protected Collection<Stereotype> getElementStereotypes(EObject element, ParsingState state) {
         return state.stereotypes.entrySet().stream().filter(e -> hasStereotype(e.getKey(), element))
                                 .map(Map.Entry::getValue).toList();
     }
 
-    private static boolean hasStereotype(DynamicEObjectImpl stereotypeElem, Object element) {
+    protected static boolean hasStereotype(DynamicEObjectImpl stereotypeElem, Object element) {
         int max = stereotypeElem.eClass().getEAllStructuralFeatures().size();
 
         for (int i = 0; i < max; i++) {
@@ -141,12 +146,12 @@ public class EMFSysMLXMIParser implements ControlStructureParser {
         return false;
     }
 
-    private Collection<ComponentType> getSuperTypes(Class cls, ParsingState state) {
+    protected Collection<ComponentType> getSuperTypes(Class cls, ParsingState state) {
         return cls.getSuperClasses().stream().map(supertype -> state.result.getClass(supertype.getName())).flatMap(
                 Optional::stream).toList();
     }
 
-    private Collection<Association> extractAttributeAssociations(Class cls, ParsingState state) {
+    protected Collection<Association> extractAttributeAssociations(Class cls, ParsingState state) {
         return cls.getAllAttributes().stream().filter(p -> !(p instanceof Port)).map(part -> {
             final AssociationEnd target = propertyToAssociationEnd(part, state);
             final AssociationEnd source;
@@ -167,7 +172,7 @@ public class EMFSysMLXMIParser implements ControlStructureParser {
         }).toList();
     }
 
-    private ComponentType propertyType(Property property, ParsingState state) {
+    protected ComponentType propertyType(Property property, ParsingState state) {
         return Optional.ofNullable(property.getType()).flatMap(ct -> state.result.getClass(ct.getName()))
                        .orElseGet(() -> {
                            if (property.getType() instanceof PrimitiveType) {
@@ -178,13 +183,13 @@ public class EMFSysMLXMIParser implements ControlStructureParser {
                        });
     }
 
-    private AssociationEnd propertyToAssociationEnd(Property property, ParsingState state) {
+    protected AssociationEnd propertyToAssociationEnd(Property property, ParsingState state) {
         final ComponentType targetType = propertyType(property, state);
         return new AssociationEnd(targetType, aggregationType(property.getAggregation()),
                                   property.getName(), property.getLower(), property.getUpper());
     }
 
-    private static AggregationType aggregationType(AggregationKind emfAggregation) {
+    protected static AggregationType aggregationType(AggregationKind emfAggregation) {
         return switch (emfAggregation) {
             case NONE_LITERAL -> AggregationType.ASSOCIATION;
             case SHARED_LITERAL -> AggregationType.AGGREGATION;
@@ -192,7 +197,7 @@ public class EMFSysMLXMIParser implements ControlStructureParser {
         };
     }
 
-    private void extractConnectors(org.eclipse.uml2.uml.Model xmiModel, ParsingState state) {
+    protected void extractConnectors(org.eclipse.uml2.uml.Model xmiModel, ParsingState state) {
         final List<Connector> connectors = xmiModel.allOwnedElements().stream()
                                                    .filter(o -> o instanceof org.eclipse.uml2.uml.Connector)
                                                    .map(org.eclipse.uml2.uml.Connector.class::cast)
@@ -209,13 +214,14 @@ public class EMFSysMLXMIParser implements ControlStructureParser {
                                                                                                           c.getQualifiedName(),
                                                                                                           source.get(),
                                                                                                           target.get());
+            getElementStereotypes(c, state).forEach(connector::addStereotype);
             getElementStereotypes(c.getEnds().getFirst(), state).forEach(connector::addStereotype);
             getElementStereotypes(c.getEnds().get(1), state).forEach(connector::addStereotype);
             return connector;
         }).filter(Objects::nonNull).forEach(state.result::addConnector);
     }
 
-    private Optional<ConnectorEnd> connectorEnd(org.eclipse.uml2.uml.ConnectorEnd umlConnectorEnd, ParsingState state) {
+    protected Optional<ConnectorEnd> connectorEnd(org.eclipse.uml2.uml.ConnectorEnd umlConnectorEnd, ParsingState state) {
         final ConnectableElement connected = umlConnectorEnd.getRole() != null ? umlConnectorEnd.getRole() :
                                              umlConnectorEnd.getPartWithPort();
         if (connected == null) {
@@ -232,7 +238,7 @@ public class EMFSysMLXMIParser implements ControlStructureParser {
         return Optional.of(new ConnectorEnd(comp, null, umlConnectorEnd.getLower(), umlConnectorEnd.getUpper()));
     }
 
-    private void extractAssociations(org.eclipse.uml2.uml.Model xmiModel, ParsingState state) {
+    protected void extractAssociations(org.eclipse.uml2.uml.Model xmiModel, ParsingState state) {
         final List<org.eclipse.uml2.uml.Association> associations = xmiModel.allOwnedElements().stream()
                                                                             .filter(o -> o instanceof org.eclipse.uml2.uml.Association)
                                                                             .map(org.eclipse.uml2.uml.Association.class::cast)
@@ -251,12 +257,18 @@ public class EMFSysMLXMIParser implements ControlStructureParser {
         result.forEach(state.result::addAssociation);
     }
 
-    protected static final class ParsingState {
+    protected static class ParsingState {
 
-        private final Model result = new Model();
+        protected final Model result = new Model();
 
-        private final Map<Object, Component> components = new HashMap<>();
+        protected final XMI2UMLResource resource;
 
-        private final Map<DynamicEObjectImpl, Stereotype> stereotypes = new HashMap<>();
+        protected final Map<Object, Component> components = new HashMap<>();
+
+        protected final Map<DynamicEObjectImpl, Stereotype> stereotypes = new HashMap<>();
+
+        protected ParsingState(XMI2UMLResource resource) {
+            this.resource = resource;
+        }
     }
 }

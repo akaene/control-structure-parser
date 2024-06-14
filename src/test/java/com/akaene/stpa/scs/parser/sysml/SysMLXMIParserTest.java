@@ -56,6 +56,7 @@ class SysMLXMIParserTest {
         final Optional<Connector> controlAction = result.getConnectors().stream()
                                                         .filter(c -> c.getName().equals("change altitude")).findAny();
         assertTrue(controlAction.isPresent());
+        assertTrue(controlAction.get().getStereotypes().stream().anyMatch(s -> s.name().equals("ControlAction")));
         assertEquals("FlightCrew", controlAction.get().getSource().type().name());
         assertEquals(result.getClass("Controller").get(), controlAction.get().getSource().type().getType());
         assertEquals("Flight", controlAction.get().getTarget().type().name());
@@ -63,6 +64,7 @@ class SysMLXMIParserTest {
         final Optional<Connector> feedback = result.getConnectors().stream().filter(c -> c.getName().equals("altitude"))
                                                    .findAny();
         assertTrue(feedback.isPresent());
+        assertTrue(feedback.get().getStereotypes().stream().anyMatch(s -> s.name().equals("Feedback")));
         assertEquals("Flight", feedback.get().getSource().type().name());
         assertEquals(result.getClass("Controlled Process").get(), feedback.get().getSource().type().getType());
         assertEquals("FlightCrew", feedback.get().getTarget().type().name());
@@ -142,11 +144,18 @@ class SysMLXMIParserTest {
     }
 
     @Test
+    void parseExtractsStereotypesFromFileProducedEnterpriseArchitect() throws Exception {
+        final File input = new File(getClass().getClassLoader().getResource("simple-model_EA.xml").toURI());
+        final Model result = sut.parse(input);
+        assertTrue(result.getStereotype("ControlAction").isPresent());
+        assertTrue(result.getStereotype("Feedback").isPresent());
+    }
+
+    @Test
     void parseHandlesSimpleXmlFileProducedByEnterpriseArchitect() throws Exception {
         final File input = new File(getClass().getClassLoader().getResource("simple-model_EA.xml").toURI());
         final Model result = sut.parse(input);
         assertNotNull(result);
-        // TODO Connectors seem to be reversed. Based on the file contents, it seems to be a problem in the model itself.
         verifyConnectorsInSimpleModel(result);
     }
 

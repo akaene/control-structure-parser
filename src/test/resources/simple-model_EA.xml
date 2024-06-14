@@ -9,18 +9,18 @@
 					<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000005_4364_4ca5_9FBA_F5DADFEC2479" value="0"/>
 					<upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="EAID_LI000006_4364_4ca5_9FBA_F5DADFEC2479" value="1"/>
 				</ownedAttribute>
-				<ownedConnector xmi:type="uml:Connector" xmi:id="EAID_C45CDB3E_4EFE_4537_B7CD_642EE1857F5B" name="change altitude">
-					<end xmi:type="uml:ConnectorEnd" xmi:id="EAID_SC000000_4EFE_4537_B7CD_642EE1857F5B" role="EAID_3F65D9C7_4364_4ca5_9FBA_F5DADFEC2479"/>
-					<end xmi:type="uml:ConnectorEnd" xmi:id="EAID_DS000000_4EFE_4537_B7CD_642EE1857F5B" role="EAID_3B368A8E_3A6E_4141_BDD2_F3FF8A1240A1"/>
+				<ownedConnector xmi:type="uml:Connector" xmi:id="EAID_F49572FF_6CC5_4e9a_ABBA_EF6096547DAC" name="altitude">
+					<end xmi:type="uml:ConnectorEnd" xmi:id="EAID_SC000000_6CC5_4e9a_ABBA_EF6096547DAC" role="EAID_3F65D9C7_4364_4ca5_9FBA_F5DADFEC2479"/>
+					<end xmi:type="uml:ConnectorEnd" xmi:id="EAID_DS000000_6CC5_4e9a_ABBA_EF6096547DAC" role="EAID_3B368A8E_3A6E_4141_BDD2_F3FF8A1240A1"/>
 				</ownedConnector>
 				<ownedAttribute xmi:type="uml:Property" xmi:id="EAID_3B368A8E_3A6E_4141_BDD2_F3FF8A1240A1" name="FlightCrew" aggregation="composite">
 					<type xmi:idref="EAID_19D720E4_F3C6_4a37_97AB_400029BE4A53"/>
 					<lowerValue xmi:type="uml:LiteralInteger" xmi:id="EAID_LI000007_3A6E_4141_BDD2_F3FF8A1240A1" value="0"/>
 					<upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="EAID_LI000008_3A6E_4141_BDD2_F3FF8A1240A1" value="1"/>
 				</ownedAttribute>
-				<ownedConnector xmi:type="uml:Connector" xmi:id="EAID_3224FEF1_2767_4371_94ED_1F2F3912C86E" name="altitude">
-					<end xmi:type="uml:ConnectorEnd" xmi:id="EAID_SC000000_2767_4371_94ED_1F2F3912C86E" role="EAID_3B368A8E_3A6E_4141_BDD2_F3FF8A1240A1"/>
-					<end xmi:type="uml:ConnectorEnd" xmi:id="EAID_DS000000_2767_4371_94ED_1F2F3912C86E" role="EAID_3F65D9C7_4364_4ca5_9FBA_F5DADFEC2479"/>
+				<ownedConnector xmi:type="uml:Connector" xmi:id="EAID_9CAEFE8A_EF99_4037_B57B_0EC6C5D0A00B" name="change altitude">
+					<end xmi:type="uml:ConnectorEnd" xmi:id="EAID_SC000000_EF99_4037_B57B_0EC6C5D0A00B" role="EAID_3B368A8E_3A6E_4141_BDD2_F3FF8A1240A1"/>
+					<end xmi:type="uml:ConnectorEnd" xmi:id="EAID_DS000000_EF99_4037_B57B_0EC6C5D0A00B" role="EAID_3F65D9C7_4364_4ca5_9FBA_F5DADFEC2479"/>
 				</ownedConnector>
 			</packagedElement>
 			<packagedElement xmi:type="uml:Association" xmi:id="EAID_6DE3DD09_154D_4ca3_88BE_4BB20B70BC72">
@@ -115,25 +115,25 @@
 				<ownedElement xmi:type="umldi:UMLTypedElementLabel" xmi:id="EAID_NL000000_887E_45a9_BDD2_F3FF8A1240A1" text="FlightCrew"/>
 				<bounds xmi:type="dc:bounds" xmi:id="EAID_DB000000_887E_45a9_BDD2_F3FF8A1240A1" x="77" y="57" width="112" height="56"/>
 			</ownedElement>
-			<ownedElement xmi:type="umldi:UMLEdge" xmi:id="EAID_83031FC1_887E_45a9_94ED_1F2F3912C86E" source="EAID_3B368A8E_3A6E_4141_BDD2_F3FF8A1240A1" target="EAID_3F65D9C7_4364_4ca5_9FBA_F5DADFEC2479" modelElement="EAID_3224FEF1_2767_4371_94ED_1F2F3912C86E">
-				<ownedElement xmi:type="umldi:UMLNameLabel" xmi:id="EAID_NL000000_887E_45a9_94ED_1F2F3912C86E" text="altitude">
-					<bounds xmi:type="dc:bounds" xmi:id="EAID_DBNL000000_887E_45a9_94ED_1F2F3912C86E" x="143" y="147" width="31" height="14"/>
+			<ownedElement xmi:type="umldi:UMLEdge" xmi:id="EAID_83031FC1_887E_45a9_ABBA_EF6096547DAC" source="EAID_3F65D9C7_4364_4ca5_9FBA_F5DADFEC2479" target="EAID_3B368A8E_3A6E_4141_BDD2_F3FF8A1240A1" modelElement="EAID_F49572FF_6CC5_4e9a_ABBA_EF6096547DAC">
+				<ownedElement xmi:type="umldi:UMLNameLabel" xmi:id="EAID_NL000000_887E_45a9_ABBA_EF6096547DAC" text="altitude">
+					<bounds xmi:type="dc:bounds" xmi:id="EAID_DBNL000000_887E_45a9_ABBA_EF6096547DAC" x="141" y="132" width="31" height="14"/>
 				</ownedElement>
-				<ownedElement xmi:type="umldi:UMLKeywordLabel" xmi:id="EAID_KL000000_887E_45a9_94ED_1F2F3912C86E" text="Feedback">
-					<bounds xmi:type="dc:bounds" xmi:id="EAID_DBKL000000_887E_45a9_94ED_1F2F3912C86E" x="137" y="133" width="50" height="14"/>
+				<ownedElement xmi:type="umldi:UMLKeywordLabel" xmi:id="EAID_KL000000_887E_45a9_ABBA_EF6096547DAC" text="Feedback">
+					<bounds xmi:type="dc:bounds" xmi:id="EAID_DBKL000000_887E_45a9_ABBA_EF6096547DAC" x="132" y="149" width="50" height="14"/>
 				</ownedElement>
-				<waypoint xmi:type="dc:waypoint" xmi:id="EAID_WP000000_887E_45a9_94ED_1F2F3912C86E" x="158" y="113"/>
-				<waypoint xmi:type="dc:waypoint" xmi:id="EAID_WP000001_887E_45a9_94ED_1F2F3912C86E" x="158" y="180"/>
+				<waypoint xmi:type="dc:waypoint" xmi:id="EAID_WP000000_887E_45a9_ABBA_EF6096547DAC" x="156" y="180"/>
+				<waypoint xmi:type="dc:waypoint" xmi:id="EAID_WP000001_887E_45a9_ABBA_EF6096547DAC" x="156" y="113"/>
 			</ownedElement>
-			<ownedElement xmi:type="umldi:UMLEdge" xmi:id="EAID_83031FC1_887E_45a9_B7CD_642EE1857F5B" source="EAID_3F65D9C7_4364_4ca5_9FBA_F5DADFEC2479" target="EAID_3B368A8E_3A6E_4141_BDD2_F3FF8A1240A1" modelElement="EAID_C45CDB3E_4EFE_4537_B7CD_642EE1857F5B">
-				<ownedElement xmi:type="umldi:UMLNameLabel" xmi:id="EAID_NL000000_887E_45a9_B7CD_642EE1857F5B" text="change altitude">
-					<bounds xmi:type="dc:bounds" xmi:id="EAID_DBNL000000_887E_45a9_B7CD_642EE1857F5B" x="81" y="143" width="62" height="14"/>
+			<ownedElement xmi:type="umldi:UMLEdge" xmi:id="EAID_83031FC1_887E_45a9_B57B_0EC6C5D0A00B" source="EAID_3B368A8E_3A6E_4141_BDD2_F3FF8A1240A1" target="EAID_3F65D9C7_4364_4ca5_9FBA_F5DADFEC2479" modelElement="EAID_9CAEFE8A_EF99_4037_B57B_0EC6C5D0A00B">
+				<ownedElement xmi:type="umldi:UMLNameLabel" xmi:id="EAID_NL000000_887E_45a9_B57B_0EC6C5D0A00B" text="change altitude">
+					<bounds xmi:type="dc:bounds" xmi:id="EAID_DBNL000000_887E_45a9_B57B_0EC6C5D0A00B" x="72" y="132" width="62" height="14"/>
 				</ownedElement>
-				<ownedElement xmi:type="umldi:UMLKeywordLabel" xmi:id="EAID_KL000000_887E_45a9_B7CD_642EE1857F5B" text="ControlAction">
-					<bounds xmi:type="dc:bounds" xmi:id="EAID_DBKL000000_887E_45a9_B7CD_642EE1857F5B" x="79" y="132" width="64" height="14"/>
+				<ownedElement xmi:type="umldi:UMLKeywordLabel" xmi:id="EAID_KL000000_887E_45a9_B57B_0EC6C5D0A00B" text="ControlAction">
+					<bounds xmi:type="dc:bounds" xmi:id="EAID_DBKL000000_887E_45a9_B57B_0EC6C5D0A00B" x="71" y="149" width="64" height="14"/>
 				</ownedElement>
-				<waypoint xmi:type="dc:waypoint" xmi:id="EAID_WP000000_887E_45a9_B7CD_642EE1857F5B" x="112" y="180"/>
-				<waypoint xmi:type="dc:waypoint" xmi:id="EAID_WP000001_887E_45a9_B7CD_642EE1857F5B" x="112" y="113"/>
+				<waypoint xmi:type="dc:waypoint" xmi:id="EAID_WP000000_887E_45a9_B57B_0EC6C5D0A00B" x="102" y="113"/>
+				<waypoint xmi:type="dc:waypoint" xmi:id="EAID_WP000001_887E_45a9_B57B_0EC6C5D0A00B" x="102" y="180"/>
 			</ownedElement>
 		</umldi:Diagram>
 		<umldi:Diagram xmi:type="umldi:UMLClassDiagram" xmi:id="EAID_B1AEC615_84EF_41af_82C5_20FC1AE8E075" isFrame="true" modelElement="EAPK_06157930_9823_4514_8BB5_5EB901801FB6">
@@ -208,8 +208,8 @@
 				<xrefs value="$XREFPROP=$XID={B9516709-16BE-4499-8141-A01099A64958}$XID;$NAM=CustomProperties$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@PROP=@NAME=_connectorRef@ENDNAME;@TYPE=string@ENDTYPE;@VALU=&lt;SOURCE&gt;@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isReference@ENDNAME;@TYPE=boolean@ENDTYPE;@VALU=0@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={3F65D9C7-4364-4ca5-9FBA-F5DADFEC2479}$CLT;$SUP={6DE3DD09-154D-4ca3-88BE-4BB20B70BC72}$SUP;$ENDXREF;"/>
 				<extendedProperties tagged="0" package_name="Package1" multiplicity="0..1" propertyType="{1DECC108-F4C3-4c97-9F83-728C50955754}"/>
 				<links>
-					<Connector xmi:id="EAID_C45CDB3E_4EFE_4537_B7CD_642EE1857F5B" start="EAID_3F65D9C7_4364_4ca5_9FBA_F5DADFEC2479" end="EAID_3B368A8E_3A6E_4141_BDD2_F3FF8A1240A1"/>
-					<Connector xmi:id="EAID_3224FEF1_2767_4371_94ED_1F2F3912C86E" start="EAID_3B368A8E_3A6E_4141_BDD2_F3FF8A1240A1" end="EAID_3F65D9C7_4364_4ca5_9FBA_F5DADFEC2479"/>
+					<Connector xmi:id="EAID_F49572FF_6CC5_4e9a_ABBA_EF6096547DAC" start="EAID_3F65D9C7_4364_4ca5_9FBA_F5DADFEC2479" end="EAID_3B368A8E_3A6E_4141_BDD2_F3FF8A1240A1"/>
+					<Connector xmi:id="EAID_9CAEFE8A_EF99_4037_B57B_0EC6C5D0A00B" start="EAID_3B368A8E_3A6E_4141_BDD2_F3FF8A1240A1" end="EAID_3F65D9C7_4364_4ca5_9FBA_F5DADFEC2479"/>
 				</links>
 			</element>
 			<element xmi:idref="EAID_3B368A8E_3A6E_4141_BDD2_F3FF8A1240A1" xmi:type="uml:Part" name="FlightCrew" scope="public">
@@ -222,9 +222,9 @@
 				<xrefs value="$XREFPROP=$XID={D43811D8-DA16-47ca-A68E-4195A1B661DC}$XID;$NAM=CustomProperties$NAM;$TYP=element property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@PROP=@NAME=_connectorRef@ENDNAME;@TYPE=string@ENDTYPE;@VALU=&lt;SOURCE&gt;@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;@PROP=@NAME=isReference@ENDNAME;@TYPE=boolean@ENDTYPE;@VALU=0@ENDVALU;@PRMT=@ENDPRMT;@ENDPROP;$DES;$CLT={3B368A8E-3A6E-4141-BDD2-F3FF8A1240A1}$CLT;$SUP={D0D34F97-8BCC-4b16-81B6-B726A10CE48A}$SUP;$ENDXREF;"/>
 				<extendedProperties tagged="0" package_name="Package1" multiplicity="0..1" propertyType="{19D720E4-F3C6-4a37-97AB-400029BE4A53}"/>
 				<links>
-					<Connector xmi:id="EAID_3224FEF1_2767_4371_94ED_1F2F3912C86E" start="EAID_3B368A8E_3A6E_4141_BDD2_F3FF8A1240A1" end="EAID_3F65D9C7_4364_4ca5_9FBA_F5DADFEC2479"/>
+					<Connector xmi:id="EAID_9CAEFE8A_EF99_4037_B57B_0EC6C5D0A00B" start="EAID_3B368A8E_3A6E_4141_BDD2_F3FF8A1240A1" end="EAID_3F65D9C7_4364_4ca5_9FBA_F5DADFEC2479"/>
 					<Dependency xmi:id="EAID_E0C93FF3_FD2E_4721_9CAF_D625701CBB77" start="EAID_3B368A8E_3A6E_4141_BDD2_F3FF8A1240A1" end="EAID_B541A5E9_E386_453d_A703_58701E37814B"/>
-					<Connector xmi:id="EAID_C45CDB3E_4EFE_4537_B7CD_642EE1857F5B" start="EAID_3F65D9C7_4364_4ca5_9FBA_F5DADFEC2479" end="EAID_3B368A8E_3A6E_4141_BDD2_F3FF8A1240A1"/>
+					<Connector xmi:id="EAID_F49572FF_6CC5_4e9a_ABBA_EF6096547DAC" start="EAID_3F65D9C7_4364_4ca5_9FBA_F5DADFEC2479" end="EAID_3B368A8E_3A6E_4141_BDD2_F3FF8A1240A1"/>
 				</links>
 			</element>
 			<element xmi:idref="EAID_19D720E4_F3C6_4a37_97AB_400029BE4A53" xmi:type="uml:Class" name="Controller" scope="public">
@@ -346,14 +346,14 @@
 				<xrefs/>
 				<tags/>
 			</connector>
-			<connector xmi:idref="EAID_C45CDB3E_4EFE_4537_B7CD_642EE1857F5B" name="change altitude">
+			<connector xmi:idref="EAID_F49572FF_6CC5_4e9a_ABBA_EF6096547DAC" name="altitude">
 				<source xmi:idref="EAID_3F65D9C7_4364_4ca5_9FBA_F5DADFEC2479">
 					<model ea_localid="7" type="Part" name="Flight"/>
 					<role visibility="Public" targetScope="instance"/>
 					<type aggregation="none" containment="Unspecified"/>
 					<constraints/>
 					<modifiers isOrdered="false" changeable="none" isNavigable="false"/>
-					<style value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
+					<style value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Unspecified;"/>
 					<documentation/>
 					<xrefs/>
 					<tags/>
@@ -364,30 +364,30 @@
 					<type aggregation="none" containment="Unspecified"/>
 					<constraints/>
 					<modifiers isOrdered="false" changeable="none" isNavigable="true"/>
-					<style value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Non-Navigable;"/>
+					<style value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
 					<documentation/>
 					<xrefs/>
 					<tags/>
 				</target>
-				<model ea_localid="5"/>
-				<properties ea_type="Connector" direction="Destination -&gt; Source"/>
+				<model ea_localid="10"/>
+				<properties ea_type="Connector" stereotype="Feedback" direction="Source -&gt; Destination"/>
 				<modifiers isRoot="false" isLeaf="false"/>
 				<documentation/>
 				<appearance linemode="3" linecolor="-1" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
-				<labels mb=" &#xA;첖ontrolAction�" mt="change altitude"/>
-				<extendedProperties conditional=" &#xA;첖ontrolAction�" virtualInheritance="0"/>
+				<labels mb=" &#xA;첛eedback�" mt="altitude"/>
+				<extendedProperties conditional=" &#xA;첛eedback�" virtualInheritance="0"/>
 				<style/>
-				<xrefs value="$XREFPROP=$XID={CE3A2DC4-42E5-4f2b-8B3A-B86433E93831}$XID;$NAM=Stereotypes$NAM;$TYP=connector property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=ControlAction;GUID={B2BC21C7-34AC-4ec7-A8A8-980730EB8044};@ENDSTEREO;$DES;$CLT={C45CDB3E-4EFE-4537-B7CD-642EE1857F5B}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+				<xrefs value="$XREFPROP=$XID={B6F6D49D-6F6C-4d9e-871A-0F86FEE37836}$XID;$NAM=Stereotypes$NAM;$TYP=connector property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=Feedback;GUID={B94FD32E-8510-41c0-A06A-5E91F7DDA309};@ENDSTEREO;$DES;$CLT={F49572FF-6CC5-4e9a-ABBA-EF6096547DAC}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
 				<tags/>
 			</connector>
-			<connector xmi:idref="EAID_3224FEF1_2767_4371_94ED_1F2F3912C86E" name="altitude">
+			<connector xmi:idref="EAID_9CAEFE8A_EF99_4037_B57B_0EC6C5D0A00B" name="change altitude">
 				<source xmi:idref="EAID_3B368A8E_3A6E_4141_BDD2_F3FF8A1240A1">
 					<model ea_localid="9" type="Part" name="FlightCrew"/>
 					<role visibility="Public" targetScope="instance"/>
 					<type aggregation="none" containment="Unspecified"/>
 					<constraints/>
 					<modifiers isOrdered="false" changeable="none" isNavigable="false"/>
-					<style value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
+					<style value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Unspecified;"/>
 					<documentation/>
 					<xrefs/>
 					<tags/>
@@ -398,20 +398,20 @@
 					<type aggregation="none" containment="Unspecified"/>
 					<constraints/>
 					<modifiers isOrdered="false" changeable="none" isNavigable="true"/>
-					<style value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Non-Navigable;"/>
+					<style value="Union=0;Derived=0;AllowDuplicates=0;Owned=0;Navigable=Navigable;"/>
 					<documentation/>
 					<xrefs/>
 					<tags/>
 				</target>
-				<model ea_localid="6"/>
-				<properties ea_type="Connector" stereotype="Feedback" direction="Destination -&gt; Source"/>
+				<model ea_localid="9"/>
+				<properties ea_type="Connector" stereotype="ControlAction" direction="Source -&gt; Destination"/>
 				<modifiers isRoot="false" isLeaf="false"/>
 				<documentation/>
 				<appearance linemode="3" linecolor="-1" linewidth="0" seqno="0" headStyle="0" lineStyle="0"/>
-				<labels mb=" &#xA;첛eedback�" mt="altitude"/>
-				<extendedProperties conditional=" &#xA;첛eedback�" virtualInheritance="0"/>
+				<labels mb=" &#xA;첖ontrolAction�" mt="change altitude"/>
+				<extendedProperties conditional=" &#xA;첖ontrolAction�" virtualInheritance="0"/>
 				<style/>
-				<xrefs value="$XREFPROP=$XID={4E9836A6-63F6-4a60-AB92-37B39AF389E7}$XID;$NAM=Stereotypes$NAM;$TYP=connector property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=Feedback;GUID={B94FD32E-8510-41c0-A06A-5E91F7DDA309};@ENDSTEREO;$DES;$CLT={3224FEF1-2767-4371-94ED-1F2F3912C86E}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
+				<xrefs value="$XREFPROP=$XID={CE06CC4D-EF60-4ab2-AC4A-2FFBFCEE688E}$XID;$NAM=Stereotypes$NAM;$TYP=connector property$TYP;$VIS=Public$VIS;$PAR=0$PAR;$DES=@STEREO;Name=ControlAction;GUID={B2BC21C7-34AC-4ec7-A8A8-980730EB8044};@ENDSTEREO;$DES;$CLT={9CAEFE8A-EF99-4037-B57B-0EC6C5D0A00B}$CLT;$SUP=&lt;none&gt;$SUP;$ENDXREF;"/>
 				<tags/>
 			</connector>
 			<connector xmi:idref="EAID_E0C93FF3_FD2E_4721_9CAF_D625701CBB77">
@@ -499,9 +499,9 @@
 			<diagram xmi:id="EAID_83031FC1_887E_45a9_84B0_CB98496B1D8F">
 				<model package="EAPK_06157930_9823_4514_8BB5_5EB901801FB6" localID="2" owner="EAPK_06157930_9823_4514_8BB5_5EB901801FB6" parent="EAID_ACB6759F_7ED5_4f8b_8840_07E5555B4EA6"/>
 				<properties name="IBD" type="CompositeStructure"/>
-				<project author="andrej" version="1.0" created="2024-05-14 13:33:55" modified="2024-05-14 14:04:25"/>
+				<project author="andrej" version="1.0" created="2024-05-14 13:33:55" modified="2024-06-13 17:16:03"/>
 				<style1 value="ShowPrivate=1;ShowProtected=1;ShowPublic=1;HideRelationships=0;Locked=0;Border=1;HighlightForeign=1;PackageContents=1;SequenceNotes=0;ScalePrintImage=0;PPgs.cx=0;PPgs.cy=0;DocSize.cx=826;DocSize.cy=1169;ShowDetails=0;Orientation=P;Zoom=100;ShowTags=0;OpParams=1;VisibleAttributeDetail=0;ShowOpRetType=1;ShowIcons=1;CollabNums=0;HideProps=0;ShowReqs=0;ShowCons=0;PaperSize=9;HideParents=0;UseAlias=0;HideAtts=0;HideOps=0;HideStereo=0;HideElemStereo=0;ShowTests=0;ShowMaint=0;ConnectorNotation=UML 2.1;ExplicitNavigability=0;ShowShape=1;AllDockable=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;m_bElementClassifier=1;SPT=1;ShowNotes=0;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;"/>
-				<style2 value="ExcludeRTF=0;DocAll=0;HideQuals=0;AttPkg=1;ShowTests=0;ShowMaint=0;SuppressFOC=1;MatrixActive=0;SwimlanesActive=1;KanbanActive=0;MatrixLineWidth=1;MatrixLineClr=0;MatrixLocked=0;TConnectorNotation=UML 2.1;TExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;m_bElementClassifier=1;SPT=1;MDGDgm=SysML1.4::InternalBlock;STBLDgm=;ShowNotes=0;OPTIONS_DF4361F0=CCOMP_satisfies=0:;VisibleAttributeDetail=0;ShowOpRetType=1;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;SuppressedCompartments=;SF=1;Theme=:119;SaveTag=ABD8356F;"/>
+				<style2 value="ExcludeRTF=0;DocAll=0;HideQuals=0;AttPkg=1;ShowTests=0;ShowMaint=0;SuppressFOC=1;MatrixActive=0;SwimlanesActive=1;KanbanActive=0;MatrixLineWidth=1;MatrixLineClr=0;MatrixLocked=0;TConnectorNotation=UML 2.1;TExplicitNavigability=0;AdvancedElementProps=1;AdvancedFeatureProps=1;AdvancedConnectorProps=1;m_bElementClassifier=1;SPT=1;MDGDgm=SysML1.4::InternalBlock;STBLDgm=;ShowNotes=0;OPTIONS_DF4361F0=CCOMP_satisfies=0:;VisibleAttributeDetail=0;ShowOpRetType=1;SuppressBrackets=0;SuppConnectorLabels=0;PrintPageHeadFoot=0;ShowAsList=0;SuppressedCompartments=;SF=1;Theme=:119;SaveTag=EE138E2C;"/>
 				<swimlanes value="locked=false;orientation=0;width=0;inbar=false;names=false;color=0;bold=false;fcol=0;tcol=12370374;ofCol=-1;ufCol=-1;hl=1;ufh=0;hh=0;cls=0;bw=0;hli=0;bro=1;SwimlaneFont=lfh:-10,lfw:0,lfi:0,lfu:0,lfs:0,lfface:Carlito,lfe:0,lfo:0,lfchar:1,lfop:0,lfcp:0,lfq:0,lfpf=0,lfWidth=0;"/>
 				<matrixitems value="locked=false;matrixactive=false;swimlanesactive=true;kanbanactive=false;width=1;clrLine=0;"/>
 				<extendedProperties/>
@@ -509,8 +509,8 @@
 					<element geometry="Left=77;Top=57;Right=189;Bottom=113;" subject="EAID_3B368A8E_3A6E_4141_BDD2_F3FF8A1240A1" seqno="1" style="DUID=DF4361F0;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
 					<element geometry="Left=77;Top=180;Right=203;Bottom=236;" subject="EAID_3F65D9C7_4364_4ca5_9FBA_F5DADFEC2479" seqno="2" style="DUID=CF092E04;NSL=0;BCol=-1;BFol=-1;LCol=-1;LWth=-1;fontsz=0;bold=0;black=0;italic=0;ul=0;charset=0;pitch=0;"/>
 					<element geometry="Left=20;Top=20;Right=240;Bottom=273;" subject="EAID_ACB6759F_7ED5_4f8b_8840_07E5555B4EA6" seqno="3" style=" DUID=8E6A9795;NSL=1;"/>
-					<element geometry="SX=56;SY=28;EX=12;EY=2;EDGE=3;$LLB=;LLT=;LMT=CX=31:CY=14:OX=0:OY=15:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=1:DIR=0:ROT=0;LMB=CX=50:CY=14:OX=3:OY=-16:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=1:DIR=0:ROT=0;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_3224FEF1_2767_4371_94ED_1F2F3912C86E" style="Mode=3;EOID=CF092E04;SOID=DF4361F0;Color=-1;LWidth=0;TREE=OS;Hidden=0;"/>
-					<element geometry="SX=-22;SY=-4;EX=-22;EY=-4;EDGE=1;$LLB=;LLT=;LMT=CX=62:CY=14:OX=-1:OY=11:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=1:DIR=0:ROT=0;LMB=CX=64:CY=14:OX=-2:OY=-17:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=1:DIR=0:ROT=0;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_C45CDB3E_4EFE_4537_B7CD_642EE1857F5B" style="Mode=3;EOID=DF4361F0;SOID=CF092E04;Color=-1;LWidth=0;TREE=OS;Hidden=0;"/>
+					<element geometry="SX=22;SY=1;EX=22;EY=1;EDGE=1;$LLB=;LLT=;LMT=CX=31:CY=14:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=1:DIR=0:ROT=0;LMB=CX=50:CY=14:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=1:DIR=0:ROT=0;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_F49572FF_6CC5_4e9a_ABBA_EF6096547DAC" style="Mode=3;EOID=DF4361F0;SOID=CF092E04;Color=-1;LWidth=0;TREE=OS;Hidden=0;"/>
+					<element geometry="SX=-32;SY=-2;EX=-37;EY=-2;EDGE=3;$LLB=;LLT=;LMT=CX=62:CY=14:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=1:DIR=0:ROT=0;LMB=CX=64:CY=14:OX=0:OY=0:HDN=0:BLD=0:ITA=0:UND=0:CLR=-1:ALN=1:DIR=0:ROT=0;LRT=;LRB=;IRHS=;ILHS=;Path=;" subject="EAID_9CAEFE8A_EF99_4037_B57B_0EC6C5D0A00B" style="Mode=3;EOID=CF092E04;SOID=DF4361F0;Color=-1;LWidth=0;TREE=OS;Hidden=0;"/>
 				</elements>
 			</diagram>
 			<diagram xmi:id="EAID_B1AEC615_84EF_41af_82C5_20FC1AE8E075">
@@ -532,8 +532,8 @@
 		</diagrams>
 	</xmi:Extension>
 	<SysML:block base_Class="EAID_ACB6759F_7ED5_4f8b_8840_07E5555B4EA6"/>
-	<thecustomprofile:ControlAction base_Connector="EAID_C45CDB3E_4EFE_4537_B7CD_642EE1857F5B"/>
-	<thecustomprofile:Feedback base_Connector="EAID_3224FEF1_2767_4371_94ED_1F2F3912C86E"/>
+	<thecustomprofile:Feedback base_Connector="EAID_F49572FF_6CC5_4e9a_ABBA_EF6096547DAC"/>
+	<thecustomprofile:ControlAction base_Connector="EAID_9CAEFE8A_EF99_4037_B57B_0EC6C5D0A00B"/>
 	<SysML:satisfy base_Dependency="EAID_E0C93FF3_FD2E_4721_9CAF_D625701CBB77"/>
 	<SysML:block base_Class="EAID_19D720E4_F3C6_4a37_97AB_400029BE4A53"/>
 	<SysML:block base_Class="EAID_1DECC108_F4C3_4c97_9F83_728C50955754"/>

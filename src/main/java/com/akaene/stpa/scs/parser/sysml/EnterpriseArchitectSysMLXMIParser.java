@@ -2,6 +2,12 @@ package com.akaene.stpa.scs.parser.sysml;
 
 import com.akaene.stpa.scs.exception.ControlStructureParserException;
 import com.akaene.stpa.scs.model.Model;
+import com.akaene.stpa.scs.model.Stereotype;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.FeatureMap;
+import org.eclipse.emf.ecore.xml.type.AnyType;
+import org.eclipse.uml2.uml.resource.XMI2UMLResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,6 +29,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Control structure parser supporting SysML XMI artifacts produced by Enterprise Architect.
@@ -41,6 +53,45 @@ public class EnterpriseArchitectSysMLXMIParser extends EMFSysMLXMIParser {
         } finally {
             transformedInput.delete();
         }
+    }
+
+    @Override
+    protected EnterpriseArchitectParsingState initParsingState(XMI2UMLResource resource) {
+        return new EnterpriseArchitectParsingState(resource);
+    }
+
+    @Override
+    protected void extractStereotypes(Resource xmi, ParsingState state) {
+        xmi.getContents().stream().filter(e -> e instanceof AnyType)
+           .filter(e -> {
+               final AnyType anyType = (AnyType) e;
+               final FeatureMap features = anyType.getAnyAttribute();
+               return features.stream().anyMatch(f -> f.getEStructuralFeature().getName().equals("base_Connector"));
+           }).forEach(e -> {
+               final AnyType anyType = (AnyType) e;
+               final FeatureMap features = anyType.getAnyAttribute();
+               features.stream().filter(f -> f.getEStructuralFeature().getName().equals("base_Connector")).map(
+                       FeatureMap.Entry::getValue).findAny().ifPresent(f -> {
+                   final String name = e.eClass().getName();
+                   final Stereotype stereotype = ((EnterpriseArchitectParsingState) state).stereotypesByName.computeIfAbsent(
+                           name, n -> {
+                               final Stereotype s = new Stereotype(n);
+                               state.result.addStereotype(s);
+                               return s;
+                           });
+                   ((EnterpriseArchitectParsingState) state).idToStereotype.computeIfAbsent(f.toString(),
+                                                                                            (k) -> new ArrayList<>())
+                                                                           .add(stereotype);
+               });
+           });
+    }
+
+    @Override
+    protected Collection<Stereotype> getElementStereotypes(EObject element, ParsingState state) {
+        final String id = state.resource.getID(element);
+        return id != null ?
+               ((EnterpriseArchitectParsingState) state).idToStereotype.getOrDefault(id, Collections.emptyList()) :
+               Collections.emptyList();
     }
 
     public static boolean isEnterpriseArchitectFile(File input) {
@@ -89,6 +140,17 @@ public class EnterpriseArchitectSysMLXMIParser extends EMFSysMLXMIParser {
         } catch (IOException e) {
             LOG.error("Unable to create transformation target file.", e);
             throw new ControlStructureParserException("Unable to transform Enterprise Architect file.", e);
+        }
+    }
+
+    protected static class EnterpriseArchitectParsingState extends ParsingState {
+
+        private final Map<String, Stereotype> stereotypesByName = new HashMap<>();
+        // Stereotype -> referenced elements
+        private final Map<String, List<Stereotype>> idToStereotype = new HashMap<>();
+
+        protected EnterpriseArchitectParsingState(XMI2UMLResource resource) {
+            super(resource);
         }
     }
 }
