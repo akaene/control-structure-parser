@@ -66,6 +66,7 @@ public class GraphMLParser implements ControlStructureParser {
                                                  final String id = n.id();
                                                  final String label = n.select("y|NodeLabel").stream()
                                                                        .map(e -> e.text().trim())
+                                                                       .filter(s -> !s.isEmpty())
                                                                        .collect(Collectors.joining(" "))
                                                                        .replace('\n', ' ');
                                                  return new Node(id, label, new Component(label, id, null));
@@ -85,7 +86,8 @@ public class GraphMLParser implements ControlStructureParser {
                 return;
             }
             final Elements labels = e.select("y|EdgeLabel");
-            final String label = labels.stream().map(l -> l.wholeText().trim()).collect(Collectors.joining("\n"));
+            final String label = labels.stream().map(l -> l.wholeText().trim()).filter(s -> !s.isEmpty())
+                                       .collect(Collectors.joining("\n"));
             final Optional<EdgeStereotype> stereotype = edgeToStereotype(e);
             final String[] items = label.split("\n");
             for (String labelItem : items) {
