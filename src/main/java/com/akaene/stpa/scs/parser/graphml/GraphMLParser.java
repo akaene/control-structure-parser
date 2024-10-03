@@ -4,6 +4,7 @@ import com.akaene.stpa.scs.exception.ControlStructureParserException;
 import com.akaene.stpa.scs.model.Component;
 import com.akaene.stpa.scs.model.Connector;
 import com.akaene.stpa.scs.model.ConnectorEnd;
+import com.akaene.stpa.scs.model.DiagramNode;
 import com.akaene.stpa.scs.model.Model;
 import com.akaene.stpa.scs.model.Stereotype;
 import com.akaene.stpa.scs.parser.ControlStructureParser;
@@ -69,10 +70,29 @@ public class GraphMLParser implements ControlStructureParser {
                                                                        .filter(s -> !s.isEmpty())
                                                                        .collect(Collectors.joining(" "))
                                                                        .replace('\n', ' ');
-                                                 return new Node(id, label, new Component(label, id, null));
+                                                 final Component component = new Component(label, id, null);
+                                                 component.setDiagramNode(extractDiagramNode(n));
+                                                 return new Node(id, label, component);
                                              }).toList();
         LOG.trace("Found {} nodes.", nodes.size());
         return nodes;
+    }
+
+    private DiagramNode extractDiagramNode(Element node) {
+        final Element geometry = node.select("y|Geometry").first();
+        if (geometry == null) {
+            return null;
+        }
+        try {
+            final float x = Float.parseFloat(geometry.attr("x"));
+            final float y = Float.parseFloat(geometry.attr("y"));
+            final float width = Float.parseFloat(geometry.attr("width"));
+            final float height = Float.parseFloat(geometry.attr("height"));
+            return new DiagramNode(Math.round(x), Math.round(y), Math.round(width), Math.round(height));
+        } catch (NumberFormatException e) {
+            LOG.error("Unable to extract geometry of node {}.", geometry, e);
+            return null;
+        }
     }
 
     private void readConnectors(ParsingState state, Document document) {

@@ -2,6 +2,7 @@ package com.akaene.stpa.scs.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Component implements Connectable, Stereotyped {
 
@@ -12,6 +13,8 @@ public class Component implements Connectable, Stereotyped {
     private final ComponentType type;
 
     private final List<Stereotype> stereotypes = new ArrayList<>();
+
+    private DiagramNode diagramNode;
 
     public Component(String name, String qualifiedName, ComponentType type) {
         this.name = name;
@@ -39,6 +42,14 @@ public class Component implements Connectable, Stereotyped {
     @Override
     public List<Stereotype> getStereotypes() {
         return stereotypes;
+    }
+
+    public Optional<DiagramNode> getDiagramNode() {
+        return Optional.ofNullable(diagramNode);
+    }
+
+    public void setDiagramNode(DiagramNode diagramNode) {
+        this.diagramNode = diagramNode;
     }
 
     @Override
