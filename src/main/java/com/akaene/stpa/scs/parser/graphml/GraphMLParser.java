@@ -1,10 +1,7 @@
 package com.akaene.stpa.scs.parser.graphml;
 
 import com.akaene.stpa.scs.exception.ControlStructureParserException;
-import com.akaene.stpa.scs.model.Component;
 import com.akaene.stpa.scs.model.Connector;
-import com.akaene.stpa.scs.model.ConnectorEnd;
-import com.akaene.stpa.scs.model.DiagramNode;
 import com.akaene.stpa.scs.model.Model;
 import com.akaene.stpa.scs.model.Stereotype;
 import com.akaene.stpa.scs.parser.ControlStructureParser;
@@ -12,7 +9,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
-import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,8 +18,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Control structure parser for GraphML files (produced by yEd).
@@ -47,8 +41,9 @@ public class GraphMLParser implements ControlStructureParser {
         LOG.debug("Parsing input using {}.", getClass().getSimpleName());
         final Document document = readDocument(input);
         final ParsingState state = new ParsingState();
-        readNodes(document).forEach(n -> state.nodes.put(n.id(), n));
-        readConnectors(state, document);
+        final SourceType sourceType = resolveSourceType(document);
+        readNodes(document, sourceType).forEach(n -> state.nodes.put(n.id(), n));
+        readConnectors(state, document, sourceType).forEach(state.result::addConnector);
         return state.result;
     }
 
@@ -60,75 +55,32 @@ public class GraphMLParser implements ControlStructureParser {
         }
     }
 
-    private List<Node> readNodes(Document document) {
-        final Elements nodeElements = document.select("node");
-        final List<Node> nodes = nodeElements.stream().filter(n -> !n.select("y|Shape[type=\"rectangle\"]").isEmpty())
-                                             .map(n -> {
-                                                 final String id = n.id();
-                                                 final String label = n.select("y|NodeLabel").stream()
-                                                                       .map(e -> e.text().trim())
-                                                                       .filter(s -> !s.isEmpty())
-                                                                       .collect(Collectors.joining(" "))
-                                                                       .replace('\n', ' ');
-                                                 final Component component = new Component(label, id, null);
-                                                 component.setDiagramNode(extractDiagramNode(n));
-                                                 return new Node(id, label, component);
-                                             }).toList();
+    private SourceType resolveSourceType(Document document) {
+        final Element jsonNode = document.select("graph y|Json").first();
+        if (jsonNode == null) {
+            return SourceType.DESKTOP;
+        }
+        return jsonNode.text().contains("yed-live") ? SourceType.ONLINE : SourceType.DESKTOP;
+    }
+
+    private List<Node> readNodes(Document document, SourceType sourceType) {
+        final GraphMLReader reader = switch (sourceType) {
+            case DESKTOP -> new DesktopGraphMLReader();
+            case ONLINE -> new OnlineGraphMLReader();
+        };
+        final List<Node> nodes = reader.readNodes(document);
         LOG.trace("Found {} nodes.", nodes.size());
         return nodes;
     }
 
-    private DiagramNode extractDiagramNode(Element node) {
-        final Element geometry = node.select("y|Geometry").first();
-        if (geometry == null) {
-            return null;
-        }
-        try {
-            final float x = Float.parseFloat(geometry.attr("x"));
-            final float y = Float.parseFloat(geometry.attr("y"));
-            final float width = Float.parseFloat(geometry.attr("width"));
-            final float height = Float.parseFloat(geometry.attr("height"));
-            return new DiagramNode(Math.round(x), Math.round(y), Math.round(width), Math.round(height));
-        } catch (NumberFormatException e) {
-            LOG.error("Unable to extract geometry of node {}.", geometry, e);
-            return null;
-        }
-    }
-
-    private void readConnectors(ParsingState state, Document document) {
-        final Elements edges = document.select("edge");
-        edges.forEach(e -> {
-            final String id = e.id();
-            final Node source = state.nodes.get(e.attr("source"));
-            final Node target = state.nodes.get(e.attr("target"));
-            if (source == null || target == null) {
-                LOG.error("Edge {} is missing resolved source or target node.", id);
-                return;
-            }
-            final Elements labels = e.select("y|EdgeLabel");
-            final String label = labels.stream().map(l -> l.wholeText().trim()).filter(s -> !s.isEmpty())
-                                       .collect(Collectors.joining("\n"));
-            final Optional<EdgeStereotype> stereotype = edgeToStereotype(e);
-            final String[] items = label.split("\n");
-            for (String labelItem : items) {
-                final Connector connector = new Connector(labelItem, id,
-                                                          new ConnectorEnd(source.component(), null, null, null),
-                                                          new ConnectorEnd(target.component(), null, null, null));
-                stereotype.ifPresent(s -> connector.addStereotype(s.getStereotype()));
-                state.result.addConnector(connector);
-            }
-        });
-    }
-
-    private Optional<EdgeStereotype> edgeToStereotype(Element edge) {
-        final String lineType = edge.select("y|LineStyle").attr("type");
-        for (EdgeStereotype stereotype : EdgeStereotype.values()) {
-            if (stereotype.getEdgeType().equals(lineType)) {
-                return Optional.of(stereotype);
-            }
-        }
-        LOG.debug("Edge {} is of no matching stereotyped type.", edge);
-        return Optional.empty();
+    private List<Connector> readConnectors(ParsingState state, Document document, SourceType sourceType) {
+        final GraphMLReader reader = switch (sourceType) {
+            case DESKTOP -> new DesktopGraphMLReader();
+            case ONLINE -> new OnlineGraphMLReader();
+        };
+        final List<Connector> connectors = reader.readConnectors(state, document);
+        LOG.trace("Found {} connectors.", connectors.size());
+        return connectors;
     }
 
     @Override
@@ -136,24 +88,20 @@ public class GraphMLParser implements ControlStructureParser {
         return input.exists() && input.getName().endsWith(FILE_EXTENSION);
     }
 
-    private record Node(String id, String label, Component component) {
+    private enum SourceType {
+        DESKTOP, ONLINE
     }
 
-    private enum EdgeStereotype {
+    enum EdgeStereotype {
 
-        ControlAction("line", "ControlAction"), Feedback("dashed", "Feedback"),
-        AdditionalInfo("dotted", "AdditionalControlInformation");
+        ControlAction("ControlAction"),
+        Feedback("Feedback"),
+        AdditionalInfo("AdditionalControlInformation");
 
-        private final String edgeType;
         private final Stereotype stereotype;
 
-        EdgeStereotype(String edgeType, String stereotype) {
-            this.edgeType = edgeType;
+        EdgeStereotype(String stereotype) {
             this.stereotype = new Stereotype(stereotype);
-        }
-
-        public String getEdgeType() {
-            return edgeType;
         }
 
         public Stereotype getStereotype() {
@@ -161,11 +109,11 @@ public class GraphMLParser implements ControlStructureParser {
         }
     }
 
-    private static class ParsingState {
+    static class ParsingState {
 
-        private final Model result = new Model();
+        final Model result = new Model();
 
-        private final Map<String, Node> nodes = new HashMap<>();
+        final Map<String, Node> nodes = new HashMap<>();
 
         private ParsingState() {
             for (EdgeStereotype es : EdgeStereotype.values()) {
