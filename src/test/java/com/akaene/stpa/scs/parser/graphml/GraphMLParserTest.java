@@ -11,6 +11,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.File;
+import java.net.URISyntaxException;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -27,7 +28,7 @@ class GraphMLParserTest {
     @ParameterizedTest
     @MethodSource("sampleFileTypes")
     void supportsReturnsTrueForSupportedFiles(String file, boolean supports) throws Exception {
-        final File input = new File(getClass().getClassLoader().getResource(file).toURI());
+        final File input = getInput(file);
         assertEquals(supports, sut.supports(input));
     }
 
@@ -39,9 +40,13 @@ class GraphMLParserTest {
         );
     }
 
+    private static File getInput(String path) throws URISyntaxException {
+        return new File(GraphMLParserTest.class.getClassLoader().getResource(path).toURI());
+    }
+
     @Test
     void parserHandlesSimpleGraphMLFile() throws Exception {
-        final File input = new File(getClass().getClassLoader().getResource("simple-model.graphml").toURI());
+        final File input = getInput("simple-model.graphml");
         final Model result = sut.parse(input);
         assertNotNull(result);
         verifyConnector(result, "change altitude", "FlightCrew", "Flight", new Stereotype("ControlAction"));
@@ -59,8 +64,7 @@ class GraphMLParserTest {
 
     @Test
     void parseHandlesGraphMLFileWithMultipleActionsAndFeedbacksOnOneEdge() throws Exception {
-        final File input = new File(
-                getClass().getClassLoader().getResource("model-compound-actions-feedback.graphml").toURI());
+        final File input = getInput("model-compound-actions-feedback.graphml");
         final Model result = sut.parse(input);
         assertNotNull(result);
         verifyConnector(result, "change altitude", "FlightCrew", "Flight", new Stereotype("ControlAction"));
@@ -72,8 +76,7 @@ class GraphMLParserTest {
 
     @Test
     void parseHandlesAdditionalControlInfoConnectors() throws Exception {
-        final File input = new File(
-                getClass().getClassLoader().getResource("model-compound-actions-feedback.graphml").toURI());
+        final File input = getInput("model-compound-actions-feedback.graphml");
         final Model result = sut.parse(input);
         assertNotNull(result);
         verifyConnector(result, "weather and traffic info", "ANS", "FlightCrew",
@@ -82,7 +85,7 @@ class GraphMLParserTest {
 
     @Test
     void parseExtractsNodePositionAndSizeInformationFromFile() throws Exception {
-        final File input = new File(getClass().getClassLoader().getResource("simple-model.graphml").toURI());
+        final File input = getInput("simple-model.graphml");
         final Model result = sut.parse(input);
         final Optional<Connector> connector = result.getConnectors().stream()
                                                     .filter(c -> c.getName().equals("change altitude")).findAny();
@@ -102,5 +105,19 @@ class GraphMLParserTest {
         assertEquals(391, flightNode.getY());
         assertEquals(139, flightNode.getWidth());
         assertEquals(47, flightNode.getHeight());
+    }
+
+    /**
+     * When diagrams are created using yEd Live (online tool), the nodes have ports through which edges are connected to
+     * them.
+     */
+    @Test
+    void parseExtractsNodesAndEdgesWhenDiagramUsesPorts() throws Exception {
+        final File input = getInput("simple-model-yed-live.graphml");
+        final Model result = sut.parse(input);
+        assertNotNull(result);
+        verifyConnector(result, "Control action", "Source with ports", "Target with ports",
+                        new Stereotype("ControlAction"));
+        verifyConnector(result, "Feedback", "Target with ports", "Source with ports", new Stereotype("Feedback"));
     }
 }
