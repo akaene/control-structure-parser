@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Reads nodes from GraphML files produced by yEd Live (online version of yEd).
@@ -26,8 +27,7 @@ public class OnlineGraphMLReader extends GraphMLReader {
                            .filter(el -> !el.select("yjs|ShapeNodeStyle").not("[shape]").isEmpty())
                            .map(n -> {
                                final String id = n.id();
-                               final String label = n.select("y|Label").stream()
-                                                     .map(e -> e.attr("TExt").trim())
+                               final String label = selectLabelContent(n)
                                                      .filter(s -> !s.isEmpty())
                                                      .collect(Collectors.joining(" "))
                                                      .replace('\n', ' ');
@@ -35,6 +35,14 @@ public class OnlineGraphMLReader extends GraphMLReader {
                                component.setDiagramNode(extractDiagramNode(n));
                                return new Node(id, label, component);
                            }).toList();
+    }
+
+    private static Stream<String> selectLabelContent(Element node) {
+        final Elements labelTexts = node.select("> data > x|List > y|Label > y|Label\\.Text");
+        if (!labelTexts.isEmpty()) {
+            return labelTexts.stream().map(e -> e.text().trim());
+        }
+        return node.select("> data > x|List > y|Label").stream().map(e -> e.attr("Text").trim());
     }
 
     private DiagramNode extractDiagramNode(Element node) {
@@ -56,9 +64,7 @@ public class OnlineGraphMLReader extends GraphMLReader {
 
     @Override
     List<String> getLabelItems(Element edge) {
-        final Elements labels = edge.select("y|Label");
-        final String label = labels.stream().map(l -> l.attr("Text").trim()).filter(s -> !s.isEmpty())
-                                   .collect(Collectors.joining("\n"));
+        final String label = selectLabelContent(edge).filter(s -> !s.isEmpty()).collect(Collectors.joining("\n"));
         return List.of(label.split("\n"));
     }
 
@@ -74,6 +80,8 @@ public class OnlineGraphMLReader extends GraphMLReader {
                 return Optional.of(GraphMLParser.EdgeStereotype.Feedback);
             case "Dot":
                 return Optional.of(GraphMLParser.EdgeStereotype.AdditionalInfo);
+            case "":
+                return Optional.of(GraphMLParser.EdgeStereotype.ControlAction);
         }
         LOG.debug("Edge {} is of no matching stereotyped type.", edge);
         return Optional.empty();
