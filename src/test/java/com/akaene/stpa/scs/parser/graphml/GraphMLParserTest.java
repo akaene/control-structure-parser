@@ -120,4 +120,20 @@ class GraphMLParserTest {
                         new Stereotype("ControlAction"));
         verifyConnector(result, "Feedback", "Target with ports", "Source with ports", new Stereotype("Feedback"));
     }
+
+    @Test
+    void parseExtractsNodesAndEdgesFromYedLiveOutputWithSubgraphs() throws Exception {
+        final File input = getInput("model-with-subgraphs-yed-live.graphml");
+        final Model result = sut.parse(input);
+        assertNotNull(result);
+        final Stereotype controlAction = new Stereotype("ControlAction");
+        verifyConnector(result, "Take videos, pictures", "Flight Control & Monitoring System", "Payload",
+                        controlAction);
+        verifyConnector(result, "Power up/down", "Flight Control & Monitoring System", "Propulsion System",
+                        controlAction);
+        verifyConnector(result, "Flying Commands (Position, speed, orientation)", "Remote Control",
+                        "Flight Control & Monitoring System", controlAction);
+        verifyConnector(result, "Mission Commands (Videos, pictures); Manual drone commands override", "Remote Control",
+                        "Flight Control & Monitoring System", controlAction);
+    }
 }
