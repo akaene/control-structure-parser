@@ -41,6 +41,7 @@ class GraphMLParserTest {
     }
 
     private static File getInput(String path) throws URISyntaxException {
+        assert GraphMLParserTest.class.getClassLoader().getResource(path) != null;
         return new File(GraphMLParserTest.class.getClassLoader().getResource(path).toURI());
     }
 
@@ -135,5 +136,26 @@ class GraphMLParserTest {
                         "Flight Control & Monitoring System", controlAction);
         verifyConnector(result, "Mission Commands (Videos, pictures); Manual drone commands override", "Remote Control",
                         "Flight Control & Monitoring System", controlAction);
+    }
+
+    @Test
+    void parseExtractsNodesWithParentNodesFromYedLiveOutput() throws Exception {
+        final File input = getInput("model-with-subgraphs-yed-live.graphml");
+        final Model result = sut.parse(input);
+        assertNotNull(result);
+        Optional<Connector> connector = result.getConnectors().stream()
+                                              .filter(c -> "Remote Control".equals(c.getSource().type().name()))
+                                              .findAny();
+        assertTrue(connector.isPresent());
+        final Component drone = connector.get().getSource().type();
+        assertNotNull(drone.getParent());
+        assertEquals("AIDA System", drone.getParent().name());
+        connector = result.getConnectors().stream()
+                          .filter(c -> "Flight Control & Monitoring System".equals(c.getSource().type().name()))
+                          .findAny();
+        assertTrue(connector.isPresent());
+        final Component flightControl = connector.get().getSource().type();
+        assertNotNull(flightControl.getParent());
+        assertEquals("Drone", flightControl.getParent().name());
     }
 }

@@ -12,6 +12,8 @@ public class Component implements Connectable, Stereotyped {
 
     private final ComponentType type;
 
+    private Component parent;
+
     private final List<Stereotype> stereotypes = new ArrayList<>();
 
     private DiagramNode diagramNode;
@@ -50,6 +52,14 @@ public class Component implements Connectable, Stereotyped {
 
     public void setDiagramNode(DiagramNode diagramNode) {
         this.diagramNode = diagramNode;
+    }
+
+    public Component getParent() {
+        return parent;
+    }
+
+    public void setParent(Component parent) {
+        this.parent = parent;
     }
 
     @Override

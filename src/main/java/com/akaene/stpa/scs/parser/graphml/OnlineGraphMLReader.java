@@ -8,7 +8,10 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -23,18 +26,27 @@ public class OnlineGraphMLReader extends GraphMLReader {
     @Override
     List<Node> readNodes(Document document) {
         final Elements nodeElements = document.select("node");
-        return nodeElements.stream()
-                           .filter(el -> !el.select("yjs|ShapeNodeStyle").not("[shape]").isEmpty())
-                           .map(n -> {
-                               final String id = n.id();
-                               final String label = selectLabelContent(n)
-                                                     .filter(s -> !s.isEmpty())
-                                                     .collect(Collectors.joining(" "))
-                                                     .replace('\n', ' ');
-                               final Component component = new Component(label, id, null);
-                               component.setDiagramNode(extractDiagramNode(n));
-                               return new Node(id, label, component);
-                           }).toList();
+        final Map<String, Node> nodeMap = new HashMap<>(nodeElements.size());
+        nodeElements.stream()
+                    .filter(el -> !el.select("yjs|ShapeNodeStyle").not("[shape]").isEmpty())
+                    .map(n -> {
+                        final String id = n.id();
+                        final String label = selectLabelContent(n)
+                                .filter(s -> !s.isEmpty())
+                                .collect(Collectors.joining(" "))
+                                .replace('\n', ' ');
+                        final Component component = new Component(label, id, null);
+                        component.setDiagramNode(extractDiagramNode(n));
+                        return new Node(id, label, component);
+                    }).forEach(n -> nodeMap.put(n.id(), n));
+        nodeMap.forEach((id, node) -> {
+            if (node.id().contains("::")) {
+                // Everything but the last part is parent id
+                final String parentId = node.id().substring(0, node.id().lastIndexOf("::"));
+                node.component().setParent(nodeMap.get(parentId).component());
+            }
+        });
+        return new ArrayList<>(nodeMap.values());
     }
 
     private static Stream<String> selectLabelContent(Element node) {
