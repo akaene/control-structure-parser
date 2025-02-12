@@ -6,7 +6,7 @@
 
     <groupId>com.akaene.stpa</groupId>
     <artifactId>control-structure-parser</artifactId>
-    <version>0.0.10</version>
+    <version>0.0.11</version>
     <name>Control Structure Parser</name>
     <description>Safety control structure parser for STPA</description>
 
@@ -15,6 +15,8 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <org.junit.jupiter.version>5.11.4</org.junit.jupiter.version>
     </properties>
 
     <repositories>
@@ -116,13 +118,13 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.10.2</version>
+            <version>${org.junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
-            <version>5.10.2</version>
+            <version>${org.junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -134,7 +136,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.4.14</version>
+            <version>1.5.16</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
