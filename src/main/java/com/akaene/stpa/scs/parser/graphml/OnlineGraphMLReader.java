@@ -39,13 +39,7 @@ public class OnlineGraphMLReader extends GraphMLReader {
                         component.setDiagramNode(extractDiagramNode(n));
                         return new Node(id, label, component);
                     }).forEach(n -> nodeMap.put(n.id(), n));
-        nodeMap.forEach((id, node) -> {
-            if (node.id().contains("::")) {
-                // Everything but the last part is parent id
-                final String parentId = node.id().substring(0, node.id().lastIndexOf("::"));
-                node.component().setParent(nodeMap.get(parentId).component());
-            }
-        });
+        connectChildrenToParents(nodeMap);
         return new ArrayList<>(nodeMap.values());
     }
 

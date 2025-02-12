@@ -8,7 +8,11 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -21,18 +25,38 @@ class DesktopGraphMLReader extends GraphMLReader {
 
     public List<Node> readNodes(Document document) {
         final Elements nodeElements = document.select("node");
-        return nodeElements.stream().filter(n -> !n.select("y|Shape[type=\"rectangle\"]").isEmpty())
+        final Map<String, Node> nodeMap = new HashMap<>(nodeElements.size());
+        nodeElements.stream().filter(n -> !n.select("y|Shape[type=\"rectangle\"]").isEmpty())
                            .map(n -> {
                                final String id = n.id();
-                               final String label = n.select("y|NodeLabel").stream()
-                                                     .map(e -> e.text().trim())
-                                                     .filter(s -> !s.isEmpty())
-                                                     .collect(Collectors.joining(" "))
-                                                     .replace('\n', ' ');
+                               final String label = selectElementLabels(n);
+                               if (label.isBlank()) {
+                                   LOG.warn("Node with id {} has no label.", id);
+                                   return null;
+                               }
                                final Component component = new Component(label, id, null);
                                component.setDiagramNode(extractDiagramNode(n));
                                return new Node(id, label, component);
-                           }).toList();
+                           }).filter(Objects::nonNull)
+                .forEach(n -> nodeMap.put(n.id(), n));
+        connectChildrenToParents(nodeMap);
+        return new ArrayList<>(nodeMap.values());
+    }
+
+    private static String selectElementLabels(Element elem) {
+        if (!elem.select("graph").isEmpty()) {
+            final Elements labels = elem.select("y|NodeLabel");
+            if (!labels.isEmpty()) {
+                return labels.getFirst().text().trim();
+            }
+            return "";
+        } else {
+            return elem.select("y|NodeLabel").stream()
+                       .map(e -> e.text().trim())
+                       .filter(s -> !s.isEmpty())
+                       .collect(Collectors.joining(" "))
+                       .replace('\n', ' ').trim();
+        }
     }
 
     private DiagramNode extractDiagramNode(Element node) {
@@ -55,9 +79,9 @@ class DesktopGraphMLReader extends GraphMLReader {
     @Override
     List<String> getLabelItems(Element edge) {
         final Elements labels = edge.select("y|EdgeLabel");
-        final String label = labels.stream().map(l -> l.wholeText().trim()).filter(s -> !s.isEmpty())
-                                   .collect(Collectors.joining("\n"));
-        return List.of(label.split("\n"));
+        String label = labels.stream().map(l -> l.wholeText().trim()).filter(s -> !s.isEmpty())
+                             .collect(Collectors.joining("\n"));
+        return label.isBlank() ? List.of() : List.of(label.split("\n"));
     }
 
     @Override

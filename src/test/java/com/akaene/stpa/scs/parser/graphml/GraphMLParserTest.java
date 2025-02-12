@@ -158,4 +158,23 @@ class GraphMLParserTest {
         assertNotNull(flightControl.getParent());
         assertEquals("Drone", flightControl.getParent().name());
     }
+
+    @Test
+    void parseExtractsNodesWithParentNodesFromDesktopOutput() throws Exception {
+        final File input = getInput("model-with-subgraphs-yed-desktop.graphml");
+        final Model result = sut.parse(input);
+        assertNotNull(result);
+        Optional<Connector> connector = result.getConnectors().stream()
+                                              .filter(c -> "Payload".equals(c.getTarget().type().name()))
+                                              .findAny();
+        assertTrue(connector.isPresent());
+        final Component drone = connector.get().getSource().type().getParent();
+        assertNotNull(drone);
+        assertEquals("Drone", drone.name());
+        connector = result.getConnectors().stream()
+                          .filter(c -> "Propulsion System".equals(c.getTarget().type().name()))
+                          .findAny();
+        assertTrue(connector.isPresent());
+        assertEquals(drone, connector.get().getSource().type().getParent());
+    }
 }

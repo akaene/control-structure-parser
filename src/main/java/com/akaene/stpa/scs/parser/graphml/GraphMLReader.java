@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -60,4 +61,14 @@ abstract class GraphMLReader {
     abstract List<String> getLabelItems(Element edge);
 
     abstract Optional<GraphMLParser.EdgeStereotype> edgeToStereotype(Element edge);
+
+    static void connectChildrenToParents(Map<String, Node> nodeMap) {
+        nodeMap.forEach((id, node) -> {
+            if (node.id().contains("::")) {
+                // Everything but the last part is parent id
+                final String parentId = node.id().substring(0, node.id().lastIndexOf("::"));
+                node.component().setParent(nodeMap.get(parentId).component());
+            }
+        });
+    }
 }
