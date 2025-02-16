@@ -48,7 +48,7 @@ abstract class GraphMLReader {
             }
             final Optional<GraphMLParser.EdgeStereotype> stereotype = edgeToStereotype(e);
             for (String labelItem : getLabelItems(e)) {
-                final Connector connector = new Connector(labelItem, id,
+                final Connector connector = new Connector(labelItem.trim(), id,
                                                           new ConnectorEnd(source.component(), null, null, null),
                                                           new ConnectorEnd(target.component(), null, null, null));
                 stereotype.ifPresent(s -> connector.addStereotype(s.getStereotype()));
