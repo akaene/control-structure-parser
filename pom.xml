@@ -6,9 +6,9 @@
 
     <groupId>com.akaene.stpa</groupId>
     <artifactId>control-structure-parser</artifactId>
-    <version>0.0.12</version>
+    <version>0.0.13</version>
     <name>Control Structure Parser</name>
-    <description>Safety control structure parser for STPA</description>
+    <description>System control structure parser for STPA</description>
 
     <properties>
         <java.version>21</java.version>
