@@ -177,4 +177,15 @@ class GraphMLParserTest {
         assertTrue(connector.isPresent());
         assertEquals(drone, connector.get().getSource().type().getParent());
     }
+
+    @Test
+    void parseExtractsComponentsWithoutEdges() throws Exception {
+        final File input = getInput("model-with-unconnected-component.graphml");
+        final Model result = sut.parse(input);
+        assertNotNull(result);
+
+        assertEquals(2, result.getConnectors().size());
+        assertEquals(3, result.getComponents().size());
+        assertTrue(result.getComponents().stream().anyMatch(c -> c.getName().equals("Lonely component")));
+    }
 }

@@ -19,6 +19,8 @@ public class Model {
 
     private final Collection<Connector> connectors = new HashSet<>();
 
+    private final Collection<Component> components = new HashSet<>();
+
     private String name;
 
     public Collection<ComponentType> getClasses() {
@@ -53,6 +55,17 @@ public class Model {
 
     public Model addConnector(Connector connector) {
         connectors.add(connector);
+        components.add(connector.getSource().type());
+        components.add(connector.getTarget().type());
+        return this;
+    }
+
+    public Collection<Component> getComponents() {
+        return Collections.unmodifiableCollection(components);
+    }
+
+    public Model addComponent(Component component) {
+        components.add(component);
         return this;
     }
 

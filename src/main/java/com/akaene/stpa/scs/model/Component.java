@@ -2,6 +2,7 @@ package com.akaene.stpa.scs.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class Component implements Connectable, Stereotyped {
@@ -60,6 +61,23 @@ public class Component implements Connectable, Stereotyped {
 
     public void setParent(Component parent) {
         this.parent = parent;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Component component)) {
+            return false;
+        }
+        return Objects.equals(getName(), component.getName()) && Objects.equals(getQualifiedName(),
+                                                                                component.getQualifiedName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getQualifiedName());
     }
 
     @Override

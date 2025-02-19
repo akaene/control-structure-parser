@@ -42,7 +42,10 @@ public class GraphMLParser implements ControlStructureParser {
         final Document document = readDocument(input);
         final ParsingState state = new ParsingState();
         final SourceType sourceType = resolveSourceType(document);
-        readNodes(document, sourceType).forEach(n -> state.nodes.put(n.id(), n));
+        readNodes(document, sourceType).forEach(n -> {
+            state.nodes.put(n.id(), n);
+            state.result.addComponent(n.component());
+        });
         readConnectors(state, document, sourceType).forEach(state.result::addConnector);
         return state.result;
     }

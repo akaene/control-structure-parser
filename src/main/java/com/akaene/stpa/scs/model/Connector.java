@@ -2,6 +2,7 @@ package com.akaene.stpa.scs.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Connector implements Stereotyped {
@@ -42,6 +43,23 @@ public class Connector implements Stereotyped {
     @Override
     public List<Stereotype> getStereotypes() {
         return stereotypes;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Connector connector)) {
+            return false;
+        }
+        return Objects.equals(getName(), connector.getName()) && Objects.equals(getQualifiedName(),
+                                                                                connector.getQualifiedName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getQualifiedName());
     }
 
     @Override
