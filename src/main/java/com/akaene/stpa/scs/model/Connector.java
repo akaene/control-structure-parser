@@ -47,19 +47,17 @@ public class Connector implements Stereotyped {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
         if (!(o instanceof Connector connector)) {
             return false;
         }
-        return Objects.equals(getName(), connector.getName()) && Objects.equals(getQualifiedName(),
-                                                                                connector.getQualifiedName());
+        return Objects.equals(name, connector.name) && Objects.equals(qualifiedName, connector.qualifiedName) &&
+                Objects.equals(source, connector.source) && Objects.equals(target, connector.target) &&
+                Objects.equals(stereotypes, connector.stereotypes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName(), getQualifiedName());
+        return Objects.hash(name, qualifiedName, source, target, stereotypes);
     }
 
     @Override
