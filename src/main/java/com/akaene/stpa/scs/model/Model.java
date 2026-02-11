@@ -4,11 +4,27 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Represents a complete control structure model.
+ * <p>
+ * A model contains all the elements that make up a control structure:
+ * <ul>
+ * <li>component types (classes)</li>
+ * <li>associations between component types</li>
+ * <li>components (instances, objects)</li>
+ * <li>connectors between components (links)</li>
+ * <li>stereotypes</li>
+ * </ul>
+ * <p>
+ * This class serves as the main container for all model elements and provides methods
+ * to add, retrieve, and manage the model's contents.
+ */
 public class Model {
 
     private final Map<String, ComponentType> classes = new HashMap<>();
@@ -90,6 +106,50 @@ public class Model {
         this.name = name;
     }
 
+    private String getFormattedComponentHierarchy() {
+        return getRootNodes().stream()
+                .map(ComponentNode::format)
+                .collect(Collectors.joining("\n"));
+    }
+
+    private List<ComponentNode> getRootNodes() {
+        return components.stream()
+                                  .filter(c -> c.getParent() == null)
+                                  .map(this::buildNodeTree)
+                                  .collect(Collectors.toList());
+    }
+
+    private ComponentNode buildNodeTree(Component component) {
+        List<ComponentNode> children = components.stream()
+                .filter(c -> component.equals(c.getParent()))
+                .sorted(java.util.Comparator.comparing(Component::getName))
+                .map(this::buildNodeTree)
+                .collect(Collectors.toList());
+        return new ComponentNode(component, children);
+    }
+
+    private static class ComponentNode {
+        private final Component component;
+        private final List<ComponentNode> children;
+
+        public ComponentNode(Component component, List<ComponentNode> children) {
+            this.component = component;
+            this.children = children;
+        }
+
+        public String format() {
+            if (children.isEmpty()) {
+                return component.toString();
+            } else {
+                return component.toString() + " {\n" +
+                        children.stream()
+                                .map(child -> "   " + child.format().replace("\n", "\n   "))
+                                .collect(Collectors.joining("\n")) +
+                        "\n}";
+            }
+        }
+    }
+
     @Override
     public String toString() {
         return name + "\nClasses (" + classes.size() + "):\n" + classes.values().stream().map(Objects::toString).collect(
@@ -97,6 +157,7 @@ public class Model {
                 "Associations (" + associations.size() + "):\n" + associations.values().stream().map(Object::toString)
                                                                               .collect(
                                                                                       Collectors.joining("\n")) + "\n\n" +
+                "\nComponents (" + components.size() + "):\n" + getFormattedComponentHierarchy() + "\n\n" +
                 "Connectors (" + connectors.size() + "):\n" + connectors.stream().map(Objects::toString).collect(
                 Collectors.joining("\n"));
     }
