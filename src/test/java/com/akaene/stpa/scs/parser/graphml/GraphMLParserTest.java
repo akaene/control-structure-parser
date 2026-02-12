@@ -34,9 +34,9 @@ class GraphMLParserTest {
 
     static Stream<Arguments> sampleFileTypes() {
         return Stream.of(
-                Arguments.of("simple-model/model.xmi", false),
-                Arguments.of("simple-model.zip", false),
-                Arguments.of("simple-model.graphml", true)
+                Arguments.of("sysml/simple-model/model.xmi", false),
+                Arguments.of("sysml/simple-model.zip", false),
+                Arguments.of("graphml/simple-model.graphml", true)
         );
     }
 
@@ -47,7 +47,7 @@ class GraphMLParserTest {
 
     @Test
     void parserHandlesSimpleGraphMLFile() throws Exception {
-        final File input = getInput("simple-model.graphml");
+        final File input = getInput("graphml/simple-model.graphml");
         final Model result = sut.parse(input);
         assertNotNull(result);
         verifyConnector(result, "change altitude", "FlightCrew", "Flight", new Stereotype("ControlAction"));
@@ -65,7 +65,7 @@ class GraphMLParserTest {
 
     @Test
     void parseHandlesGraphMLFileWithMultipleActionsAndFeedbacksOnOneEdge() throws Exception {
-        final File input = getInput("model-compound-actions-feedback.graphml");
+        final File input = getInput("graphml/model-compound-actions-feedback.graphml");
         final Model result = sut.parse(input);
         assertNotNull(result);
         verifyConnector(result, "change altitude", "FlightCrew", "Flight", new Stereotype("ControlAction"));
@@ -77,7 +77,7 @@ class GraphMLParserTest {
 
     @Test
     void parseHandlesAdditionalControlInfoConnectors() throws Exception {
-        final File input = getInput("model-compound-actions-feedback.graphml");
+        final File input = getInput("graphml/model-compound-actions-feedback.graphml");
         final Model result = sut.parse(input);
         assertNotNull(result);
         verifyConnector(result, "weather and traffic info", "ANS", "FlightCrew",
@@ -86,7 +86,7 @@ class GraphMLParserTest {
 
     @Test
     void parseExtractsNodePositionAndSizeInformationFromFile() throws Exception {
-        final File input = getInput("simple-model.graphml");
+        final File input = getInput("graphml/simple-model.graphml");
         final Model result = sut.parse(input);
         final Optional<Connector> connector = result.getConnectors().stream()
                                                     .filter(c -> c.getName().equals("change altitude")).findAny();
@@ -114,7 +114,7 @@ class GraphMLParserTest {
      */
     @Test
     void parseExtractsNodesAndEdgesWhenDiagramUsesPorts() throws Exception {
-        final File input = getInput("simple-model-yed-live.graphml");
+        final File input = getInput("graphml/simple-model-yed-live.graphml");
         final Model result = sut.parse(input);
         assertNotNull(result);
         verifyConnector(result, "Control action", "Source with ports", "Target with ports",
@@ -124,7 +124,7 @@ class GraphMLParserTest {
 
     @Test
     void parseExtractsNodesAndEdgesFromYedLiveOutputWithSubgraphs() throws Exception {
-        final File input = getInput("model-with-subgraphs-yed-live.graphml");
+        final File input = getInput("graphml/model-with-subgraphs-yed-live.graphml");
         final Model result = sut.parse(input);
         assertNotNull(result);
         final Stereotype controlAction = new Stereotype("ControlAction");
@@ -140,7 +140,7 @@ class GraphMLParserTest {
 
     @Test
     void parseExtractsNodesWithParentNodesFromYedLiveOutput() throws Exception {
-        final File input = getInput("model-with-subgraphs-yed-live.graphml");
+        final File input = getInput("graphml/model-with-subgraphs-yed-live.graphml");
         final Model result = sut.parse(input);
         assertNotNull(result);
         Optional<Connector> connector = result.getConnectors().stream()
@@ -161,7 +161,7 @@ class GraphMLParserTest {
 
     @Test
     void parseExtractsNodesWithParentNodesFromDesktopOutput() throws Exception {
-        final File input = getInput("model-with-subgraphs-yed-desktop.graphml");
+        final File input = getInput("graphml/model-with-subgraphs-yed-desktop.graphml");
         final Model result = sut.parse(input);
         assertNotNull(result);
         Optional<Connector> connector = result.getConnectors().stream()
@@ -180,7 +180,7 @@ class GraphMLParserTest {
 
     @Test
     void parseExtractsComponentsWithoutEdges() throws Exception {
-        final File input = getInput("model-with-unconnected-component.graphml");
+        final File input = getInput("graphml/model-with-unconnected-component.graphml");
         final Model result = sut.parse(input);
         assertNotNull(result);
 

@@ -29,7 +29,7 @@ public class SysMLXMIParserTest {
 
     @Test
     void parseExtractsClassesFromInputModel() throws Exception {
-        final File input = new File(getClass().getClassLoader().getResource("simple-model/model.xmi").toURI());
+        final File input = new File(getClass().getClassLoader().getResource("sysml/simple-model/model.xmi").toURI());
         final Model result = sut.parse(input);
         assertNotNull(result);
         assertTrue(result.getClass("System").isPresent());
@@ -39,7 +39,7 @@ public class SysMLXMIParserTest {
 
     @Test
     void parseExtractsPartOfCompositionAssociationsFromInputModel() throws Exception {
-        final File input = new File(getClass().getClassLoader().getResource("complex-model/model.xmi").toURI());
+        final File input = new File(getClass().getClassLoader().getResource("sysml/complex-model/model.xmi").toURI());
         final Model result = sut.parse(input);
         assertNotNull(result);
         assertFalse(result.getClasses().isEmpty());
@@ -49,7 +49,7 @@ public class SysMLXMIParserTest {
 
     @Test
     void parseExtractsConnectors() throws Exception {
-        final File input = new File(getClass().getClassLoader().getResource("simple-model/model.xmi").toURI());
+        final File input = new File(getClass().getClassLoader().getResource("sysml/simple-model/model.xmi").toURI());
         final Model result = sut.parse(input);
         assertNotNull(result);
         assertEquals(2, result.getConnectors().size());
@@ -77,7 +77,7 @@ public class SysMLXMIParserTest {
 
     @Test
     void parseExtractsConnectorsWithStereotypes() throws Exception {
-        final File input = new File(getClass().getClassLoader().getResource("simple-model/model.xmi").toURI());
+        final File input = new File(getClass().getClassLoader().getResource("sysml/simple-model/model.xmi").toURI());
 
         final Model result = sut.parse(input);
         assertNotNull(result);
@@ -98,7 +98,7 @@ public class SysMLXMIParserTest {
 
     @Test
     void parseZipArchiveExtractsArchiveIntoTemporaryFolderAndThenParsesModelFileInIt() throws Exception {
-        final File input = new File(getClass().getClassLoader().getResource("simple-model.zip").toURI());
+        final File input = new File(getClass().getClassLoader().getResource("sysml/simple-model.zip").toURI());
         final com.akaene.stpa.scs.model.Model result = sut.parse(input);
         assertNotNull(result);
         assertFalse(result.getClasses().isEmpty());
@@ -106,7 +106,7 @@ public class SysMLXMIParserTest {
 
     @Test
     void parseSupportsUmlExtension() throws Exception {
-        final File input = new File(getClass().getClassLoader().getResource("simple-model-uml/model.uml").toURI());
+        final File input = new File(getClass().getClassLoader().getResource("sysml/simple-model-uml/model.uml").toURI());
         final Model result = sut.parse(input);
         assertNotNull(result);
         assertTrue(result.getClass("System").isPresent());
@@ -116,7 +116,7 @@ public class SysMLXMIParserTest {
 
     @Test
     void parseExtractsQualifiedNamesOfElements() throws Exception {
-        final File input = new File(getClass().getClassLoader().getResource("simple-model/model.xmi").toURI());
+        final File input = new File(getClass().getClassLoader().getResource("sysml/simple-model/model.xmi").toURI());
         final Model result = sut.parse(input);
         result.getClasses().forEach(c -> assertThat(c.getQualifiedName(), not(blankOrNullString())));
         result.getConnectors().forEach(c -> assertThat(c.getQualifiedName(), not(blankOrNullString())));
@@ -126,7 +126,7 @@ public class SysMLXMIParserTest {
 
     @Test
     void parseZipSupportsModelWithUmlExtension() throws Exception {
-        final File input = new File(getClass().getClassLoader().getResource("simple-model-uml.zip").toURI());
+        final File input = new File(getClass().getClassLoader().getResource("sysml/simple-model-uml.zip").toURI());
         final com.akaene.stpa.scs.model.Model result = sut.parse(input);
         assertNotNull(result);
         assertFalse(result.getClasses().isEmpty());
@@ -134,14 +134,14 @@ public class SysMLXMIParserTest {
 
     @Test
     void parseThrowsControlStructureParserExceptionWhenEmfIsUnableToParseFile() throws Exception {
-        final File input = new File(getClass().getClassLoader().getResource("invalid-model.xml").toURI());
+        final File input = new File(getClass().getClassLoader().getResource("sysml/invalid-model.xml").toURI());
         assertThrows(ControlStructureParserException.class, () -> sut.parse(input));
     }
 
     @Test
     void parseRecognizesProfileAndModelFilesAndUsesOnlyAvailableModelFileForParsing() throws Exception {
         final File input = new File(
-                getClass().getClassLoader().getResource("simple_project_different_filename.zip").toURI());
+                getClass().getClassLoader().getResource("sysml/simple_project_different_filename.zip").toURI());
         final com.akaene.stpa.scs.model.Model result = sut.parse(input);
         assertNotNull(result);
         assertFalse(result.getClasses().isEmpty());
@@ -149,7 +149,7 @@ public class SysMLXMIParserTest {
 
     @Test
     void parseExtractsStereotypesFromFileProducedEnterpriseArchitect() throws Exception {
-        final File input = new File(getClass().getClassLoader().getResource("simple-model_EA.xml").toURI());
+        final File input = new File(getClass().getClassLoader().getResource("sysml/simple-model_EA.xml").toURI());
         final Model result = sut.parse(input);
         assertTrue(result.getStereotype("ControlAction").isPresent());
         assertTrue(result.getStereotype("Feedback").isPresent());
@@ -157,7 +157,7 @@ public class SysMLXMIParserTest {
 
     @Test
     void parseHandlesSimpleXmlFileProducedByEnterpriseArchitect() throws Exception {
-        final File input = new File(getClass().getClassLoader().getResource("simple-model_EA.xml").toURI());
+        final File input = new File(getClass().getClassLoader().getResource("sysml/simple-model_EA.xml").toURI());
         final Model result = sut.parse(input);
         assertNotNull(result);
         verifyConnectorsInSimpleModel(result);
@@ -165,7 +165,7 @@ public class SysMLXMIParserTest {
 
     @Test
     void parseHandlesComplexXmlFileProducedByEnterpriseArchitect() throws Exception {
-        final File input = new File(getClass().getClassLoader().getResource("complex-model_EA.xml").toURI());
+        final File input = new File(getClass().getClassLoader().getResource("sysml/complex-model_EA.xml").toURI());
         final Model result = sut.parse(input);
         assertNotNull(result);
         assertFalse(result.getClasses().isEmpty());
@@ -182,11 +182,11 @@ public class SysMLXMIParserTest {
 
     static Stream<Arguments> sampleFileTypes() {
         return Stream.of(
-                Arguments.of("simple-model/model.xmi", true),
-                Arguments.of("simple-model.zip", true),
-                Arguments.of("simple-model-uml/model.uml", true),
-                Arguments.of("complex-model_EA.xml", "true"),
-                Arguments.of("simple-model.graphml", false)
+                Arguments.of("sysml/simple-model/model.xmi", true),
+                Arguments.of("sysml/simple-model.zip", true),
+                Arguments.of("sysml/simple-model-uml/model.uml", true),
+                Arguments.of("sysml/complex-model_EA.xml", "true"),
+                Arguments.of("graphml/simple-model.graphml", false)
         );
     }
 }
