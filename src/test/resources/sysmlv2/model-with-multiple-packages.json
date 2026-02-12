@@ -1,0 +1,102 @@
+[
+    {
+        "@type": "Package",
+        "@id": "1e6f04a9-8394-4907-a2af-411b5a63d0a8",
+        "identifier": "1e6f04a9-8394-4907-a2af-411b5a63d0a8",
+        "name": "level-2-package-B",
+        "qualifiedName": "my-root-package::level-2-package-B",
+        "owner": {
+            "@id": "babb710c-8158-4bbb-8828-029aa9bb60be"
+        },
+        "owningNamespace": {
+            "@id": "babb710c-8158-4bbb-8828-029aa9bb60be"
+        }
+    },
+    {
+        "@type": "Package",
+        "@id": "4bac8a32-e5d9-40a1-8bb0-77e0f6e2bb5b",
+        "identifier": "4bac8a32-e5d9-40a1-8bb0-77e0f6e2bb5b",
+        "name": "level-2-package",
+        "ownedElement": [
+            {
+                "@id": "8cf852eb-1b66-46a0-b3a4-bb65483fb10e"
+            }
+        ],
+        "qualifiedName": "my-root-package::level-1-package-A::level-2-package",
+        "owner": {
+            "@id": "b7e93e17-94ff-4240-be5c-2e71f05fbe5e"
+        },
+        "owningNamespace": {
+            "@id": "b7e93e17-94ff-4240-be5c-2e71f05fbe5e"
+        },
+        "ownedMember": [
+            {
+                "@id": "8cf852eb-1b66-46a0-b3a4-bb65483fb10e"
+            }
+        ]
+    },
+    {
+        "@type": "PartUsage",
+        "@id": "8cf852eb-1b66-46a0-b3a4-bb65483fb10e",
+        "identifier": "8cf852eb-1b66-46a0-b3a4-bb65483fb10e",
+        "name": "sample-part-usage",
+        "qualifiedName": "my-root-package::level-1-package-A::level-2-package::sample-part-usage",
+        "owner": {
+            "@id": "4bac8a32-e5d9-40a1-8bb0-77e0f6e2bb5b"
+        },
+        "owningNamespace": {
+            "@id": "4bac8a32-e5d9-40a1-8bb0-77e0f6e2bb5b"
+        },
+        "isComposite": true,
+        "declaration": {
+            "@id": "8cf852eb-1b66-46a0-b3a4-bb65483fb10e"
+        }
+    },
+    {
+        "@type": "Package",
+        "@id": "b7e93e17-94ff-4240-be5c-2e71f05fbe5e",
+        "identifier": "b7e93e17-94ff-4240-be5c-2e71f05fbe5e",
+        "name": "level-1-package-A",
+        "ownedElement": [
+            {
+                "@id": "4bac8a32-e5d9-40a1-8bb0-77e0f6e2bb5b"
+            }
+        ],
+        "qualifiedName": "my-root-package::level-1-package-A",
+        "owner": {
+            "@id": "babb710c-8158-4bbb-8828-029aa9bb60be"
+        },
+        "owningNamespace": {
+            "@id": "babb710c-8158-4bbb-8828-029aa9bb60be"
+        },
+        "ownedMember": [
+            {
+                "@id": "4bac8a32-e5d9-40a1-8bb0-77e0f6e2bb5b"
+            }
+        ]
+    },
+    {
+        "@type": "Package",
+        "@id": "babb710c-8158-4bbb-8828-029aa9bb60be",
+        "identifier": "babb710c-8158-4bbb-8828-029aa9bb60be",
+        "eAnnotations": [],
+        "name": "my-root-package",
+        "ownedElement": [
+            {
+                "@id": "b7e93e17-94ff-4240-be5c-2e71f05fbe5e"
+            },
+            {
+                "@id": "1e6f04a9-8394-4907-a2af-411b5a63d0a8"
+            }
+        ],
+        "qualifiedName": "my-root-package",
+        "ownedMember": [
+            {
+                "@id": "b7e93e17-94ff-4240-be5c-2e71f05fbe5e"
+            },
+            {
+                "@id": "1e6f04a9-8394-4907-a2af-411b5a63d0a8"
+            }
+        ]
+    }
+]
