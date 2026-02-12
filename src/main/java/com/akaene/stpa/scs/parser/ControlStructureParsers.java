@@ -3,6 +3,7 @@ package com.akaene.stpa.scs.parser;
 import com.akaene.stpa.scs.model.Model;
 import com.akaene.stpa.scs.parser.graphml.GraphMLParser;
 import com.akaene.stpa.scs.parser.sysml.SysMLXMIParser;
+import com.akaene.stpa.scs.parser.sysmlv2.SysMLV2JsonParser;
 
 import java.io.File;
 import java.util.List;
@@ -17,7 +18,8 @@ public class ControlStructureParsers {
 
     private static final List<ControlStructureParser> parsers = List.of(
             new SysMLXMIParser(),
-            new GraphMLParser()
+            new GraphMLParser(),
+            new SysMLV2JsonParser()
     );
 
     /**
