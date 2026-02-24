@@ -62,6 +62,7 @@ public class SysMLV2JsonParser implements ControlStructureParser {
 
     public SysMLV2JsonParser() {
         this.objectMapper = new ObjectMapper();
+        this.objectMapper.addHandler(new SysMLV2DeserializationProblemHandler());
     }
 
     @Override

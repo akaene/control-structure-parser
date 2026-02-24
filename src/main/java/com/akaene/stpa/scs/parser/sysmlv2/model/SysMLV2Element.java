@@ -1,7 +1,6 @@
 package com.akaene.stpa.scs.parser.sysmlv2.model;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -18,8 +17,7 @@ import java.util.Map;
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.PROPERTY,
         property = "@type",
-        visible = true,
-        defaultImpl = SysMLV2Element.class
+        visible = true
 )
 @JsonSubTypes(value = {
         @JsonSubTypes.Type(value = FlowConnectionUsage.class, name = "FlowConnectionUsage"),
@@ -59,21 +57,13 @@ public class SysMLV2Element extends ObjectIdentity {
         this.identifier = identifier;
     }
 
-    @JsonAnySetter
     public void add(String propertyName, Object value) {
         if (additionalProperties == null) {
             additionalProperties = new HashMap<>();
         }
         additionalProperties.put(propertyName, value);
-        LOG.warn(
-                "Unrecognized property '{}' encountered for SysML v2 element type '{}' (id: '{}')." +
-                        " Storing values of the property in 'additionalProperties'." +
-                        " Consider extending class {} with the property to handle this property.",
-                propertyName, elementType, getId(), this.getClass().getName()
-        );
     }
-
-
+    
     @JsonAnyGetter
     public Object get(String propertyName) {
         return additionalProperties != null ? additionalProperties.get(propertyName) : null;
