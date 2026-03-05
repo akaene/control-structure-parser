@@ -35,6 +35,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  * Control structure parser supporting SysML XMI artifacts produced by Enterprise Architect.
@@ -58,7 +59,7 @@ public class EnterpriseArchitectSysMLXMIParser extends EMFSysMLXMIParser {
 
     @Override
     public boolean supports(File input) {
-        return isEnterpriseArchitectFile(input);
+        return input.exists() && Stream.of(SysMLXMIParser.SUPPORTED_FILE_EXTENSIONS).anyMatch(ext -> input.getName().endsWith(ext)) && isEnterpriseArchitectFile(input);
     }
 
     @Override
