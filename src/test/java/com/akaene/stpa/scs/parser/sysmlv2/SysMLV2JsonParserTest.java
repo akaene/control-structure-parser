@@ -8,13 +8,11 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.File;
 import java.net.URISyntaxException;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SysMLV2JsonParserTest {
 
@@ -38,7 +36,7 @@ class SysMLV2JsonParserTest {
 
     private static File getInput(String path) throws URISyntaxException {
         assert SysMLV2JsonParserTest.class.getClassLoader().getResource(path) != null;
-        return new File(SysMLV2JsonParserTest.class.getClassLoader().getResource(path).toURI());
+        return new File(Objects.requireNonNull(SysMLV2JsonParserTest.class.getClassLoader().getResource(path)).toURI());
     }
 
     @Test
@@ -54,43 +52,4 @@ class SysMLV2JsonParserTest {
         final Model result = sut.parse(input);
         assertEquals("my-root-package", result.getName());
     }
-
-//    @Test
-//    void parseValidatesJsonArrayStructure() throws Exception {
-//        final File input = getInput("sysmlv2/complex-model.json");
-//        final Model result = sut.parse(input);
-//        assertNotNull(result);
-//    }
-//
-//    @Test
-//    void parseThrowsExceptionForNonArrayJson() throws Exception {
-//        final File input = getInput("sysmlv2/complex-model.json");
-//        assertNotNull(input);
-//        assertTrue(input.exists());
-//        assertTrue(sut.supports(input));
-//    }
-//
-//    @Test
-//    void parseHandlesElectricalSystemJsonFile() throws Exception {
-//        final File input = getInput("sysmlv2/complex-model.json");
-//        assertNotNull(input);
-//        assertTrue(input.exists());
-//        assertTrue(sut.supports(input));
-//
-//        final Model result = sut.parse(input);
-//        assertNotNull(result);
-//    }
-//
-//    @Test
-//    void parseValidatesFileExists() throws Exception {
-//        final File nonExistentFile = new File("non-existent.json");
-//        assertFalse(sut.supports(nonExistentFile));
-//    }
-//
-//    @Test
-//    void parseValidatesJsonExtension() throws Exception {
-//        final File input = getInput("sysmlv2/complex-model.json");
-//        assertTrue(input.getName().endsWith(".json"));
-//        assertTrue(sut.supports(input));
-//    }
 }

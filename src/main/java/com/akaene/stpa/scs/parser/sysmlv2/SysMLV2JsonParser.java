@@ -1,7 +1,6 @@
 package com.akaene.stpa.scs.parser.sysmlv2;
 
 import com.akaene.stpa.scs.exception.ControlStructureParserException;
-import com.akaene.stpa.scs.model.Association;
 import com.akaene.stpa.scs.model.Component;
 import com.akaene.stpa.scs.model.ComponentType;
 import com.akaene.stpa.scs.model.Connector;
@@ -26,13 +25,11 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Parses control structure from a SysML V2 JSON artifact.
@@ -40,7 +37,7 @@ import java.util.stream.Collectors;
  * The parser supports SysML V2 JSON artifacts with {@literal .json} extension from the response
  * of HTTP requests described in section "REST/HTTP Platform Specific Model (PSM)" of the
  * "Systems Modeling Application Programming Interface (API) and Services" (SysML V2) specification
- * available at https://www.omg.org/spec/SystemsModelingAPI/1.0/.
+ * available at <a href="https://www.omg.org/spec/SystemsModelingAPI/1.0/">SystemsModelingAPI</a>.
  * </p>
  * <p>
  * The artifacts in this format are available from the REST endpoint
@@ -87,27 +84,10 @@ public class SysMLV2JsonParser implements ControlStructureParser {
                     })
                     .readValue(rootNode);
 
-
-            Map<String, SysMLV2Element> elementsMap =
-                    elements.stream().collect(Collectors.toMap(ObjectIdentity::getId, e -> e));
-
-            ElementResolver elementResolver = new ElementResolver(elementsMap);
-
-
             Model model = new Model();
             Map<String, Component> componentMap = new HashMap<>();
-            List<Connector> connectorList = new ArrayList<>();
-            List<Association> associationList = new ArrayList<>();
             Map<String, ComponentType> componentTypeMap = new HashMap<>();
-            Map<String, Stereotype> classStereotypesMap = new HashMap<>();
             Map<String, Stereotype> connectorStereotypesMap = new HashMap<>();
-
-            // TODO: remove
-            elements.forEach(
-                    e -> {
-                        System.out.println(getInfo(e, elementsMap));
-                    }
-            );
 
             // load class types such as ControlledProcess, Controller, Sensor, Actuator
             elements.stream()
@@ -130,7 +110,7 @@ public class SysMLV2JsonParser implements ControlStructureParser {
                                 Stereotype stereotype = new Stereotype(fcd.getName());
                                 connectorStereotypesMap.put(fcd.getId(), stereotype);
                                 model.addStereotype(stereotype);
-                                LOG.debug("Loading connector stereotype " + fcd.getName() + " with id " + fcd.getId());
+                                LOG.debug("Loading connector stereotype {} with id {}", fcd.getName(), fcd.getId());
                             }
                     );
 
@@ -147,7 +127,6 @@ public class SysMLV2JsonParser implements ControlStructureParser {
 
                                 componentMap.put(pu.getId(), component);
                                 model.addComponent(component);
-                                System.out.println("Loaded component " + getInfo(pu, elementsMap));
                             }
                     );
 
@@ -191,7 +170,7 @@ public class SysMLV2JsonParser implements ControlStructureParser {
             return model;
 
         } catch (IOException e) {
-            LOG.error("Failed to parse SysML V2 JSON file: " + input.getName(), e);
+            LOG.error("Failed to parse SysML V2 JSON file: {}", input.getName(), e);
             throw new ControlStructureParserException("Failed to parse SysML V2 JSON file: " + input.getName(), e);
         }
     }
@@ -267,23 +246,6 @@ public class SysMLV2JsonParser implements ControlStructureParser {
                                         .orElse("");
 
         return getShortInfo(e) + ownerStatement;
-    }
-
-    private static class ElementResolver {
-        private final Map<String, SysMLV2Element> elementRegistry;
-
-        public ElementResolver(Map<String, SysMLV2Element> elementRegistry) {
-            this.elementRegistry = elementRegistry;
-        }
-
-        public <T> T get(ObjectIdentity elementReference, Class<T> targetClass) {
-            Object element = elementRegistry.get(elementReference.getId());
-            if (element == null) {
-                throw new ControlStructureParserException(
-                        targetClass.getSimpleName() + " not found for ID: " + elementReference.getId());
-            }
-            return targetClass.cast(element);
-        }
     }
 
     @Override
