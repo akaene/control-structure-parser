@@ -128,14 +128,7 @@ public class Model {
         return new ComponentNode(component, children);
     }
 
-    private static class ComponentNode {
-        private final Component component;
-        private final List<ComponentNode> children;
-
-        public ComponentNode(Component component, List<ComponentNode> children) {
-            this.component = component;
-            this.children = children;
-        }
+    private record ComponentNode(Component component, List<ComponentNode> children) {
 
         public String format() {
             if (children.isEmpty()) {
