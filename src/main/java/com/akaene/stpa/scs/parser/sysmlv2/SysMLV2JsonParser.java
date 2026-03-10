@@ -121,7 +121,7 @@ public class SysMLV2JsonParser implements ControlStructureParser {
 
 
                                 ComponentType componentType= ensureAtMostOneComponentType(pu.getPartDefinition(), componentTypeMap);
-                                Component component = new Component(pu.getName(), pu.getQualifiedName(), componentType);
+                                Component component = new Component(pu.getName(), pu.getQualifiedName(), componentType, pu.getIdentifier());
 
                                 componentMap.put(pu.getId(), component);
                                 model.addComponent(component);
@@ -139,7 +139,7 @@ public class SysMLV2JsonParser implements ControlStructureParser {
 
                                 ConnectorEnd source = new ConnectorEnd(sourceComponent, null, null, null);
                                 ConnectorEnd target = new ConnectorEnd(targetComponent, null, null, null);
-                                Connector connector = new Connector(fcu.getName(), fcu.getQualifiedName(), source, target);
+                                Connector connector = new Connector(fcu.getName(), fcu.getQualifiedName(), source, target, fcu.getIdentifier());
 
                                 fcu.getConnectionDefinition().stream()
                                    .map(cd -> connectorStereotypesMap.get(cd.getId()))

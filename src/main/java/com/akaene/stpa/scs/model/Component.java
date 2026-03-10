@@ -5,13 +5,15 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class Component implements Connectable, Stereotyped {
+public class Component implements Connectable, Stereotyped, InterchangeIdentifiable {
 
     private final String name;
 
     private final String qualifiedName;
 
     private final ComponentType type;
+
+    private final String identifier;
 
     private Component parent;
 
@@ -20,9 +22,14 @@ public class Component implements Connectable, Stereotyped {
     private DiagramNode diagramNode;
 
     public Component(String name, String qualifiedName, ComponentType type) {
+        this(name, qualifiedName, type, null);
+    }
+    
+    public Component(String name, String qualifiedName, ComponentType type, String identifier) {
         this.name = name;
         this.qualifiedName = qualifiedName;
         this.type = type;
+        this.identifier = identifier;
     }
 
     public String getName() {
@@ -61,6 +68,11 @@ public class Component implements Connectable, Stereotyped {
 
     public void setParent(Component parent) {
         this.parent = parent;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return identifier;
     }
 
     @Override
