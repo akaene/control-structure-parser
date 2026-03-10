@@ -37,12 +37,12 @@ public class ReferenceSubsetting extends SysMLV2Element implements NamedElement 
     private ObjectIdentity subsettedFeature;
     private ObjectIdentity subsettingFeature;
     private ObjectIdentity referencingFeature;
-    private final List<ObjectIdentity> source = new ArrayList<>();
-    private final List<ObjectIdentity> target = new ArrayList<>();
-    private final List<ObjectIdentity> relatedElement = new ArrayList<>();
-    private final List<ObjectIdentity> ownedRelatedElement = new ArrayList<>();
-    private final List<ObjectIdentity> ownedRelationship = new ArrayList<>();
-    private final List<ObjectIdentity> ownedElement = new ArrayList<>();
+    private List<ObjectIdentity> source = List.of();
+    private List<ObjectIdentity> target = List.of();
+    private List<ObjectIdentity> relatedElement = List.of();
+    private List<ObjectIdentity> ownedRelatedElement = List.of();
+    private List<ObjectIdentity> ownedRelationship = List.of();
+    private List<ObjectIdentity> ownedElement = List.of();
 
     public ReferenceSubsetting() {
     }
@@ -92,10 +92,7 @@ public class ReferenceSubsetting extends SysMLV2Element implements NamedElement 
     }
 
     public void setOwnedRelatedElement(List<ObjectIdentity> ownedRelatedElement) {
-        this.ownedRelatedElement.clear();
-        if (ownedRelatedElement != null) {
-            this.ownedRelatedElement.addAll(ownedRelatedElement);
-        }
+        this.ownedRelatedElement = ownedRelatedElement != null ? new ArrayList<>(ownedRelatedElement) : List.of();
     }
 
     public List<ObjectIdentity> getOwnedRelationship() {
@@ -103,10 +100,7 @@ public class ReferenceSubsetting extends SysMLV2Element implements NamedElement 
     }
 
     public void setOwnedRelationship(List<ObjectIdentity> ownedRelationship) {
-        this.ownedRelationship.clear();
-        if (ownedRelationship != null) {
-            this.ownedRelationship.addAll(ownedRelationship);
-        }
+        this.ownedRelationship = ownedRelationship != null ? new ArrayList<>(ownedRelationship) : List.of();
     }
 
     public List<ObjectIdentity> getOwnedElement() {
@@ -114,10 +108,7 @@ public class ReferenceSubsetting extends SysMLV2Element implements NamedElement 
     }
 
     public void setOwnedElement(List<ObjectIdentity> ownedElement) {
-        this.ownedElement.clear();
-        if (ownedElement != null) {
-            this.ownedElement.addAll(ownedElement);
-        }
+        this.ownedElement = ownedElement != null ? new ArrayList<>(ownedElement) : List.of();
     }
 
     public ObjectIdentity getOwner() {
@@ -197,10 +188,7 @@ public class ReferenceSubsetting extends SysMLV2Element implements NamedElement 
     }
 
     public void setSource(List<ObjectIdentity> source) {
-        this.source.clear();
-        if (source != null) {
-            this.source.addAll(source);
-        }
+        this.source = source != null ? new ArrayList<>(source) : List.of();
     }
 
     public List<ObjectIdentity> getTarget() {
@@ -208,10 +196,7 @@ public class ReferenceSubsetting extends SysMLV2Element implements NamedElement 
     }
 
     public void setTarget(List<ObjectIdentity> target) {
-        this.target.clear();
-        if (target != null) {
-            this.target.addAll(target);
-        }
+        this.target = target != null ? new ArrayList<>(target) : List.of();
     }
 
     public List<ObjectIdentity> getRelatedElement() {
@@ -219,10 +204,7 @@ public class ReferenceSubsetting extends SysMLV2Element implements NamedElement 
     }
 
     public void setRelatedElement(List<ObjectIdentity> relatedElement) {
-        this.relatedElement.clear();
-        if (relatedElement != null) {
-            this.relatedElement.addAll(relatedElement);
-        }
+        this.relatedElement = relatedElement != null ? new ArrayList<>(relatedElement) : List.of();
     }
 
     @Override

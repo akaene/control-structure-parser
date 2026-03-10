@@ -21,17 +21,17 @@ public class Feature extends SysMLV2Element {
     private ObjectIdentity owner;
     private ObjectIdentity owningRelationship;
     private ObjectIdentity owningNamespace;
-    private final List<Object> ownedRelationship = new ArrayList<>();
-    private final List<ObjectIdentity> ownedElement = new ArrayList<>();
-    private final List<ObjectIdentity> ownedSpecialization = new ArrayList<>();
+    private List<Object> ownedRelationship = List.of();
+    private List<ObjectIdentity> ownedElement = List.of();
+    private List<ObjectIdentity> ownedSpecialization = List.of();
     private Boolean isEnd;
-    private final List<ObjectIdentity> ownedSubsetting = new ArrayList<>();
+    private List<ObjectIdentity> ownedSubsetting = List.of();
     private ObjectIdentity declaration;
-    private final List<ObjectIdentity> ownedReferenceSubsetting = new ArrayList<>();
-    private final List<ObjectIdentity> referencedFeature = new ArrayList<>();
-    private final List<ObjectIdentity> directedFeature = new ArrayList<>();
-    private final List<ObjectIdentity> feature = new ArrayList<>();
-    private final List<ObjectIdentity> inheritedFeature = new ArrayList<>();
+    private List<ObjectIdentity> ownedReferenceSubsetting = List.of();
+    private List<ObjectIdentity> referencedFeature = List.of();
+    private List<ObjectIdentity> directedFeature = List.of();
+    private List<ObjectIdentity> feature = List.of();
+    private List<ObjectIdentity> inheritedFeature = List.of();
 
     public Feature() {
     }
@@ -73,10 +73,7 @@ public class Feature extends SysMLV2Element {
     }
 
     public void setOwnedRelationship(List<Object> ownedRelationship) {
-        this.ownedRelationship.clear();
-        if (ownedRelationship != null) {
-            this.ownedRelationship.addAll(ownedRelationship);
-        }
+        this.ownedRelationship = ownedRelationship != null ? new ArrayList<>(ownedRelationship) : List.of();
     }
 
     public List<ObjectIdentity> getOwnedElement() {
@@ -84,10 +81,7 @@ public class Feature extends SysMLV2Element {
     }
 
     public void setOwnedElement(List<ObjectIdentity> ownedElement) {
-        this.ownedElement.clear();
-        if (ownedElement != null) {
-            this.ownedElement.addAll(ownedElement);
-        }
+        this.ownedElement = ownedElement != null ? new ArrayList<>(ownedElement) : List.of();
     }
 
     public ObjectIdentity getOwningNamespace() {
@@ -103,10 +97,7 @@ public class Feature extends SysMLV2Element {
     }
 
     public void setOwnedSpecialization(List<ObjectIdentity> ownedSpecialization) {
-        this.ownedSpecialization.clear();
-        if (ownedSpecialization != null) {
-            this.ownedSpecialization.addAll(ownedSpecialization);
-        }
+        this.ownedSpecialization = ownedSpecialization != null ? new ArrayList<>(ownedSpecialization) : List.of();
     }
 
     public Boolean getIsEnd() {
@@ -122,10 +113,7 @@ public class Feature extends SysMLV2Element {
     }
 
     public void setOwnedSubsetting(List<ObjectIdentity> ownedSubsetting) {
-        this.ownedSubsetting.clear();
-        if (ownedSubsetting != null) {
-            this.ownedSubsetting.addAll(ownedSubsetting);
-        }
+        this.ownedSubsetting = ownedSubsetting != null ? new ArrayList<>(ownedSubsetting) : List.of();
     }
 
     public ObjectIdentity getDeclaration() {
@@ -141,10 +129,7 @@ public class Feature extends SysMLV2Element {
     }
 
     public void setOwnedReferenceSubsetting(List<ObjectIdentity> ownedReferenceSubsetting) {
-        this.ownedReferenceSubsetting.clear();
-        if (ownedReferenceSubsetting != null) {
-            this.ownedReferenceSubsetting.addAll(ownedReferenceSubsetting);
-        }
+        this.ownedReferenceSubsetting = ownedReferenceSubsetting != null ? new ArrayList<>(ownedReferenceSubsetting) : List.of();
     }
 
     public List<ObjectIdentity> getReferencedFeature() {
@@ -152,10 +137,7 @@ public class Feature extends SysMLV2Element {
     }
 
     public void setReferencedFeature(List<ObjectIdentity> referencedFeature) {
-        this.referencedFeature.clear();
-        if (referencedFeature != null) {
-            this.referencedFeature.addAll(referencedFeature);
-        }
+        this.referencedFeature = referencedFeature != null ? new ArrayList<>(referencedFeature) : List.of();
     }
 
     public List<ObjectIdentity> getDirectedFeature() {
@@ -163,10 +145,7 @@ public class Feature extends SysMLV2Element {
     }
 
     public void setDirectedFeature(List<ObjectIdentity> directedFeature) {
-        this.directedFeature.clear();
-        if (directedFeature != null) {
-            this.directedFeature.addAll(directedFeature);
-        }
+        this.directedFeature = directedFeature != null ? new ArrayList<>(directedFeature) : List.of();
     }
 
     public List<ObjectIdentity> getFeature() {
@@ -174,10 +153,7 @@ public class Feature extends SysMLV2Element {
     }
 
     public void setFeature(List<ObjectIdentity> feature) {
-        this.feature.clear();
-        if (feature != null) {
-            this.feature.addAll(feature);
-        }
+        this.feature = feature != null ? new ArrayList<>(feature) : List.of();
     }
 
     public List<ObjectIdentity> getInheritedFeature() {
@@ -185,10 +161,7 @@ public class Feature extends SysMLV2Element {
     }
 
     public void setInheritedFeature(List<ObjectIdentity> inheritedFeature) {
-        this.inheritedFeature.clear();
-        if (inheritedFeature != null) {
-            this.inheritedFeature.addAll(inheritedFeature);
-        }
+        this.inheritedFeature = inheritedFeature != null ? new ArrayList<>(inheritedFeature) : List.of();
     }
 
     @Override

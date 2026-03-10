@@ -21,9 +21,9 @@ public class RequirementUsage extends SysMLV2Element implements NamedElement, Ow
     private Boolean isComposite;
     private ObjectIdentity declaration;
     private String reqId;
-    private final List<String> text = new ArrayList<>();
-    private final List<ObjectIdentity> ownedElement = new ArrayList<>();
-    private final List<ObjectIdentity> ownedMember = new ArrayList<>();
+    private List<String> text = List.of();
+    private List<ObjectIdentity> ownedElement = List.of();
+    private List<ObjectIdentity> ownedMember = List.of();
 
     public RequirementUsage() {
     }
@@ -65,10 +65,7 @@ public class RequirementUsage extends SysMLV2Element implements NamedElement, Ow
     }
 
     public void setOwnedElement(List<ObjectIdentity> ownedElement) {
-        this.ownedElement.clear();
-        if (ownedElement != null) {
-            this.ownedElement.addAll(ownedElement);
-        }
+        this.ownedElement = ownedElement != null ? new ArrayList<>(ownedElement) : List.of();
     }
 
     public List<ObjectIdentity> getOwnedMember() {
@@ -76,10 +73,7 @@ public class RequirementUsage extends SysMLV2Element implements NamedElement, Ow
     }
 
     public void setOwnedMember(List<ObjectIdentity> ownedMember) {
-        this.ownedMember.clear();
-        if (ownedMember != null) {
-            this.ownedMember.addAll(ownedMember);
-        }
+        this.ownedMember = ownedMember != null ? new ArrayList<>(ownedMember) : List.of();
     }
 
     public Boolean getIsComposite() {
@@ -111,10 +105,7 @@ public class RequirementUsage extends SysMLV2Element implements NamedElement, Ow
     }
 
     public void setText(List<String> text) {
-        this.text.clear();
-        if (text != null) {
-            this.text.addAll(text);
-        }
+        this.text = text != null ? new ArrayList<>(text) : List.of();
     }
 
     @Override

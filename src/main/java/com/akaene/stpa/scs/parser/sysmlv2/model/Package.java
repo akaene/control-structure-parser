@@ -22,9 +22,9 @@ public class Package extends SysMLV2Element implements NamedElement {
     private ObjectIdentity owner;
     private ObjectIdentity owningNamespace;
     @JsonProperty("eAnnotations")
-    private final List<Object> eAnnotations = new ArrayList<>();
-    private final List<ObjectIdentity> ownedElement = new ArrayList<>();
-    private final List<ObjectIdentity> ownedMember = new ArrayList<>();
+    private List<Object> eAnnotations = List.of();
+    private List<ObjectIdentity> ownedElement = List.of();
+    private List<ObjectIdentity> ownedMember = List.of();
 
     public Package() {
     }
@@ -66,10 +66,7 @@ public class Package extends SysMLV2Element implements NamedElement {
     }
 
     public void setEAnnotations(List<Object> eAnnotations) {
-        this.eAnnotations.clear();
-        if (eAnnotations != null) {
-            this.eAnnotations.addAll(eAnnotations);
-        }
+        this.eAnnotations = eAnnotations != null ? new ArrayList<>(eAnnotations) : List.of();
     }
 
     public List<ObjectIdentity> getOwnedElement() {
@@ -77,10 +74,7 @@ public class Package extends SysMLV2Element implements NamedElement {
     }
 
     public void setOwnedElement(List<ObjectIdentity> ownedElement) {
-        this.ownedElement.clear();
-        if (ownedElement != null) {
-            this.ownedElement.addAll(ownedElement);
-        }
+        this.ownedElement = ownedElement != null ? new ArrayList<>(ownedElement) : List.of();
     }
 
     public List<ObjectIdentity> getOwnedMember() {
@@ -88,10 +82,7 @@ public class Package extends SysMLV2Element implements NamedElement {
     }
 
     public void setOwnedMember(List<ObjectIdentity> ownedMember) {
-        this.ownedMember.clear();
-        if (ownedMember != null) {
-            this.ownedMember.addAll(ownedMember);
-        }
+        this.ownedMember = ownedMember != null ? new ArrayList<>(ownedMember) : List.of();
     }
 
     @Override

@@ -18,14 +18,14 @@ public class SatisfyRequirementUsage extends SysMLV2Element implements NamedElem
     private String qualifiedName;
     private ObjectIdentity owningNamespace;
     private ObjectIdentity owner;
-    private final List<Object> ownedRelationship = new ArrayList<>();
-    private final List<ObjectIdentity> ownedElement = new ArrayList<>();
-    private final List<ObjectIdentity> ownedMember = new ArrayList<>();
-    private final List<ObjectIdentity> ownedSpecialization = new ArrayList<>();
-    private final List<ObjectIdentity> ownedSubsetting = new ArrayList<>();
+    private List<Object> ownedRelationship = List.of();
+    private List<ObjectIdentity> ownedElement = List.of();
+    private List<ObjectIdentity> ownedMember = List.of();
+    private List<ObjectIdentity> ownedSpecialization = List.of();
+    private List<ObjectIdentity> ownedSubsetting = List.of();
     private ObjectIdentity declaration;
-    private final List<ObjectIdentity> ownedReferenceSubsetting = new ArrayList<>();
-    private final List<ObjectIdentity> referencedFeature = new ArrayList<>();
+    private List<ObjectIdentity> ownedReferenceSubsetting = List.of();
+    private List<ObjectIdentity> referencedFeature = List.of();
     private ObjectIdentity assertedConstraint;
     private ObjectIdentity satisfiedRequirement;
     private ObjectIdentity satisfyingFeature;
@@ -70,10 +70,7 @@ public class SatisfyRequirementUsage extends SysMLV2Element implements NamedElem
     }
 
     public void setOwnedElement(List<ObjectIdentity> ownedElement) {
-        this.ownedElement.clear();
-        if (ownedElement != null) {
-            this.ownedElement.addAll(ownedElement);
-        }
+        this.ownedElement = ownedElement != null ? new ArrayList<>(ownedElement) : List.of();
     }
 
     public List<ObjectIdentity> getOwnedMember() {
@@ -81,10 +78,7 @@ public class SatisfyRequirementUsage extends SysMLV2Element implements NamedElem
     }
 
     public void setOwnedMember(List<ObjectIdentity> ownedMember) {
-        this.ownedMember.clear();
-        if (ownedMember != null) {
-            this.ownedMember.addAll(ownedMember);
-        }
+        this.ownedMember = ownedMember != null ? new ArrayList<>(ownedMember) : List.of();
     }
 
     public List<Object> getOwnedRelationship() {
@@ -92,10 +86,7 @@ public class SatisfyRequirementUsage extends SysMLV2Element implements NamedElem
     }
 
     public void setOwnedRelationship(List<Object> ownedRelationship) {
-        this.ownedRelationship.clear();
-        if (ownedRelationship != null) {
-            this.ownedRelationship.addAll(ownedRelationship);
-        }
+        this.ownedRelationship = ownedRelationship != null ? new ArrayList<>(ownedRelationship) : List.of();
     }
 
     public List<ObjectIdentity> getOwnedSpecialization() {
@@ -103,10 +94,7 @@ public class SatisfyRequirementUsage extends SysMLV2Element implements NamedElem
     }
 
     public void setOwnedSpecialization(List<ObjectIdentity> ownedSpecialization) {
-        this.ownedSpecialization.clear();
-        if (ownedSpecialization != null) {
-            this.ownedSpecialization.addAll(ownedSpecialization);
-        }
+        this.ownedSpecialization = ownedSpecialization != null ? new ArrayList<>(ownedSpecialization) : List.of();
     }
 
     public List<ObjectIdentity> getOwnedSubsetting() {
@@ -114,10 +102,7 @@ public class SatisfyRequirementUsage extends SysMLV2Element implements NamedElem
     }
 
     public void setOwnedSubsetting(List<ObjectIdentity> ownedSubsetting) {
-        this.ownedSubsetting.clear();
-        if (ownedSubsetting != null) {
-            this.ownedSubsetting.addAll(ownedSubsetting);
-        }
+        this.ownedSubsetting = ownedSubsetting != null ? new ArrayList<>(ownedSubsetting) : List.of();
     }
 
     public ObjectIdentity getDeclaration() {
@@ -133,10 +118,7 @@ public class SatisfyRequirementUsage extends SysMLV2Element implements NamedElem
     }
 
     public void setOwnedReferenceSubsetting(List<ObjectIdentity> ownedReferenceSubsetting) {
-        this.ownedReferenceSubsetting.clear();
-        if (ownedReferenceSubsetting != null) {
-            this.ownedReferenceSubsetting.addAll(ownedReferenceSubsetting);
-        }
+        this.ownedReferenceSubsetting = ownedReferenceSubsetting != null ? new ArrayList<>(ownedReferenceSubsetting) : List.of();
     }
 
     public List<ObjectIdentity> getReferencedFeature() {
@@ -144,10 +126,7 @@ public class SatisfyRequirementUsage extends SysMLV2Element implements NamedElem
     }
 
     public void setReferencedFeature(List<ObjectIdentity> referencedFeature) {
-        this.referencedFeature.clear();
-        if (referencedFeature != null) {
-            this.referencedFeature.addAll(referencedFeature);
-        }
+        this.referencedFeature = referencedFeature != null ? new ArrayList<>(referencedFeature) : List.of();
     }
 
     public ObjectIdentity getAssertedConstraint() {
