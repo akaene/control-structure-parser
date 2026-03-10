@@ -68,13 +68,11 @@ public class SysMLV2JsonParser implements ControlStructureParser {
             JsonNode rootNode = objectMapper.readTree(input);
 
             if (!rootNode.isArray()) {
-                LOG.error("Expected JSON array of SysMLv2 elements, but got: {}", rootNode.getNodeType());
                 throw new ControlStructureParserException("Expected JSON array of SysMLv2 elements, but got: " +
                         rootNode.getNodeType());
             }
 
             if (rootNode.isEmpty()) {
-                LOG.error("JSON array is empty");
                 throw new ControlStructureParserException("JSON array is empty");
             }
 
@@ -166,11 +164,9 @@ public class SysMLV2JsonParser implements ControlStructureParser {
                     getModelNameFromRootPackage(elements)
             );
 
-            System.out.println("Loaded model " + model);
             return model;
 
         } catch (IOException e) {
-            LOG.error("Failed to parse SysML V2 JSON file: {}", input.getName(), e);
             throw new ControlStructureParserException("Failed to parse SysML V2 JSON file: " + input.getName(), e);
         }
     }
