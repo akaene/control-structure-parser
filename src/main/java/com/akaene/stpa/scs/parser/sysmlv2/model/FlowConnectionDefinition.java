@@ -18,21 +18,21 @@ public class FlowConnectionDefinition extends SysMLV2Element implements NamedEle
     private String qualifiedName;
     private ObjectIdentity owningNamespace;
     private ObjectIdentity owner;
-    private final List<ObjectIdentity> ownedElement = new ArrayList<>();
-    private final List<ObjectIdentity> ownedMember = new ArrayList<>();
-    private final List<ObjectIdentity> ownedEndFeature = new ArrayList<>();
-    private final List<ObjectIdentity> ownedFeature = new ArrayList<>();
-    private final List<ObjectIdentity> directedFeature = new ArrayList<>();
-    private final List<ObjectIdentity> feature = new ArrayList<>();
-    private final List<ObjectIdentity> ownedUsage = new ArrayList<>();
-    private final List<ObjectIdentity> ownedReference = new ArrayList<>();
-    private final List<ObjectIdentity> target = new ArrayList<>();
-    private final List<ObjectIdentity> relatedElement = new ArrayList<>();
-    private final List<ObjectIdentity> associationEnd = new ArrayList<>();
-    private final List<ObjectIdentity> targetType = new ArrayList<>();
-    private final List<ObjectIdentity> relatedType = new ArrayList<>();
-    private final List<ObjectIdentity> connectionEnd = new ArrayList<>();
-    private final List<ObjectIdentity> parameter = new ArrayList<>();
+    private List<ObjectIdentity> ownedElement = List.of();
+    private List<ObjectIdentity> ownedMember = List.of();
+    private List<ObjectIdentity> ownedEndFeature = List.of();
+    private List<ObjectIdentity> ownedFeature = List.of();
+    private List<ObjectIdentity> directedFeature = List.of();
+    private List<ObjectIdentity> feature = List.of();
+    private List<ObjectIdentity> ownedUsage = List.of();
+    private List<ObjectIdentity> ownedReference = List.of();
+    private List<ObjectIdentity> target = List.of();
+    private List<ObjectIdentity> relatedElement = List.of();
+    private List<ObjectIdentity> associationEnd = List.of();
+    private List<ObjectIdentity> targetType = List.of();
+    private List<ObjectIdentity> relatedType = List.of();
+    private List<ObjectIdentity> connectionEnd = List.of();
+    private List<ObjectIdentity> parameter = List.of();
 
     public FlowConnectionDefinition() {
     }
@@ -74,10 +74,7 @@ public class FlowConnectionDefinition extends SysMLV2Element implements NamedEle
     }
 
     public void setOwnedElement(List<ObjectIdentity> ownedElement) {
-        this.ownedElement.clear();
-        if (ownedElement != null) {
-            this.ownedElement.addAll(ownedElement);
-        }
+        this.ownedElement = ownedElement != null ? new ArrayList<>(ownedElement) : List.of();
     }
 
     public List<ObjectIdentity> getOwnedMember() {
@@ -85,10 +82,7 @@ public class FlowConnectionDefinition extends SysMLV2Element implements NamedEle
     }
 
     public void setOwnedMember(List<ObjectIdentity> ownedMember) {
-        this.ownedMember.clear();
-        if (ownedMember != null) {
-            this.ownedMember.addAll(ownedMember);
-        }
+        this.ownedMember = ownedMember != null ? new ArrayList<>(ownedMember) : List.of();
     }
 
     public List<ObjectIdentity> getOwnedEndFeature() {
@@ -96,10 +90,7 @@ public class FlowConnectionDefinition extends SysMLV2Element implements NamedEle
     }
 
     public void setOwnedEndFeature(List<ObjectIdentity> ownedEndFeature) {
-        this.ownedEndFeature.clear();
-        if (ownedEndFeature != null) {
-            this.ownedEndFeature.addAll(ownedEndFeature);
-        }
+        this.ownedEndFeature = ownedEndFeature != null ? new ArrayList<>(ownedEndFeature) : List.of();
     }
 
     public List<ObjectIdentity> getOwnedFeature() {
@@ -107,10 +98,7 @@ public class FlowConnectionDefinition extends SysMLV2Element implements NamedEle
     }
 
     public void setOwnedFeature(List<ObjectIdentity> ownedFeature) {
-        this.ownedFeature.clear();
-        if (ownedFeature != null) {
-            this.ownedFeature.addAll(ownedFeature);
-        }
+        this.ownedFeature = ownedFeature != null ? new ArrayList<>(ownedFeature) : List.of();
     }
 
     public List<ObjectIdentity> getDirectedFeature() {
@@ -118,10 +106,7 @@ public class FlowConnectionDefinition extends SysMLV2Element implements NamedEle
     }
 
     public void setDirectedFeature(List<ObjectIdentity> directedFeature) {
-        this.directedFeature.clear();
-        if (directedFeature != null) {
-            this.directedFeature.addAll(directedFeature);
-        }
+        this.directedFeature = directedFeature != null ? new ArrayList<>(directedFeature) : List.of();
     }
 
     public List<ObjectIdentity> getFeature() {
@@ -129,10 +114,7 @@ public class FlowConnectionDefinition extends SysMLV2Element implements NamedEle
     }
 
     public void setFeature(List<ObjectIdentity> feature) {
-        this.feature.clear();
-        if (feature != null) {
-            this.feature.addAll(feature);
-        }
+        this.feature = feature != null ? new ArrayList<>(feature) : List.of();
     }
 
     public List<ObjectIdentity> getOwnedUsage() {
@@ -140,10 +122,7 @@ public class FlowConnectionDefinition extends SysMLV2Element implements NamedEle
     }
 
     public void setOwnedUsage(List<ObjectIdentity> ownedUsage) {
-        this.ownedUsage.clear();
-        if (ownedUsage != null) {
-            this.ownedUsage.addAll(ownedUsage);
-        }
+        this.ownedUsage = ownedUsage != null ? new ArrayList<>(ownedUsage) : List.of();
     }
 
     public List<ObjectIdentity> getOwnedReference() {
@@ -151,10 +130,7 @@ public class FlowConnectionDefinition extends SysMLV2Element implements NamedEle
     }
 
     public void setOwnedReference(List<ObjectIdentity> ownedReference) {
-        this.ownedReference.clear();
-        if (ownedReference != null) {
-            this.ownedReference.addAll(ownedReference);
-        }
+        this.ownedReference = ownedReference != null ? new ArrayList<>(ownedReference) : List.of();
     }
 
     public List<ObjectIdentity> getTarget() {
@@ -162,10 +138,7 @@ public class FlowConnectionDefinition extends SysMLV2Element implements NamedEle
     }
 
     public void setTarget(List<ObjectIdentity> target) {
-        this.target.clear();
-        if (target != null) {
-            this.target.addAll(target);
-        }
+        this.target = target != null ? new ArrayList<>(target) : List.of();
     }
 
     public List<ObjectIdentity> getRelatedElement() {
@@ -173,10 +146,7 @@ public class FlowConnectionDefinition extends SysMLV2Element implements NamedEle
     }
 
     public void setRelatedElement(List<ObjectIdentity> relatedElement) {
-        this.relatedElement.clear();
-        if (relatedElement != null) {
-            this.relatedElement.addAll(relatedElement);
-        }
+        this.relatedElement = relatedElement != null ? new ArrayList<>(relatedElement) : List.of();
     }
 
     public List<ObjectIdentity> getAssociationEnd() {
@@ -184,10 +154,7 @@ public class FlowConnectionDefinition extends SysMLV2Element implements NamedEle
     }
 
     public void setAssociationEnd(List<ObjectIdentity> associationEnd) {
-        this.associationEnd.clear();
-        if (associationEnd != null) {
-            this.associationEnd.addAll(associationEnd);
-        }
+        this.associationEnd = associationEnd != null ? new ArrayList<>(associationEnd) : List.of();
     }
 
     public List<ObjectIdentity> getTargetType() {
@@ -195,10 +162,7 @@ public class FlowConnectionDefinition extends SysMLV2Element implements NamedEle
     }
 
     public void setTargetType(List<ObjectIdentity> targetType) {
-        this.targetType.clear();
-        if (targetType != null) {
-            this.targetType.addAll(targetType);
-        }
+        this.targetType = targetType != null ? new ArrayList<>(targetType) : List.of();
     }
 
     public List<ObjectIdentity> getRelatedType() {
@@ -206,10 +170,7 @@ public class FlowConnectionDefinition extends SysMLV2Element implements NamedEle
     }
 
     public void setRelatedType(List<ObjectIdentity> relatedType) {
-        this.relatedType.clear();
-        if (relatedType != null) {
-            this.relatedType.addAll(relatedType);
-        }
+        this.relatedType = relatedType != null ? new ArrayList<>(relatedType) : List.of();
     }
 
     public List<ObjectIdentity> getConnectionEnd() {
@@ -217,10 +178,7 @@ public class FlowConnectionDefinition extends SysMLV2Element implements NamedEle
     }
 
     public void setConnectionEnd(List<ObjectIdentity> connectionEnd) {
-        this.connectionEnd.clear();
-        if (connectionEnd != null) {
-            this.connectionEnd.addAll(connectionEnd);
-        }
+        this.connectionEnd = connectionEnd != null ? new ArrayList<>(connectionEnd) : List.of();
     }
 
     public List<ObjectIdentity> getParameter() {
@@ -228,10 +186,7 @@ public class FlowConnectionDefinition extends SysMLV2Element implements NamedEle
     }
 
     public void setParameter(List<ObjectIdentity> parameter) {
-        this.parameter.clear();
-        if (parameter != null) {
-            this.parameter.addAll(parameter);
-        }
+        this.parameter = parameter != null ? new ArrayList<>(parameter) : List.of();
     }
 
     @Override

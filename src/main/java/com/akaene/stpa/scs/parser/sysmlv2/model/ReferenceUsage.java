@@ -23,8 +23,8 @@ public class ReferenceUsage extends SysMLV2Element implements NamedElement, Owne
     private Boolean isComposite;
     private Boolean isEnd;
     private ObjectIdentity declaration;
-    private final List<ObjectIdentity> ownedElement = new ArrayList<>();
-    private final List<ObjectIdentity> ownedMember = new ArrayList<>();
+    private List<ObjectIdentity> ownedElement = List.of();
+    private List<ObjectIdentity> ownedMember = List.of();
 
     public ReferenceUsage() {
     }
@@ -66,10 +66,7 @@ public class ReferenceUsage extends SysMLV2Element implements NamedElement, Owne
     }
 
     public void setOwnedElement(List<ObjectIdentity> ownedElement) {
-        this.ownedElement.clear();
-        if (ownedElement != null) {
-            this.ownedElement.addAll(ownedElement);
-        }
+        this.ownedElement = ownedElement != null ? new ArrayList<>(ownedElement) : List.of();
     }
 
     public List<ObjectIdentity> getOwnedMember() {
@@ -77,10 +74,7 @@ public class ReferenceUsage extends SysMLV2Element implements NamedElement, Owne
     }
 
     public void setOwnedMember(List<ObjectIdentity> ownedMember) {
-        this.ownedMember.clear();
-        if (ownedMember != null) {
-            this.ownedMember.addAll(ownedMember);
-        }
+        this.ownedMember = ownedMember != null ? new ArrayList<>(ownedMember) : List.of();
     }
 
     public Boolean getIsComposite() {

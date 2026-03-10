@@ -18,33 +18,33 @@ public class FlowConnectionUsage extends SysMLV2Element implements NamedElement,
     private String qualifiedName;
     private ObjectIdentity owner;
     private ObjectIdentity owningNamespace;
-    private final List<ObjectIdentity> ownedElement = new ArrayList<>();
-    private final List<ObjectIdentity> ownedMember = new ArrayList<>();
-    private final List<ObjectIdentity> ownedEndFeature = new ArrayList<>();
-    private final List<ObjectIdentity> ownedFeature = new ArrayList<>();
-    private final List<Object> directedFeature = new ArrayList<>();
-    private final List<ObjectIdentity> feature = new ArrayList<>();
-    private final List<ObjectIdentity> inheritedFeature = new ArrayList<>();
-    private final List<ObjectIdentity> type = new ArrayList<>();
+    private List<ObjectIdentity> ownedElement = List.of();
+    private List<ObjectIdentity> ownedMember = List.of();
+    private List<ObjectIdentity> ownedEndFeature = List.of();
+    private List<ObjectIdentity> ownedFeature = List.of();
+    private List<Object> directedFeature = List.of();
+    private List<ObjectIdentity> feature = List.of();
+    private List<ObjectIdentity> inheritedFeature = List.of();
+    private List<ObjectIdentity> type = List.of();
     private ObjectIdentity declaration;
-    private final List<ObjectIdentity> definition = new ArrayList<>();
+    private List<ObjectIdentity> definition = List.of();
     private ObjectIdentity individualDefinition;
-    private final List<ObjectIdentity> occurrenceDefinition = new ArrayList<>();
-    private final List<ObjectIdentity> itemDefinition = new ArrayList<>();
-    private final List<ObjectIdentity> partDefinition = new ArrayList<>();
-    private final List<ObjectIdentity> source = new ArrayList<>();
-    private final List<ObjectIdentity> target = new ArrayList<>();
-    private final List<ObjectIdentity> relatedElement = new ArrayList<>();
-    private final List<ObjectIdentity> connectorEnd = new ArrayList<>();
+    private List<ObjectIdentity> occurrenceDefinition = List.of();
+    private List<ObjectIdentity> itemDefinition = List.of();
+    private List<ObjectIdentity> partDefinition = List.of();
+    private List<ObjectIdentity> source = List.of();
+    private List<ObjectIdentity> target = List.of();
+    private List<ObjectIdentity> relatedElement = List.of();
+    private List<ObjectIdentity> connectorEnd = List.of();
     private ObjectIdentity sourceFeature;
-    private final List<ObjectIdentity> targetFeature = new ArrayList<>();
-    private final List<ObjectIdentity> association = new ArrayList<>();
-    private final List<ObjectIdentity> relatedFeature = new ArrayList<>();
-    private final List<ObjectIdentity> connectionDefinition = new ArrayList<>();
-    private final List<ObjectIdentity> parameter = new ArrayList<>();
-    private final List<ObjectIdentity> behavior = new ArrayList<>();
-    private final List<ObjectIdentity> actionDefinition = new ArrayList<>();
-    private final List<ObjectIdentity> flowConnectionDefinition = new ArrayList<>();
+    private List<ObjectIdentity> targetFeature = List.of();
+    private List<ObjectIdentity> association = List.of();
+    private List<ObjectIdentity> relatedFeature = List.of();
+    private List<ObjectIdentity> connectionDefinition = List.of();
+    private List<ObjectIdentity> parameter = List.of();
+    private List<ObjectIdentity> behavior = List.of();
+    private List<ObjectIdentity> actionDefinition = List.of();
+    private List<ObjectIdentity> flowConnectionDefinition = List.of();
 
     public FlowConnectionUsage() {
     }
@@ -86,10 +86,7 @@ public class FlowConnectionUsage extends SysMLV2Element implements NamedElement,
     }
 
     public void setOwnedElement(List<ObjectIdentity> ownedElement) {
-        this.ownedElement.clear();
-        if (ownedElement != null) {
-            this.ownedElement.addAll(ownedElement);
-        }
+        this.ownedElement = ownedElement != null ? new ArrayList<>(ownedElement) : List.of();
     }
 
     public List<ObjectIdentity> getOwnedMember() {
@@ -97,10 +94,7 @@ public class FlowConnectionUsage extends SysMLV2Element implements NamedElement,
     }
 
     public void setOwnedMember(List<ObjectIdentity> ownedMember) {
-        this.ownedMember.clear();
-        if (ownedMember != null) {
-            this.ownedMember.addAll(ownedMember);
-        }
+        this.ownedMember = ownedMember != null ? new ArrayList<>(ownedMember) : List.of();
     }
 
     public List<ObjectIdentity> getOwnedEndFeature() {
@@ -108,10 +102,7 @@ public class FlowConnectionUsage extends SysMLV2Element implements NamedElement,
     }
 
     public void setOwnedEndFeature(List<ObjectIdentity> ownedEndFeature) {
-        this.ownedEndFeature.clear();
-        if (ownedEndFeature != null) {
-            this.ownedEndFeature.addAll(ownedEndFeature);
-        }
+        this.ownedEndFeature = ownedEndFeature != null ? new ArrayList<>(ownedEndFeature) : List.of();
     }
 
     public List<ObjectIdentity> getOwnedFeature() {
@@ -119,10 +110,7 @@ public class FlowConnectionUsage extends SysMLV2Element implements NamedElement,
     }
 
     public void setOwnedFeature(List<ObjectIdentity> ownedFeature) {
-        this.ownedFeature.clear();
-        if (ownedFeature != null) {
-            this.ownedFeature.addAll(ownedFeature);
-        }
+        this.ownedFeature = ownedFeature != null ? new ArrayList<>(ownedFeature) : List.of();
     }
 
     public List<Object> getDirectedFeature() {
@@ -130,10 +118,7 @@ public class FlowConnectionUsage extends SysMLV2Element implements NamedElement,
     }
 
     public void setDirectedFeature(List<Object> directedFeature) {
-        this.directedFeature.clear();
-        if (directedFeature != null) {
-            this.directedFeature.addAll(directedFeature);
-        }
+        this.directedFeature = directedFeature != null ? new ArrayList<>(directedFeature) : List.of();
     }
 
     public List<ObjectIdentity> getFeature() {
@@ -141,10 +126,7 @@ public class FlowConnectionUsage extends SysMLV2Element implements NamedElement,
     }
 
     public void setFeature(List<ObjectIdentity> feature) {
-        this.feature.clear();
-        if (feature != null) {
-            this.feature.addAll(feature);
-        }
+        this.feature = feature != null ? new ArrayList<>(feature) : List.of();
     }
 
     public List<ObjectIdentity> getInheritedFeature() {
@@ -152,10 +134,7 @@ public class FlowConnectionUsage extends SysMLV2Element implements NamedElement,
     }
 
     public void setInheritedFeature(List<ObjectIdentity> inheritedFeature) {
-        this.inheritedFeature.clear();
-        if (inheritedFeature != null) {
-            this.inheritedFeature.addAll(inheritedFeature);
-        }
+        this.inheritedFeature = inheritedFeature != null ? new ArrayList<>(inheritedFeature) : List.of();
     }
 
     public List<ObjectIdentity> getType() {
@@ -163,10 +142,7 @@ public class FlowConnectionUsage extends SysMLV2Element implements NamedElement,
     }
 
     public void setType(List<ObjectIdentity> type) {
-        this.type.clear();
-        if (type != null) {
-            this.type.addAll(type);
-        }
+        this.type = type != null ? new ArrayList<>(type) : List.of();
     }
 
     public ObjectIdentity getDeclaration() {
@@ -182,10 +158,7 @@ public class FlowConnectionUsage extends SysMLV2Element implements NamedElement,
     }
 
     public void setDefinition(List<ObjectIdentity> definition) {
-        this.definition.clear();
-        if (definition != null) {
-            this.definition.addAll(definition);
-        }
+        this.definition = definition != null ? new ArrayList<>(definition) : List.of();
     }
 
     public ObjectIdentity getIndividualDefinition() {
@@ -201,10 +174,7 @@ public class FlowConnectionUsage extends SysMLV2Element implements NamedElement,
     }
 
     public void setOccurrenceDefinition(List<ObjectIdentity> occurrenceDefinition) {
-        this.occurrenceDefinition.clear();
-        if (occurrenceDefinition != null) {
-            this.occurrenceDefinition.addAll(occurrenceDefinition);
-        }
+        this.occurrenceDefinition = occurrenceDefinition != null ? new ArrayList<>(occurrenceDefinition) : List.of();
     }
 
     public List<ObjectIdentity> getItemDefinition() {
@@ -212,10 +182,7 @@ public class FlowConnectionUsage extends SysMLV2Element implements NamedElement,
     }
 
     public void setItemDefinition(List<ObjectIdentity> itemDefinition) {
-        this.itemDefinition.clear();
-        if (itemDefinition != null) {
-            this.itemDefinition.addAll(itemDefinition);
-        }
+        this.itemDefinition = itemDefinition != null ? new ArrayList<>(itemDefinition) : List.of();
     }
 
     public List<ObjectIdentity> getPartDefinition() {
@@ -223,10 +190,7 @@ public class FlowConnectionUsage extends SysMLV2Element implements NamedElement,
     }
 
     public void setPartDefinition(List<ObjectIdentity> partDefinition) {
-        this.partDefinition.clear();
-        if (partDefinition != null) {
-            this.partDefinition.addAll(partDefinition);
-        }
+        this.partDefinition = partDefinition != null ? new ArrayList<>(partDefinition) : List.of();
     }
 
     public List<ObjectIdentity> getSource() {
@@ -234,10 +198,7 @@ public class FlowConnectionUsage extends SysMLV2Element implements NamedElement,
     }
 
     public void setSource(List<ObjectIdentity> source) {
-        this.source.clear();
-        if (source != null) {
-            this.source.addAll(source);
-        }
+        this.source = source != null ? new ArrayList<>(source) : List.of();
     }
 
     public List<ObjectIdentity> getTarget() {
@@ -245,10 +206,7 @@ public class FlowConnectionUsage extends SysMLV2Element implements NamedElement,
     }
 
     public void setTarget(List<ObjectIdentity> target) {
-        this.target.clear();
-        if (target != null) {
-            this.target.addAll(target);
-        }
+        this.target = target != null ? new ArrayList<>(target) : List.of();
     }
 
     public List<ObjectIdentity> getRelatedElement() {
@@ -256,10 +214,7 @@ public class FlowConnectionUsage extends SysMLV2Element implements NamedElement,
     }
 
     public void setRelatedElement(List<ObjectIdentity> relatedElement) {
-        this.relatedElement.clear();
-        if (relatedElement != null) {
-            this.relatedElement.addAll(relatedElement);
-        }
+        this.relatedElement = relatedElement != null ? new ArrayList<>(relatedElement) : List.of();
     }
 
     public List<ObjectIdentity> getConnectorEnd() {
@@ -267,10 +222,7 @@ public class FlowConnectionUsage extends SysMLV2Element implements NamedElement,
     }
 
     public void setConnectorEnd(List<ObjectIdentity> connectorEnd) {
-        this.connectorEnd.clear();
-        if (connectorEnd != null) {
-            this.connectorEnd.addAll(connectorEnd);
-        }
+        this.connectorEnd = connectorEnd != null ? new ArrayList<>(connectorEnd) : List.of();
     }
 
     public ObjectIdentity getSourceFeature() {
@@ -286,10 +238,7 @@ public class FlowConnectionUsage extends SysMLV2Element implements NamedElement,
     }
 
     public void setTargetFeature(List<ObjectIdentity> targetFeature) {
-        this.targetFeature.clear();
-        if (targetFeature != null) {
-            this.targetFeature.addAll(targetFeature);
-        }
+        this.targetFeature = targetFeature != null ? new ArrayList<>(targetFeature) : List.of();
     }
 
     public List<ObjectIdentity> getAssociation() {
@@ -297,10 +246,7 @@ public class FlowConnectionUsage extends SysMLV2Element implements NamedElement,
     }
 
     public void setAssociation(List<ObjectIdentity> association) {
-        this.association.clear();
-        if (association != null) {
-            this.association.addAll(association);
-        }
+        this.association = association != null ? new ArrayList<>(association) : List.of();
     }
 
     public List<ObjectIdentity> getRelatedFeature() {
@@ -308,10 +254,7 @@ public class FlowConnectionUsage extends SysMLV2Element implements NamedElement,
     }
 
     public void setRelatedFeature(List<ObjectIdentity> relatedFeature) {
-        this.relatedFeature.clear();
-        if (relatedFeature != null) {
-            this.relatedFeature.addAll(relatedFeature);
-        }
+        this.relatedFeature = relatedFeature != null ? new ArrayList<>(relatedFeature) : List.of();
     }
 
     public List<ObjectIdentity> getConnectionDefinition() {
@@ -319,10 +262,7 @@ public class FlowConnectionUsage extends SysMLV2Element implements NamedElement,
     }
 
     public void setConnectionDefinition(List<ObjectIdentity> connectionDefinition) {
-        this.connectionDefinition.clear();
-        if (connectionDefinition != null) {
-            this.connectionDefinition.addAll(connectionDefinition);
-        }
+        this.connectionDefinition = connectionDefinition != null ? new ArrayList<>(connectionDefinition) : List.of();
     }
 
     public List<ObjectIdentity> getParameter() {
@@ -330,10 +270,7 @@ public class FlowConnectionUsage extends SysMLV2Element implements NamedElement,
     }
 
     public void setParameter(List<ObjectIdentity> parameter) {
-        this.parameter.clear();
-        if (parameter != null) {
-            this.parameter.addAll(parameter);
-        }
+        this.parameter = parameter != null ? new ArrayList<>(parameter) : List.of();
     }
 
     public List<ObjectIdentity> getBehavior() {
@@ -341,10 +278,7 @@ public class FlowConnectionUsage extends SysMLV2Element implements NamedElement,
     }
 
     public void setBehavior(List<ObjectIdentity> behavior) {
-        this.behavior.clear();
-        if (behavior != null) {
-            this.behavior.addAll(behavior);
-        }
+        this.behavior = behavior != null ? new ArrayList<>(behavior) : List.of();
     }
 
     public List<ObjectIdentity> getActionDefinition() {
@@ -352,10 +286,7 @@ public class FlowConnectionUsage extends SysMLV2Element implements NamedElement,
     }
 
     public void setActionDefinition(List<ObjectIdentity> actionDefinition) {
-        this.actionDefinition.clear();
-        if (actionDefinition != null) {
-            this.actionDefinition.addAll(actionDefinition);
-        }
+        this.actionDefinition = actionDefinition != null ? new ArrayList<>(actionDefinition) : List.of();
     }
 
     public List<ObjectIdentity> getFlowConnectionDefinition() {
@@ -363,10 +294,7 @@ public class FlowConnectionUsage extends SysMLV2Element implements NamedElement,
     }
 
     public void setFlowConnectionDefinition(List<ObjectIdentity> flowConnectionDefinition) {
-        this.flowConnectionDefinition.clear();
-        if (flowConnectionDefinition != null) {
-            this.flowConnectionDefinition.addAll(flowConnectionDefinition);
-        }
+        this.flowConnectionDefinition = flowConnectionDefinition != null ? new ArrayList<>(flowConnectionDefinition) : List.of();
     }
 
     @Override

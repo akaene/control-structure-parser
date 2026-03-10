@@ -22,26 +22,26 @@ public class PartUsage extends SysMLV2Element implements NamedElement, OwnedElem
     private Boolean isComposite;
     private Boolean isIndividual;
     private Boolean isAbstract;
-    private final List<ObjectIdentity> type = new ArrayList<>();
+    private List<ObjectIdentity> type = List.of();
     private ObjectIdentity declaration;
-    private final List<ObjectIdentity> definition = new ArrayList<>();
+    private List<ObjectIdentity> definition = List.of();
     private ObjectIdentity individualDefinition;
-    private final List<ObjectIdentity> occurrenceDefinition = new ArrayList<>();
-    private final List<ObjectIdentity> itemDefinition = new ArrayList<>();
-    private final List<ObjectIdentity> partDefinition = new ArrayList<>();
-    private final List<ObjectIdentity> ownedElement = new ArrayList<>();
-    private final List<ObjectIdentity> ownedMember = new ArrayList<>();
-    private final List<ObjectIdentity> ownedEndFeature = new ArrayList<>();
-    private final List<ObjectIdentity> ownedFeature = new ArrayList<>();
-    private final List<ObjectIdentity> directedFeature = new ArrayList<>();
-    private final List<ObjectIdentity> feature = new ArrayList<>();
-    private final List<ObjectIdentity> nestedUsage = new ArrayList<>();
-    private final List<ObjectIdentity> nestedPart = new ArrayList<>();
-    private final List<ObjectIdentity> nestedItem = new ArrayList<>();
-    private final List<ObjectIdentity> nestedOccurrence = new ArrayList<>();
-    private final List<ObjectIdentity> nestedAction = new ArrayList<>();
-    private final List<ObjectIdentity> nestedConnection = new ArrayList<>();
-    private final List<ObjectIdentity> nestedFlow = new ArrayList<>();
+    private List<ObjectIdentity> occurrenceDefinition = List.of();
+    private List<ObjectIdentity> itemDefinition = List.of();
+    private List<ObjectIdentity> partDefinition = List.of();
+    private List<ObjectIdentity> ownedElement = List.of();
+    private List<ObjectIdentity> ownedMember = List.of();
+    private List<ObjectIdentity> ownedEndFeature = List.of();
+    private List<ObjectIdentity> ownedFeature = List.of();
+    private List<ObjectIdentity> directedFeature = List.of();
+    private List<ObjectIdentity> feature = List.of();
+    private List<ObjectIdentity> nestedUsage = List.of();
+    private List<ObjectIdentity> nestedPart = List.of();
+    private List<ObjectIdentity> nestedItem = List.of();
+    private List<ObjectIdentity> nestedOccurrence = List.of();
+    private List<ObjectIdentity> nestedAction = List.of();
+    private List<ObjectIdentity> nestedConnection = List.of();
+    private List<ObjectIdentity> nestedFlow = List.of();
 
     public PartUsage() {
     }
@@ -83,10 +83,7 @@ public class PartUsage extends SysMLV2Element implements NamedElement, OwnedElem
     }
 
     public void setPartDefinition(List<ObjectIdentity> partDefinition) {
-        this.partDefinition.clear();
-        if (partDefinition != null) {
-            this.partDefinition.addAll(partDefinition);
-        }
+        this.partDefinition = partDefinition != null ? new ArrayList<>(partDefinition) : List.of();
     }
 
     public List<ObjectIdentity> getOwnedElement() {
@@ -94,10 +91,7 @@ public class PartUsage extends SysMLV2Element implements NamedElement, OwnedElem
     }
 
     public void setOwnedElement(List<ObjectIdentity> ownedElement) {
-        this.ownedElement.clear();
-        if (ownedElement != null) {
-            this.ownedElement.addAll(ownedElement);
-        }
+        this.ownedElement = ownedElement != null ? new ArrayList<>(ownedElement) : List.of();
     }
 
     public List<ObjectIdentity> getOwnedMember() {
@@ -105,10 +99,7 @@ public class PartUsage extends SysMLV2Element implements NamedElement, OwnedElem
     }
 
     public void setOwnedMember(List<ObjectIdentity> ownedMember) {
-        this.ownedMember.clear();
-        if (ownedMember != null) {
-            this.ownedMember.addAll(ownedMember);
-        }
+        this.ownedMember = ownedMember != null ? new ArrayList<>(ownedMember) : List.of();
     }
 
     public Boolean getIsComposite() {
@@ -140,10 +131,7 @@ public class PartUsage extends SysMLV2Element implements NamedElement, OwnedElem
     }
 
     public void setOwnedEndFeature(List<ObjectIdentity> ownedEndFeature) {
-        this.ownedEndFeature.clear();
-        if (ownedEndFeature != null) {
-            this.ownedEndFeature.addAll(ownedEndFeature);
-        }
+        this.ownedEndFeature = ownedEndFeature != null ? new ArrayList<>(ownedEndFeature) : List.of();
     }
 
     public List<ObjectIdentity> getOwnedFeature() {
@@ -151,10 +139,7 @@ public class PartUsage extends SysMLV2Element implements NamedElement, OwnedElem
     }
 
     public void setOwnedFeature(List<ObjectIdentity> ownedFeature) {
-        this.ownedFeature.clear();
-        if (ownedFeature != null) {
-            this.ownedFeature.addAll(ownedFeature);
-        }
+        this.ownedFeature = ownedFeature != null ? new ArrayList<>(ownedFeature) : List.of();
     }
 
     public List<ObjectIdentity> getDirectedFeature() {
@@ -162,10 +147,7 @@ public class PartUsage extends SysMLV2Element implements NamedElement, OwnedElem
     }
 
     public void setDirectedFeature(List<ObjectIdentity> directedFeature) {
-        this.directedFeature.clear();
-        if (directedFeature != null) {
-            this.directedFeature.addAll(directedFeature);
-        }
+        this.directedFeature = directedFeature != null ? new ArrayList<>(directedFeature) : List.of();
     }
 
     public List<ObjectIdentity> getFeature() {
@@ -173,10 +155,7 @@ public class PartUsage extends SysMLV2Element implements NamedElement, OwnedElem
     }
 
     public void setFeature(List<ObjectIdentity> feature) {
-        this.feature.clear();
-        if (feature != null) {
-            this.feature.addAll(feature);
-        }
+        this.feature = feature != null ? new ArrayList<>(feature) : List.of();
     }
 
     public List<ObjectIdentity> getNestedUsage() {
@@ -184,10 +163,7 @@ public class PartUsage extends SysMLV2Element implements NamedElement, OwnedElem
     }
 
     public void setNestedUsage(List<ObjectIdentity> nestedUsage) {
-        this.nestedUsage.clear();
-        if (nestedUsage != null) {
-            this.nestedUsage.addAll(nestedUsage);
-        }
+        this.nestedUsage = nestedUsage != null ? new ArrayList<>(nestedUsage) : List.of();
     }
 
     public List<ObjectIdentity> getNestedPart() {
@@ -195,10 +171,7 @@ public class PartUsage extends SysMLV2Element implements NamedElement, OwnedElem
     }
 
     public void setNestedPart(List<ObjectIdentity> nestedPart) {
-        this.nestedPart.clear();
-        if (nestedPart != null) {
-            this.nestedPart.addAll(nestedPart);
-        }
+        this.nestedPart = nestedPart != null ? new ArrayList<>(nestedPart) : List.of();
     }
 
     public List<ObjectIdentity> getNestedItem() {
@@ -206,10 +179,7 @@ public class PartUsage extends SysMLV2Element implements NamedElement, OwnedElem
     }
 
     public void setNestedItem(List<ObjectIdentity> nestedItem) {
-        this.nestedItem.clear();
-        if (nestedItem != null) {
-            this.nestedItem.addAll(nestedItem);
-        }
+        this.nestedItem = nestedItem != null ? new ArrayList<>(nestedItem) : List.of();
     }
 
     public List<ObjectIdentity> getNestedOccurrence() {
@@ -217,10 +187,7 @@ public class PartUsage extends SysMLV2Element implements NamedElement, OwnedElem
     }
 
     public void setNestedOccurrence(List<ObjectIdentity> nestedOccurrence) {
-        this.nestedOccurrence.clear();
-        if (nestedOccurrence != null) {
-            this.nestedOccurrence.addAll(nestedOccurrence);
-        }
+        this.nestedOccurrence = nestedOccurrence != null ? new ArrayList<>(nestedOccurrence) : List.of();
     }
 
     public List<ObjectIdentity> getNestedAction() {
@@ -228,10 +195,7 @@ public class PartUsage extends SysMLV2Element implements NamedElement, OwnedElem
     }
 
     public void setNestedAction(List<ObjectIdentity> nestedAction) {
-        this.nestedAction.clear();
-        if (nestedAction != null) {
-            this.nestedAction.addAll(nestedAction);
-        }
+        this.nestedAction = nestedAction != null ? new ArrayList<>(nestedAction) : List.of();
     }
 
     public List<ObjectIdentity> getNestedConnection() {
@@ -239,10 +203,7 @@ public class PartUsage extends SysMLV2Element implements NamedElement, OwnedElem
     }
 
     public void setNestedConnection(List<ObjectIdentity> nestedConnection) {
-        this.nestedConnection.clear();
-        if (nestedConnection != null) {
-            this.nestedConnection.addAll(nestedConnection);
-        }
+        this.nestedConnection = nestedConnection != null ? new ArrayList<>(nestedConnection) : List.of();
     }
 
     public List<ObjectIdentity> getNestedFlow() {
@@ -250,10 +211,7 @@ public class PartUsage extends SysMLV2Element implements NamedElement, OwnedElem
     }
 
     public void setNestedFlow(List<ObjectIdentity> nestedFlow) {
-        this.nestedFlow.clear();
-        if (nestedFlow != null) {
-            this.nestedFlow.addAll(nestedFlow);
-        }
+        this.nestedFlow = nestedFlow != null ? new ArrayList<>(nestedFlow) : List.of();
     }
 
     public List<ObjectIdentity> getType() {
@@ -261,10 +219,7 @@ public class PartUsage extends SysMLV2Element implements NamedElement, OwnedElem
     }
 
     public void setType(List<ObjectIdentity> type) {
-        this.type.clear();
-        if (type != null) {
-            this.type.addAll(type);
-        }
+        this.type = type != null ? new ArrayList<>(type) : List.of();
     }
 
     public ObjectIdentity getDeclaration() {
@@ -280,10 +235,7 @@ public class PartUsage extends SysMLV2Element implements NamedElement, OwnedElem
     }
 
     public void setDefinition(List<ObjectIdentity> definition) {
-        this.definition.clear();
-        if (definition != null) {
-            this.definition.addAll(definition);
-        }
+        this.definition = definition != null ? new ArrayList<>(definition) : List.of();
     }
 
     public ObjectIdentity getIndividualDefinition() {
@@ -299,10 +251,7 @@ public class PartUsage extends SysMLV2Element implements NamedElement, OwnedElem
     }
 
     public void setOccurrenceDefinition(List<ObjectIdentity> occurrenceDefinition) {
-        this.occurrenceDefinition.clear();
-        if (occurrenceDefinition != null) {
-            this.occurrenceDefinition.addAll(occurrenceDefinition);
-        }
+        this.occurrenceDefinition = occurrenceDefinition != null ? new ArrayList<>(occurrenceDefinition) : List.of();
     }
 
     public List<ObjectIdentity> getItemDefinition() {
@@ -310,10 +259,7 @@ public class PartUsage extends SysMLV2Element implements NamedElement, OwnedElem
     }
 
     public void setItemDefinition(List<ObjectIdentity> itemDefinition) {
-        this.itemDefinition.clear();
-        if (itemDefinition != null) {
-            this.itemDefinition.addAll(itemDefinition);
-        }
+        this.itemDefinition = itemDefinition != null ? new ArrayList<>(itemDefinition) : List.of();
     }
 
     @Override
