@@ -12,6 +12,7 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class SysMLV2JsonParserTest {
@@ -52,4 +53,31 @@ class SysMLV2JsonParserTest {
         final Model result = sut.parse(input);
         assertEquals("my-root-package", result.getName());
     }
+
+    @Test
+    void parseExtractsComponentsIdentifiers() throws URISyntaxException {
+        final File input = getInput("sysmlv2/simple-model.json");
+        final Model result = sut.parse(input);
+        
+        result.getComponents().forEach(component -> {
+            assertNotNull(component.getIdentifier(), 
+                () -> "Component '" + component.getName() + "' should have a non-null identifier");
+            assertFalse(component.getIdentifier().isBlank(), 
+                () -> "Component '" + component.getName() + "' should have a non-blank identifier");
+        });
+    }
+
+    @Test
+    void parseExtractsConnectorsIdentifiers() throws URISyntaxException {
+        final File input = getInput("sysmlv2/simple-model.json");
+        final Model result = sut.parse(input);
+
+        result.getConnectors().forEach(connector -> {
+            assertNotNull(connector.getIdentifier(), 
+                () -> "Connector '" + connector.getName() + "' should have a non-null identifier");
+            assertFalse(connector.getIdentifier().isBlank(), 
+                () -> "Connector '" + connector.getName() + "' should have a non-blank identifier");
+        });
+    }
+
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class Connector implements Stereotyped {
+public class Connector implements Stereotyped, InterchangeIdentifiable {
 
     private final String name;
 
@@ -15,13 +15,20 @@ public class Connector implements Stereotyped {
 
     private final ConnectorEnd target;
 
+    private final String identifier;
+
     private final List<Stereotype> stereotypes = new ArrayList<>();
 
     public Connector(String name, String qualifiedName, ConnectorEnd source, ConnectorEnd target) {
+        this(name, qualifiedName, source, target, null);
+    }
+    
+    public Connector(String name, String qualifiedName, ConnectorEnd source, ConnectorEnd target, String identifier) {
         this.name = name;
         this.qualifiedName = qualifiedName;
         this.source = source;
         this.target = target;
+        this.identifier = identifier;
     }
 
     public String getName() {
@@ -38,6 +45,11 @@ public class Connector implements Stereotyped {
 
     public ConnectorEnd getTarget() {
         return target;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return identifier;
     }
 
     @Override
