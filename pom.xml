@@ -17,7 +17,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <org.junit.jupiter.version>5.11.4</org.junit.jupiter.version>
-        <com.fasterxml.jackson.core.version>2.19.4</com.fasterxml.jackson.core.version>
+        <com.fasterxml.jackson.core.version>2.21.5</com.fasterxml.jackson.core.version>
     </properties>
 
     <repositories>
